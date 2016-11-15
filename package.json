@@ -1,5 +1,5 @@
 {
-  "name": "suits-member-service",
+  "name": "suits-members",
   "version": "1.0.0",
   "description": "Provide a realtime service for the SUITS members data using rethinkdb.",
   "main": "index.js",
