@@ -4,8 +4,8 @@ var router = r();
 
 router.post("/members", async (ctx, next) => {
 	let body = ctx.request.body;
+	await db.addMember(body.firstName, body.lastName, body.gender, body.email, body.access, body.sid, body.newsletter);
 	ctx.status = 200;
-	db.addMember(body.firstName, body.lastName, body.gender, body.email, body.access, body.sid, body.newsletter);
 	await next();
 });
 
