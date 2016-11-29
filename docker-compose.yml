@@ -1,0 +1,19 @@
+version: '2'
+services:
+    rethink:
+        image: rethinkdb:latest
+        container_name: rethink
+        volumes:
+            - ./data:/data
+        networks:
+            - suits-network
+
+    api:
+        build: .
+        container_name: suits-api
+        networks:
+            - suits-network
+
+networks:
+    suits-network:
+        external: true
