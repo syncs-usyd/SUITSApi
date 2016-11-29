@@ -1,32 +1,36 @@
-import 'babel-polyfill'
 import r from 'rethinkdbdash'
 
 var config = {
 	servers: [{host: 'rethink', port: 28015}],
+	db: "SUITS",
 	user: 'suits',
-	password: '^f/N")&p7K,>hK$c'
+	password: 'EWa^kF#Z:@/%h`72'
 }
 
 var db = r(config);
 
-export async function addMember(firstName, lastName, accessId, sid, wantsNewsletter, email){
+export async function addMember(firstName, lastName, gender, email, access, sid, newsletter){
 	try{
-		var result = await db.table('members').insert({
+		return await db.table('Member').insert({
 			firstName: firstName,
 			lastName: lastName,
-			accessId: accessId,
+			gender: gender,
+			email: email,
+			access: access,
 			sid: sid,
-			wantsNewsletter: wantsNewsletter,
-			email: email
+			newsletter: newsletter
 		}).run();
 	}	
 	catch (e){
-		console.log(e);
+		return null;
 	}
 }
 
-export function test(){
-	console.log("hello");
+export async function getMembers() {
+	try {
+		return await db.table('Member').run();
+	}
+	catch (e) {
+		return null;
+	}
 }
-
-
