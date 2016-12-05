@@ -1,5 +1,5 @@
 import r from 'koa-router';
-import * as db from './db';
+import Member from './member';
 import config from '../config';
 import jwt from 'jsonwebtoken';
 
@@ -24,7 +24,11 @@ function compare (a, b) {
 
 router.post("/members", async (ctx, next) => {
 	let body = ctx.request.body;
-	await db.addMember(body.firstName, body.lastName, body.gender, body.email, body.access, body.sid, body.newsletter);
+	let member = await Member.getMember(body.email);
+	if (member == null)
+		await Member.addMember(body);
+	else
+		await member.alterMember(body);
 	ctx.status = 200;
 	await next();
 });

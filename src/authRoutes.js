@@ -1,5 +1,5 @@
 import r from 'koa-router';
-import * as db from './db';
+import Member from './member';
 import jwt from 'koa-jwt';
 import config from '../config';
 
@@ -26,7 +26,7 @@ router.use(async (ctx, next) => {
 router.use(jwt({secret : config.jwtSecret}));
 
 router.get("/members", async (ctx, next) => {
-	ctx.body = await db.getMembers();
+	ctx.body = await Member.getMemberList();
 	await next();
 });
 
