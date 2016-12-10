@@ -1,5 +1,6 @@
 import r from 'koa-router';
 import Member from './member';
+import Event from './event';
 import config from '../config';
 import jwt from 'jsonwebtoken';
 
@@ -46,6 +47,11 @@ router.post("/token", async (ctx, next) => {
 		};
 	}
 
+});
+
+router.get("/events", async (ctx, next) => {
+	ctx.body = await Event.getEventList();
+	await next();
 });
 
 export default router;

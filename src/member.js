@@ -1,7 +1,6 @@
-import r from 'rethinkdbdash';
-import config from '../config';
+import db from './db';
+import Event from './event';
 
-let db = r(config.db);
 
 export default class Member {
 	
@@ -24,15 +23,11 @@ export default class Member {
 
 	static async getMemberList() {
 		let data = await db.table('Member').run();
-		let members = [];
-		for (let i = 0; i < data.length; i++) {
-			members[i] = new Member(data[i]);
-		}
-		return members;
+		return data.map(m => new Member(m));
 	}
 	
 	static async addMember(data) {
-		await db.table('Member').insert({
+		db.table('Member').insert({
 			id: data.email,
 			firstName: data.firstName,
 			lastName: data.lastName,
@@ -40,14 +35,28 @@ export default class Member {
 			email: data.email,
 			access: data.access,
 			sid: data.sid,
-			newsletter: data.newsletter
+			newsletter: data.newsletter,
+			joinedOn: new Date()
 		})
 		.run();
 	}
 
 	async alterMember(newData) {
-		await db.table('Member').get(this.email).update(newData).run();
+		db.table('Member').get(this.email).update(newData).run();
 	}
 
+	async getEvents() {
+		let eventIds = await db.table('Attendance')
+		.filter({memberId: this.email})
+		.pluck("eventId")
+		.run();
+		eventIds = eventIds.map(x => x.eventId); // get an array of just the ids
 
+		let events = await db.expr(eventIds)
+		.eqJoin((x => x), db.table('Event'))
+		.run();
+		events = events.map(e => e.right);
+
+		return events.map(e => new Event(e));
+	}
 }
