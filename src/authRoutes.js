@@ -31,6 +31,13 @@ router.get("/members", async (ctx, next) => {
 	await next();
 });
 
+router.get("/members/:id/attendance", async (ctx, next) => {
+	let member = await Member.getMember(ctx.params.id);
+	ctx.body = await member.getEvents();
+	ctx.status = 200;
+	await next();
+});
+
 router.post("/events", async (ctx, next) => {
 	let body = ctx.request.body;
 	await Event.addEvent(body);
@@ -41,14 +48,31 @@ router.post("/events", async (ctx, next) => {
 router.patch("/events", async (ctx, next) => {
 	let body = ctx.request.body;
 	let e = await Event.getEvent(body.id);
-	e.alterEvent(body);
+	await e.alterEvent(body);
+	ctx.status = 200;
 	await next();
 });
 
 router.delete("/events", async (ctx, next) => {
 	let id = ctx.request.body.id;
 	let e = await Event.getEvent(id);
-	e.deleteEvent();
+	await e.deleteEvent();
+	ctx.status = 200;
+	await next();
+});
+
+router.get("/events/:id/attendance", async (ctx, next) => {
+	let event = await Event.getEvent(ctx.params.id);
+	ctx.body = await event.getAttendees();
+	ctx.status = 200;
+	await next();
+});
+
+router.post("/events/:id/attendance", async (ctx, next) => {
+	let event = await Event.getEvent(ctx.params.id);
+	await event.attendMember(ctx.body);
+	ctx.status = 200;
+	await next();
 });
 
 export default router;

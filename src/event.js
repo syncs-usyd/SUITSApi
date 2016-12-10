@@ -36,22 +36,36 @@ export default class Event {
 		db.table('Event').get(this.id).update(newData).run();
 	}
 
-	async getMembers() {
-		let memberIds = await db.table('Attendance')
+	async getAttendees() {
+		let attendees = await db.table('Attendance')
 		.filter({eventId: this.id})
-		.pluck("memberId")
+		.pluck("memberId", "personData")
 		.run();
-		memberIds = memberIds.map(x => x.memberId);
+
+		let memberIds = [];
+		let nonMembers = [];
+
+		for (let i = 0; i < attendees.length; i++) {
+			if (attendees[i].personData != undefined)
+				nonMembers.push(attendees[i].personData);
+			else
+				memberIds.push(attendees[i].memberId);
+		}
 
 		let members = await db.expr(memberIds)
 		.eqJoin((x => x), db.table('Member'))
 		.run();
-		members = members.map(m => m.right);
-		return members.map(m => new Member(m));
+
+		members = members.map(m => m.right); // grab the data
+		members = members.concat(nonMembers); // Also add the non-members
+		return members;
 	}
 
-	async attendMember(memberId) {
-		db.table('Attendance').insert({eventId: this.id, memberId: memberId});
+	async attendPerson(personData) {
+		if (personData.memberId != undefined)
+			db.table('Attendance').insert({eventId: this.id, memberId: memberId});
+		else
+			db.table('Attendance').insert({eventId: this.id, person: personData});
 	}
 
 	async deleteEvent() {
