@@ -1,7 +1,8 @@
 import db from './db'
 import Member from './member';
+import r from 'koa-router';
 
-export default class Event {
+class Event {
 	
 	constructor(eventObject) {
 		this.title = eventObject.title;
@@ -72,3 +73,51 @@ export default class Event {
 		db.table('Event').get(this.id).delete().run();
 	}
 }
+
+let publicRoutes = r();
+
+publicRoutes.get("/", async (ctx, next) => {
+	ctx.body = await Event.getEventList();
+	await next();
+});
+
+let privateRoutes = r();
+
+privateRoutes.post("/", async (ctx, next) => {
+	let body = ctx.request.body;
+	await Event.addEvent(body);
+	ctx.status = 200;
+	await next();
+});
+
+privateRoutes.patch("/", async (ctx, next) => {
+	let body = ctx.request.body;
+	let e = await Event.getEvent(body.id);
+	await e.alterEvent(body);
+	ctx.status = 200;
+	await next();
+});
+
+privateRoutes.delete("/", async (ctx, next) => {
+	let id = ctx.request.body.id;
+	let e = await Event.getEvent(id);
+	await e.deleteEvent();
+	ctx.status = 200;
+	await next();
+});
+
+privateRoutes.get("/:id/attendance", async (ctx, next) => {
+	let event = await Event.getEvent(ctx.params.id);
+	ctx.body = await event.getAttendees();
+	ctx.status = 200;
+	await next();
+});
+
+privateRoutes.post("/:id/attendance", async (ctx, next) => {
+	let event = await Event.getEvent(ctx.params.id);
+	await event.attendMember(ctx.body);
+	ctx.status = 200;
+	await next();
+});
+
+export {Event, publicRoutes, privateRoutes};

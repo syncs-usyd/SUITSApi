@@ -1,8 +1,8 @@
 import db from './db';
 import Event from './event';
+import r from 'koa-router';
 
-
-export default class Member {
+class Member {
 	
 	constructor(memberObject){
 		this.firstName = memberObject.firstName;
@@ -60,3 +60,32 @@ export default class Member {
 		return events.map(e => new Event(e));
 	}
 }
+
+let publicRoutes = r();
+
+publicRoutes.post("/", async (ctx, next) => {
+	let body = ctx.request.body;
+	let member = await Member.getMember(body.email);
+	if (member == null)
+		await Member.addMember(body);
+	else
+		await member.alterMember(body);
+	ctx.status = 200;
+	await next();
+});
+
+let privateRoutes = r();
+
+privateRoutes.get("/", async (ctx, next) => {
+	ctx.body = await Member.getMemberList();
+	await next();
+});
+
+privateRoutes.get("/:id/attendance", async (ctx, next) => {
+	let member = await Member.getMember(ctx.params.id);
+	ctx.body = await member.getEvents();
+	ctx.status = 200;
+	await next();
+});
+
+export { Member, publicRoutes, privateRoutes };

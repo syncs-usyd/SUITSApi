@@ -1,11 +1,8 @@
 import 'babel-polyfill';
 
 import Koa from 'koa';
-import pub from './publicRoutes';
-import auth from './authRoutes';
 import bodyParser from 'koa-bodyparser';
-import config from '../config';
-import jwt from 'koa-jwt'
+import router from './routes';
 
 const app = new Koa();
 
@@ -15,7 +12,7 @@ app.use( async (ctx, next) => {
 		await next();
 	}
 	catch (e) {
-		console.log(e.message);
+		console.log(e);
 	}
 });
 
@@ -28,8 +25,7 @@ app.use( async (ctx, next) => {
 
 app.use(bodyParser());
 
-app.use(pub.routes()).use(pub.allowedMethods());
-app.use(auth.routes());
+app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000);
 
