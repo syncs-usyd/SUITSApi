@@ -24,6 +24,16 @@ class Token {
 		else
 			return null;
 	}
+
+	static isValid(token){
+		try{
+			jwt.verify(token, config.jwtSecret);
+		}
+		catch (e) {
+			return false;
+		}
+		return true;
+	}
 }
 
 let publicRoutes = r();

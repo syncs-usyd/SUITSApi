@@ -1,6 +1,7 @@
 import db from './db';
 import Event from './event';
 import r from 'koa-router';
+import socket from './socket';
 
 class Member {
 	
@@ -88,4 +89,18 @@ privateRoutes.get("/:id/attendance", async (ctx, next) => {
 	await next();
 });
 
-export { Member, publicRoutes, privateRoutes };
+//changes
+db.table('Member').changes().run((err, cursor) => {
+	cursor.each((err, change) => {
+		if (change.old_val == null) {
+			// new member
+			socket.broadcast("newMember", change.new_val);
+		}
+		else if (change.old_val != null && change.new_val != null) {
+			// member change
+			socket.broadcast("updateMember", change.new_val);
+		}
+	});
+});
+
+export { Member, publicRoutes, privateRoutes};

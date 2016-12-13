@@ -3,6 +3,7 @@ import 'babel-polyfill';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import router from './routes';
+import socket from './socket';
 
 const app = new Koa();
 
@@ -26,6 +27,9 @@ app.use( async (ctx, next) => {
 app.use(bodyParser());
 
 app.use(router.routes()).use(router.allowedMethods());
+
+console.log(socket);
+socket.attach(app);
 
 app.listen(3000);
 
