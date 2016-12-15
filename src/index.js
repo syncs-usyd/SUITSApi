@@ -28,7 +28,6 @@ app.use(bodyParser());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-console.log(socket);
 socket.attach(app);
 
 app.listen(3000);

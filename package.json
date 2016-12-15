@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d lib",
     "start": "node lib/index.js",
-	"dev": "babel-watch src/index.js"
+    "dev": "babel-watch src/index.js"
   },
   "author": "Kosta Dunn <kostacoffee@gmail.com>",
   "license": "ISC",
@@ -18,8 +18,8 @@
     "koa-bodyparser": "^3.2.0",
     "koa-jwt": "^2.1.0",
     "koa-router": "^7.0.1",
-    "rethinkdbdash": "^2.3.25",
-    "socket.io": "^1.5.1"
+    "koa-socket": "^4.4.0",
+    "rethinkdbdash": "^2.3.25"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
