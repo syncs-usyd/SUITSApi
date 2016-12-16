@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import router from './routes';
+import {publicRouter, privateRouter} from './routes';
 import socket from './socket';
 import http from 'http';
 
@@ -15,6 +15,11 @@ app.use( async (ctx, next) => {
 	}
 	catch (e) {
 		console.log(e);
+		ctx.status = 500;
+		ctx.body = {
+			error: 500,
+			message: "Something went wrong"
+		};
 	}
 });
 
@@ -27,7 +32,10 @@ app.use( async (ctx, next) => {
 
 app.use(bodyParser());
 
-app.use(router.routes()).use(router.allowedMethods());
+app
+	.use(publicRouter.routes())
+	.use(privateRouter.routes())
+	.use(publicRouter.allowedMethods());
 
 let server = http.createServer(app.callback());
 

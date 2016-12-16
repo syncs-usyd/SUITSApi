@@ -66,7 +66,10 @@ let publicRoutes = r();
 
 publicRoutes.post("/", async (ctx, next) => {
 	let body = ctx.request.body;
-	let member = await Member.getMember(body.email);
+	let member = null;
+	if (body.email != undefined)
+		member = await Member.getMember(body.email);
+
 	if (member == null)
 		await Member.addMember(body);
 	else
@@ -94,11 +97,11 @@ db.table('Member').changes().run((err, cursor) => {
 	cursor.each((err, change) => {
 		if (change.old_val == null) {
 			// new member
-			socket.broadcast("newMember", change.new_val);
+			socket.emit("newMember", change.new_val);
 		}
 		else if (change.old_val != null && change.new_val != null) {
 			// member change
-			socket.broadcast("updateMember", change.new_val);
+			socket.emit("updateMember", change.new_val);
 		}
 	});
 });

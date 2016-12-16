@@ -6,20 +6,24 @@ import * as Member from './member';
 import * as Event from './event';
 import * as Token from './token';
 
-let router = r();
+let publicRouter = r();
 
-router.use('/members', Member.publicRoutes.routes());
-router.use('/events', Event.publicRoutes.routes());
-router.use('/token', Token.publicRoutes.routes());
+publicRouter.use('/members', Member.publicRoutes.routes());
+publicRouter.use('/events', Event.publicRoutes.routes());
+publicRouter.use('/token', Token.publicRoutes.routes());
 
+let privateRouter = r();
 //dividing public from protected routes
-router.use(async (ctx, next) => {
+privateRouter.use(async (ctx, next) => {
 	try {
 		await next();
 	}
 	catch (e) {
 		if (e.status == 401) {
 			ctx.status = 401;
+			console.log("HIT");
+			console.log(e);
+
 			ctx.body = {
 				error: 401,
 				message: "Protected resource. Use the Authorization header with a Bearer prefix to get access"
@@ -31,12 +35,12 @@ router.use(async (ctx, next) => {
 	}
 });
 
-router.use(jwt({secret : config.jwtSecret}));
+privateRouter.use(jwt({secret : config.jwtSecret}));
 
 //protected routes here
 
-router.use('/members', Member.privateRoutes.routes());
-router.use('/events', Event.privateRoutes.routes());
-router.use('/token', Token.privateRoutes.routes());
+privateRouter.use('/members', Member.privateRoutes.routes());
+privateRouter.use('/events', Event.privateRoutes.routes());
+privateRouter.use('/token', Token.privateRoutes.routes());
 
-export default router;
+export { publicRouter, privateRouter };

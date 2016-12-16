@@ -126,15 +126,15 @@ db.table('Event').changes().run((err, cursor) => {
 	cursor.each((err, change) => {
 		if (change.old_val == null) {
 			// new event
-			socket.broadcast("newEvent", change.new_val);
+			socket.emit("newEvent", change.new_val);
 		}
 		else if (change.old_val != null && change.new_val != null) {
 			// event change
-			socket.broadcast("updateEvent", change.new_val);
+			socket.emit("updateEvent", change.new_val);
 		}
 		else {
 			// event deleted
-			socket.broadcast("deleteEvent", {id: change.old_val.id});
+			socket.emit("deleteEvent", {id: change.old_val.id});
 		}
 	});
 });
@@ -143,15 +143,15 @@ db.table('Attendance').changes().run((err, cursor) => {
 	cursor.each((err, change) => {
 		if (change.old_val == null) {
 			// new event
-			socket.broadcast("newAttendance", change.new_val);
+			socket.emit("newAttendance", change.new_val);
 		}
 		else if (change.old_val != null && change.new_val != null) {
 			// event change
-			socket.broadcast("updateAttendance", change.new_val);
+			socket.emit("updateAttendance", change.new_val);
 		}
 		else {
 			// event deleted
-			socket.broadcast("deleteAttendance", {id: change.old_val.id});
+			socket.emit("deleteAttendance", {id: change.old_val.id});
 		}
 	});
 });
