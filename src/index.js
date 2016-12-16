@@ -4,6 +4,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import router from './routes';
 import socket from './socket';
+import http from 'http';
 
 const app = new Koa();
 
@@ -28,8 +29,10 @@ app.use(bodyParser());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-socket.attach(app);
+let server = http.createServer(app.callback());
 
-app.listen(3000);
+socket.attach(server)
+
+server.listen(3000);
 
 console.log("listening on port 3000");

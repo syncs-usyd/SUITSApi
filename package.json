@@ -18,8 +18,8 @@
     "koa-bodyparser": "^3.2.0",
     "koa-jwt": "^2.1.0",
     "koa-router": "^7.0.1",
-    "koa-socket": "^4.4.0",
-    "rethinkdbdash": "^2.3.25"
+    "rethinkdbdash": "^2.3.27",
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

@@ -1,14 +1,14 @@
-import IO from 'koa-socket';
+import IO from 'socket.io';
 import { Token } from './token';
 
-let socket = new IO();
+let socket = new IO({ serveClient: false });
 
-socket.on('connection',  async ctx => {
-	//rudimentary authentication middleware
-	let t = ctx.socket.handshake.query.token;
+socket.use( (socket, next) => {
+	let t = socket.handshake.query.token;
 	if (!Token.isValid(t))
-		ctx.socket.disconnect("You must have a token to receive a connection");
-	
-})
+		socket.disconnect();
+	else
+		next();
+});
 
 export default socket;
