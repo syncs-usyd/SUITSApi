@@ -19,7 +19,7 @@ class Token {
 	}
 	
 	static getToken(user, pass) {
-		if (compare(user, "suits") && compate(pass, config.suitsPass))
+		if (this.compare(user, "suits") && this.compare(pass, config.suitsPass))
 			return jwt.sign({user: "suits"}, config.jwtSecret);
 		else
 			return null;
