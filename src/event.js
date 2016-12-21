@@ -28,8 +28,7 @@ class Event {
 		await db.table('Event').insert({
 			title: data.title,
 			desc: data.desc,
-			time: data.time,
-			attendees: [] // When adding a new event, there are no attendees.
+			time: data.time
 		})
 		.run();
 	}
