@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d lib",
+    "build": "babel src -d lib && tar -zcf api.tar.gz lib package.json",
     "start": "node lib/index.js",
     "dev": "babel-watch src/index.js"
   },
