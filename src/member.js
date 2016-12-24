@@ -13,13 +13,22 @@ class Member {
 		this.access = memberObject.access;
 		this.sid = memberObject.sid;
 		this.newsletter = memberObject.newsletter;
+		this.registered = memberObject.registered;
+		this.id = memberObject.id;
 	}
 
-	static async getMember(email) {
-		let data = await db.table('Member').get(email).run();
-		if (data == null)
+	static async getMemberByEmail(email) {
+		let data = await db.table('Member').filter({email: email}).run();
+		if (data.length == 0)
 			return null;
-		return new Member(data);
+		return new Member(data[0]);
+	}
+
+	static async getMemberByAccess(access) {
+		let data = await db.table('Member').filter({access: access}).run();
+		if (data.length == 0)
+			return null;
+		return new Member(data[0]);
 	}
 
 	static async getMemberList() {
@@ -29,7 +38,6 @@ class Member {
 	
 	static async addMember(data) {
 		db.table('Member').insert({
-			id: data.email,
 			firstName: data.firstName,
 			lastName: data.lastName,
 			gender: data.gender,
@@ -37,29 +45,16 @@ class Member {
 			access: data.access,
 			sid: data.sid,
 			newsletter: data.newsletter,
-			joinedOn: new Date()
+			joinedOn: new Date(),
+			registered: data.registered
 		})
 		.run();
 	}
 
 	async alterMember(newData) {
-		db.table('Member').get(this.email).update(newData).run();
+		db.table('Member').filter({email: this.email}).update(newData).run();
 	}
 
-	async getEvents() {
-		let eventIds = await db.table('Attendance')
-		.filter({memberId: this.email})
-		.pluck("eventId")
-		.run();
-		eventIds = eventIds.map(x => x.eventId); // get an array of just the ids
-
-		let events = await db.expr(eventIds)
-		.eqJoin((x => x), db.table('Event'))
-		.run();
-		events = events.map(e => e.right);
-
-		return events.map(e => new Event(e));
-	}
 }
 
 let publicRoutes = r();
@@ -67,13 +62,17 @@ let publicRoutes = r();
 publicRoutes.post("/", async (ctx, next) => {
 	let body = ctx.request.body;
 	let member = null;
-	if (body.email != undefined)
-		member = await Member.getMember(body.email);
+	if (body.access != undefined && body.access != '')
+		member = await Member.getMemberByAccess(body.access);
+
+	if (body.email != undefined && body.email != '' && member == null)
+		member = await Member.getMemberByEmail(body.email);
 
 	if (member == null)
 		await Member.addMember(body);
 	else
 		await member.alterMember(body);
+
 	ctx.status = 200;
 	await next();
 });
@@ -82,13 +81,6 @@ let privateRoutes = r();
 
 privateRoutes.get("/", async (ctx, next) => {
 	ctx.body = await Member.getMemberList();
-	await next();
-});
-
-privateRoutes.get("/:id/attendance", async (ctx, next) => {
-	let member = await Member.getMember(ctx.params.id);
-	ctx.body = await member.getEvents();
-	ctx.status = 200;
 	await next();
 });
 

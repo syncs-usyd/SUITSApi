@@ -36,42 +36,43 @@ class Event {
 	async alterEvent(newData) {
 		db.table('Event').get(this.id).update(newData).run();
 	}
-
-	async getAttendees() {
-		let attendees = await db.table('Attendance')
-		.filter({eventId: this.id})
-		.pluck("memberId", "personData")
-		.run();
-
-		let memberIds = [];
-		let nonMembers = [];
-
-		for (let i = 0; i < attendees.length; i++) {
-			if (attendees[i].personData != undefined)
-				nonMembers.push(attendees[i].personData);
-			else
-				memberIds.push(attendees[i].memberId);
-		}
-
-		let members = await db.expr(memberIds)
-		.eqJoin((x => x), db.table('Member'))
-		.run();
-
-		members = members.map(m => m.right); // grab the data
-		members = members.concat(nonMembers); // Also add the non-members
-		return members;
-	}
-
-	async attendPerson(personData) {
-		if (personData.memberId != undefined)
-			db.table('Attendance').insert({eventId: this.id, memberId: memberId});
-		else
-			db.table('Attendance').insert({eventId: this.id, person: personData});
-	}
-
+	
 	async deleteEvent() {
 		db.table('Event').get(this.id).delete().run();
 	}
+
+	async getAttendance() {
+		let attendees = await db.table('Attendance')
+		.filter({eventId: this.id})
+		.without('eventId')
+		.run();
+
+		return attendees;
+	}
+		
+	async getAttendanceForMember(memberId) {
+		let attendance = await db.table('Attendance')
+		.filter({eventId: this.id, memberId: memberId})
+		.without('eventId', 'memberId')
+		.run();
+
+		if (attendance.length == 0)
+			return null
+		return attendance[0];
+	}
+
+	async attendMember(memberId, data) {
+		db.table('Attendance').insert({eventId: this.id, memberId: memberId, data: data}).run();
+	}
+
+	async alterAttendance(memberId, data) {
+		db.table('Attendance').filter({eventId: this.id, memberId: memberId}).update({data: data}).run();
+	}
+
+	async deleteAttendance(memberId) {
+		db.table('Attendance').filter({eventId: this.id, memberId: memberId}).delete().run();
+	}
+	
 }
 
 let publicRoutes = r();
@@ -90,7 +91,25 @@ privateRoutes.post("/", async (ctx, next) => {
 	await next();
 });
 
-privateRoutes.patch("/", async (ctx, next) => {
+privateRoutes.use("/:id", async (ctx, next) => {
+	let event = await Event.getEvent(ctx.params.id);
+	if (event == null) {
+		ctx.status = 404;
+		return;
+	}
+	ctx.event = event;
+	await next();
+});
+
+privateRoutes.get("/:id", async (ctx, next) => {
+	let event = ctx.event;
+	ctx.status = 200;
+	ctx.body = event;
+	await next();
+});
+
+privateRoutes.put("/:id", async (ctx, next) => {
+	let event = ctx.event;
 	let body = ctx.request.body;
 	let e = await Event.getEvent(body.id);
 	await e.alterEvent(body);
@@ -98,24 +117,53 @@ privateRoutes.patch("/", async (ctx, next) => {
 	await next();
 });
 
-privateRoutes.delete("/", async (ctx, next) => {
-	let id = ctx.request.body.id;
-	let e = await Event.getEvent(id);
-	await e.deleteEvent();
+privateRoutes.delete("/:id", async (ctx, next) => {
+	let event = ctx.event;
+	await event.deleteEvent();
 	ctx.status = 200;
 	await next();
 });
 
 privateRoutes.get("/:id/attendance", async (ctx, next) => {
-	let event = await Event.getEvent(ctx.params.id);
-	ctx.body = await event.getAttendees();
+	let event = ctx.event;
+	console.log("here");
+	ctx.body = await event.getAttendance();
 	ctx.status = 200;
 	await next();
 });
 
-privateRoutes.post("/:id/attendance", async (ctx, next) => {
-	let event = await Event.getEvent(ctx.params.id);
-	await event.attendMember(ctx.body);
+privateRoutes.get("/:id/attendance/:userId", async (ctx, next) => {
+	let event = ctx.event;
+	let attendance = await event.getAttendanceForMember(ctx.params.userId);
+	if (attendance == null) {
+		ctx.status = 404;
+		return;
+	}
+	ctx.status = 200;
+	ctx.body = attendance;
+	await next();
+});
+
+privateRoutes.put("/:id/attendance/:userId", async (ctx, next) => {
+	let event = ctx.event;
+	let attendance = await event.getAttendanceForMember(ctx.params.userId);
+	if (attendance == null)
+		event.attendMember(ctx.params.userId, ctx.request.body);
+	else
+		event.alterAttendance(ctx.params.userId, ctx.request.body);
+	ctx.status = 200;
+	await next();
+});
+
+privateRoutes.delete("/:id/attendance/:userId", async (ctx, next) => {
+	let event = ctx.event;
+	let attendance = await event.getAttendanceForMember(ctx.params.userId);
+	if (attendance == null) {
+		ctx.status = 404;
+		return;
+	}
+	else
+		event.deleteAttendance(ctx.params.userId);
 	ctx.status = 200;
 	await next();
 });
