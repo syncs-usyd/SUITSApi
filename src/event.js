@@ -126,7 +126,6 @@ privateRoutes.delete("/:id", async (ctx, next) => {
 
 privateRoutes.get("/:id/attendance", async (ctx, next) => {
 	let event = ctx.event;
-	console.log("here");
 	ctx.body = await event.getAttendance();
 	ctx.status = 200;
 	await next();

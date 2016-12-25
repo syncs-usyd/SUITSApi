@@ -21,7 +21,6 @@ privateRouter.use(async (ctx, next) => {
 	catch (e) {
 		if (e.status == 401) {
 			ctx.status = 401;
-			console.log(e);
 
 			ctx.body = {
 				error: 401,
