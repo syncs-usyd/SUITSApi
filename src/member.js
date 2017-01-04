@@ -37,7 +37,7 @@ class Member {
 	}
 	
 	static async addMember(data) {
-		db.table('Member').insert({
+		let query = await db.table('Member').insert({
 			firstName: data.firstName,
 			lastName: data.lastName,
 			gender: data.gender,
@@ -49,10 +49,12 @@ class Member {
 			registered: data.registered
 		})
 		.run();
+
+		return query.generated_keys[0];
 	}
 
 	async alterMember(newData) {
-		db.table('Member').filter({email: this.email}).update(newData).run();
+		db.table('Member').get(this.id).update(newData).run();
 	}
 
 }
@@ -68,11 +70,16 @@ publicRoutes.post("/", async (ctx, next) => {
 	if (body.email != undefined && body.email != '' && member == null)
 		member = await Member.getMemberByEmail(body.email);
 
+	let memberId = null;
 	if (member == null)
-		await Member.addMember(body);
-	else
+		memberId = await Member.addMember(body);
+	else {
+		body.registered = member.registered ? true : body.registered; // Cannot `unregister` an already registered member
 		await member.alterMember(body);
-
+		memberId = member.id;
+	}
+	
+	ctx.body = {id: memberId};
 	ctx.status = 200;
 	await next();
 });
