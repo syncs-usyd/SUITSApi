@@ -197,7 +197,7 @@ db.table('Attendance').changes().run((err, cursor) => {
 		}
 		else {
 			// event deleted
-			socket.emit("deleteAttendance", {id: change.old_val.id});
+			socket.emit("deleteAttendance", {memberId: change.old_val.memberId, eventId: change.old_val.eventId});
 		}
 	});
 });
