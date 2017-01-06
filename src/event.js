@@ -38,7 +38,10 @@ class Event {
 	}
 	
 	async deleteEvent() {
-		db.table('Event').get(this.id).delete().run();
+		await Promise.all([
+			db.table('Event').get(this.id).delete().run(),
+			db.table('Attendance').filter({eventId: this.id}).delete().run()
+		]);
 	}
 
 	async getAttendance() {
