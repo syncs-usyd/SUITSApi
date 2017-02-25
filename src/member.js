@@ -12,8 +12,9 @@ class Member {
 		this.email = memberObject.email;
 		this.access = memberObject.access;
 		this.sid = memberObject.sid;
-		this.newsletter = memberObject.newsletter;
-		this.registered = memberObject.registered;
+		this.newsletter = memberObject.newsletter; this.registered = memberObject.registered;
+		this.isPenultimate = memberObject.isPenultimate;
+		this.isITDegree = memberObject.isITDegree;
 		this.id = memberObject.id;
 	}
 
@@ -64,14 +65,14 @@ let publicRoutes = r();
 publicRoutes.post("/", async (ctx, next) => {
 	let body = ctx.request.body;
 	let member = null;
-	if (body.access != undefined && body.access != '')
+	if (!body.access)
 		member = await Member.getMemberByAccess(body.access);
 
-	if (body.email != undefined && body.email != '' && member == null)
+	if (!body.email && member == null)
 		member = await Member.getMemberByEmail(body.email);
 
 	let memberId = null;
-	if (member == null)
+	if (!member)
 		memberId = await Member.addMember(body);
 	else {
 		body.registered = member.registered ? true : body.registered; // Cannot `unregister` an already registered member
