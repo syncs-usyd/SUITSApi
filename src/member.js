@@ -67,11 +67,11 @@ let publicRoutes = r();
 publicRoutes.post("/", async (ctx, next) => {
 	let body = ctx.request.body;
 	let member = null;
-	if (!body.access)
-		member = await Member.getMemberByAccess(body.access);
-
-	if (!body.email && member == null)
+	if (body.email)
 		member = await Member.getMemberByEmail(body.email);
+
+	if (body.access && member == null)
+		member = await Member.getMemberByAccess(body.access);
 
 	let memberId = null;
 	if (!member)
