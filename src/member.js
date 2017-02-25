@@ -14,7 +14,7 @@ class Member {
 		this.sid = memberObject.sid;
 		this.newsletter = memberObject.newsletter; this.registered = memberObject.registered;
 		this.isPenultimate = memberObject.isPenultimate;
-		this.isITDegree = memberObject.isITDegree;
+		this.doingIT = memberObject.doingIT;
 		this.id = memberObject.id;
 	}
 
@@ -46,6 +46,8 @@ class Member {
 			access: data.access,
 			sid: data.sid,
 			newsletter: data.newsletter,
+			isPenultimate: data.isPenultimate,
+			doingIT: data.doingIT,
 			joinedOn: new Date(),
 			registered: data.registered
 		})
