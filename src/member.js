@@ -16,6 +16,7 @@ class Member {
 		this.isPenultimate = memberObject.isPenultimate;
 		this.doingIT = memberObject.doingIT;
 		this.id = memberObject.id;
+		this.joinedOn = memberObject.joinedOn;
 	}
 
 	static async getMemberByEmail(email) {
