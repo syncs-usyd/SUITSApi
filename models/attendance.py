@@ -1,5 +1,12 @@
 from app import db
 
+class AttendanceData:
+	
+	def __init__(self, primary=False, secondary=False, additional=None):
+		self.primary = primary
+		self.secondary = secondary
+		self.additional = additional
+
 class AttendanceModel(db.Model):
 	__tablename__ = "Attendance"
 
@@ -14,3 +21,5 @@ class AttendanceModel(db.Model):
 
 	member = db.relationship('MemberModel', back_populates='events_attended')
 	event = db.relationship('EventModel', back_populates='members_attended')
+	data = db.composite(AttendanceData, primary=primary, secondary=secondary, additional=additional)
+

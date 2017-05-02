@@ -6,9 +6,3 @@ class EventSchema(ma.ModelSchema):
 	
 	members_attended = ma.Nested('EventAttendanceSchema', many=True, exclude=('events_attended',))
 
-
-class EventAttendanceScheme(ma.ModelSchema):
-	class Meta:
-		fields = ('member', 'primary', 'secondary', 'additional')
-	
-	member = ma.Nested('MemberSchema', exclude=('events_attended',))
