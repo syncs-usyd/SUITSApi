@@ -2,7 +2,7 @@
 from app import app, api
 from resources import *
 # TEST CODE
-"""
+
 from models import *
 from app import db
 app.config['SQLALCHEMY_ECHO'] = True
@@ -26,12 +26,13 @@ db.session.commit()
 
 db.session.delete(e2)
 db.session.commit()
-"""
+
 # END TEST CODE
 
 api.add_resource(Token, '/token')
 api.add_resource(Member, '/members/<int:id>')
 api.add_resource(Event, '/events/<int:id>')
 api.add_resource(MemberList, '/members')
+api.add_resource(EventList, '/events')
 
 app.run(debug=True)

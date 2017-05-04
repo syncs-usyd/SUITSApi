@@ -27,18 +27,25 @@ class MemberList(Resource):
 
 		filterable_fields = ['sid','access','email']
 		
-		filter_args = [getattr(MemberModel, f) == data[f] for f in filrerable_fields if memb_data.get(r)]
+		filter_args = [getattr(MemberModel, f) == memb_data[f] for f in filterable_fields if memb_data.get(f)]
 
 		existing_member = MemberModel.query.filter(db.or_(*filter_args)).first()
+
+		schema = MemberSchema(exclude=('events_attended',))
+
+		memb = None
 
 		if existing_member:
 			# update member
 			MemberModel.query.filter(MemberModel.id == existing_member.id).update(memb_data)
-			db.session.commit()
-
+			memb = existing_member
 		else:
 			# create member
 			new_member = MemberModel(**memb_data)
 			db.session.add(new_member)
-			db.session.commit()
+			memb = new_member
+			
+		db.session.commit()
+		return schema.jsonify(memb)
+
 
