@@ -6,10 +6,10 @@ class MemberModel(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 
-	email = db.Column(db.String)
+	email = db.Column(db.String, unique=True)
 	first_name = db.Column(db.String, nullable=False)
 	last_name = db.Column(db.String, nullable=False)
-	gender = db.Column(db.String)
+	gender = db.Column(db.String, default="other")
 
 	joined_on = db.Column(db.Date, default=date.today) #passing function so the value of `today` is the time when a new row is added.
 
@@ -20,7 +20,7 @@ class MemberModel(db.Model):
 	doing_it = db.Column(db.Boolean, default=False)
 	registered = db.Column(db.Boolean, default=False)
 
-	events_attended = db.relationship('AttendanceModel', back_populates='member')
+	events_attended = db.relationship('AttendanceModel', back_populates='member', cascade="all, delete")
 
 	@db.validates('email')
 	def validate_email(self, key, email):

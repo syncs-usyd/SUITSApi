@@ -10,4 +10,4 @@ class EventModel(db.Model):
 	description = db.Column(db.String)
 	time = db.Column(db.DateTime, default=datetime.utcnow)
 
-	members_attended = db.relationship('AttendanceModel', back_populates='event')
+	members_attended = db.relationship('AttendanceModel', back_populates='event', cascade="all, delete")
