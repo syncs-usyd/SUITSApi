@@ -1,11 +1,12 @@
 from flask_restful import Resource, reqparse
 from flask import request
-from app import db
 
+from . import api
+from db import db, AttendanceModel
 from schemas import AttendanceSchema
-from models import AttendanceModel
 from exceptions import NotFoundException
 
+@api.route('/attendance')
 class AttendanceList(Resource):
 
     def get(self):
@@ -21,6 +22,8 @@ class AttendanceList(Resource):
 
         if args['event']:
             query = query.filter(AttendanceModel.event_id == args['event'])
+
+        print(query)
 
         results = query.all()
         if len(results) == 0:
@@ -46,6 +49,7 @@ class AttendanceList(Resource):
         # record exists
         if q.count() == 1:
             raise AttendanceExistsError
+
         att = AttendanceModel()
 
         att.member_id = args['member']

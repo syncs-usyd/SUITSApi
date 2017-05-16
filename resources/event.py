@@ -3,10 +3,11 @@ from flask import request
 
 import json
 
-from app import db
-from models import EventModel
+from . import api
+from db import db, EventModel
 from schemas import EventSchema
 
+@api.route('/events/<int:id>')
 class Event(Resource):
 
     def get(self, id):
@@ -30,6 +31,7 @@ class Event(Resource):
         db.session.delete(e)
         db.session.commit()
 
+@api.route('/events')
 class EventList(Resource):
 
     def get(self):

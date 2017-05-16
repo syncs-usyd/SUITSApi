@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app import db
+from . import db
 
 class EventModel(db.Model):
     __tablename__ = "Event"

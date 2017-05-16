@@ -1,12 +1,13 @@
 from flask_restful import Resource
 from flask import request
 
-from app import db
-from models import MemberModel
+from . import api
+from db import db, MemberModel
 from schemas import MemberSchema
 
 import json
 
+@api.route('/members/<int:id>')
 class Member(Resource):
 
    def get(self, id):
@@ -14,7 +15,7 @@ class Member(Resource):
       schema = MemberSchema()
       return schema.jsonify(m)
 
-
+@api.route('/members')
 class MemberList(Resource):
 
    def get(self):

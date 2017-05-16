@@ -1,5 +1,6 @@
 from datetime import date
-from app import db
+
+from . import db
 
 class MemberModel(db.Model):
     __tablename__ = 'Member'
