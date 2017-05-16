@@ -24,8 +24,6 @@ db.session.add(att)
 db.session.add(att2)
 db.session.commit()
 
-db.session.delete(e2)
-db.session.commit()
 
 # END TEST CODE
 
@@ -34,5 +32,6 @@ api.add_resource(Member, '/members/<int:id>')
 api.add_resource(Event, '/events/<int:id>')
 api.add_resource(MemberList, '/members')
 api.add_resource(EventList, '/events')
+api.add_resource(AttendanceList, '/attendance')
 
 app.run(debug=True)

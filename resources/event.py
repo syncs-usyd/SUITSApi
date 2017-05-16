@@ -9,32 +9,41 @@ from schemas import EventSchema
 
 class Event(Resource):
 
-	def get(self, id):
-		e = EventModel.query.get_or_404(id)
+    def get(self, id):
+        e = EventModel.query.get_or_404(id)
 
-		schema = EventSchema()
-		return schema.jsonify(e)
+        schema = EventSchema()
+        return schema.jsonify(e)
 
-	def patch(self, id):
-		e = EventModel.query.get_or_404(id)
+    def put(self, id):
+        e = EventModel.query.get_or_404(id)
 
-		web_data = json.loads(request.data)
-		EventModel.query.filter(EventModel.id == id).update(web_data)
-		db.session.commit()
-		schema = EventSchema(exclude=('members_attended',))
-		return schema.jsonify(e)
+        web_data = json.loads(request.data)
+        EventModel.query.filter(EventModel.id == id).update(web_data)
+        db.session.commit()
+        schema = EventSchema(exclude=('members_attended',))
+        return schema.jsonify(e)
 
-	def delete(self, id):
-		e = EventModel.query.get_or_404(id)
+    def delete(self, id):
+        e = EventModel.query.get_or_404(id)
 
-		db.session.delete(e)
-		db.session.commit()
+        db.session.delete(e)
+        db.session.commit()
 
 class EventList(Resource):
 
-	def get(self):
-		events = EventModel.query.all()
+    def get(self):
+        events = EventModel.query.all()
 
-		schema = EventSchema(many=True, exclude=('members_attended',))
-		return schema.jsonify(events)
+        schema = EventSchema(many=True, exclude=('members_attended',))
+        return schema.jsonify(events)
 
+    def post(self):
+        web_data = json.loads(request.data)
+
+        new_event = EventModel(**web_data)
+        db.session.add(new_event)
+        db.session.commit()
+
+        schema = EventSchema(exclude=('members_attended',))
+        return schema.jsonify(new_event)
