@@ -19,6 +19,7 @@ class MemberList(Resource):
 
    def get(self):
       members = MemberModel.query.all()
+      schema = MemberSchema(many=True, exclude=('events_attended',))
       return schema.jsonify(members)
 
    def post(self):
