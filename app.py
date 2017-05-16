@@ -11,8 +11,7 @@ def get_app():
         ApiApp._app = a
     return a
 
-
-# legit hackery - signleton-esque thing :P
+# legit hackery - singleton-esque thing :P
 class ApiApp:
     _app = None
 
