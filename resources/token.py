@@ -7,9 +7,9 @@ import jwt
 import json
 
 class Token(Resource):
-	def post(self):
-		credentials = json.loads(request.data)
-		if credentials['user'] == "suits" and credentials['pass'] == SUITS_PASS:
-			return {"token": jwt.encode({"user":"suits"}, JWT_SECRET, algorithm="HS256").decode()}
-		else:
-			raise IncorrectLoginException
+    def post(self):
+        credentials = json.loads(request.data)
+        if credentials['user'] == "suits" and credentials['pass'] == SUITS_PASS:
+            return {"token": jwt.encode({"user":"suits"}, JWT_SECRET, algorithm="HS256").decode()}
+        else:
+            raise IncorrectLoginException
