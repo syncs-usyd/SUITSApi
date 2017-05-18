@@ -1,9 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from app import get_app
+from app import app
 
-db = SQLAlchemy(get_app())
-print(id(get_app()))
+db = SQLAlchemy(app)
 
 from .member import MemberModel
 from .event import EventModel

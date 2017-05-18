@@ -1,7 +1,7 @@
 from flask_marshmallow import Marshmallow
 
-from app import get_app
-ma = Marshmallow(get_app)
+from app import app
+ma = Marshmallow(app)
 
 from .member import MemberSchema
 from .event import EventSchema

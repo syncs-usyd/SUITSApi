@@ -1,8 +1,8 @@
-from app import get_app
+from app import app
 from flask_restful import Api
 import types
 
-api = Api(get_app())
+api = Api(app)
 
 # routing decorator setup
 def api_route(self, *args, **kwargs):
