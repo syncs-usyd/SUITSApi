@@ -4,6 +4,7 @@ click==6.7
 Flask==0.12.1
 flask-marshmallow==0.7.0
 Flask-RESTful==0.3.5
+Flask-SocketIO==2.8.6
 Flask-SQLAlchemy==2.2
 itsdangerous==0.24
 Jinja2==2.9.6
@@ -14,6 +15,8 @@ packaging==16.8
 PyJWT==1.5.0
 pyparsing==2.2.0
 python-dateutil==2.6.0
+python-engineio==1.5.2
+python-socketio==1.7.4
 pytz==2017.2
 six==1.10.0
 SQLAlchemy==1.1.9
