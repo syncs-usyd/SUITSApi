@@ -41,15 +41,11 @@ class MemberList(Resource):
     def post(self, memb_data):
 
         filterable_fields = ['sid','access','email']
-
         filter_args = [getattr(MemberModel, f) == memb_data[f] for f in filterable_fields if memb_data.get(f)]
 
         existing_member = MemberModel.query.filter(db.or_(*filter_args)).first()
 
-        schema = MemberSchema(exclude=('events_attended',))
-
         memb = None
-
         if existing_member:
             # update member
             memb = existing_member
@@ -63,6 +59,7 @@ class MemberList(Resource):
             setattr(memb, field, memb_data[field])
 
         db.session.commit()
+
         schema = MemberSchema(exclude=('events_attended',))
         return schema.jsonify(memb)
 
