@@ -1,5 +1,7 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from flask import request
+from webargs import fields
+from webargs.flaskparser import use_args
 
 from . import api
 from db import db, MemberModel
@@ -18,13 +20,25 @@ class Member(Resource):
 @api.route('/members')
 class MemberList(Resource):
 
+    memb_args = {
+        "email": fields.Str(),
+        "first_name": fields.Str(),
+        "last_name": fields.Str(),
+        "gender": fields.Str(),
+        "access": fields.Int(),
+        "sid": fields.Int(),
+        "newsletter": fields.Bool(),
+        "doing_it": fields.Bool(),
+        "registered": fields.Bool(),
+    }
+
     def get(self):
         members = MemberModel.query.all()
         schema = MemberSchema(many=True, exclude=('events_attended',))
         return schema.jsonify(members)
 
-    def post(self):
-        memb_data = json.loads(request.data)
+    @use_args(memb_args)
+    def post(self, memb_data):
 
         filterable_fields = ['sid','access','email']
 
@@ -38,16 +52,18 @@ class MemberList(Resource):
 
         if existing_member:
             # update member
-            MemberModel.query.filter(MemberModel.id == existing_member.id).update(memb_data)
             memb = existing_member
         else:
             # create member
-            new_member = MemberModel(**memb_data)
+            new_member = MemberModel()
             db.session.add(new_member)
             memb = new_member
 
+        for field in memb_data:
+            setattr(memb, field, memb_data[field])
+
         db.session.commit()
-        schema = MemberSchema(many=True, exclude=('events_attended',))
+        schema = MemberSchema(exclude=('events_attended',))
         return schema.jsonify(memb)
 
 
