@@ -1,9 +1,16 @@
 from . import ma
 
-class AttendanceSchema(ma.ModelSchema):
-    class Meta:
-        fields = ('id', 'primary', 'secondary', 'additional', 'member', 'event')
+class AttendanceSchema(ma.Schema):
 
-    member = ma.Nested('MemberRefSchema')
-    event = ma.Nested('EventRefSchema')
+    class Meta:
+        strict = True
+
+    id = ma.Int(dump_only=True)
+
+    primary = ma.Bool()
+    secondary = ma.Bool()
+    additional = ma.Str()
+
+    member = ma.Nested('MemberRefSchema', dump_only=True)
+    event = ma.Nested('EventRefSchema', dump_only=True)
 

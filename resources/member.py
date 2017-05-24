@@ -1,13 +1,10 @@
 from flask_restful import Resource
-from flask import request
 from webargs import fields
 from webargs.flaskparser import use_args
 
 from . import api
 from db import db, MemberModel
 from schemas import MemberSchema
-
-import json
 
 @api.route('/members/<int:id>')
 class Member(Resource):
@@ -17,27 +14,16 @@ class Member(Resource):
         schema = MemberSchema()
         return schema.jsonify(m)
 
+
 @api.route('/members')
 class MemberList(Resource):
-
-    memb_args = {
-        "email": fields.Str(),
-        "first_name": fields.Str(),
-        "last_name": fields.Str(),
-        "gender": fields.Str(),
-        "access": fields.Int(),
-        "sid": fields.Int(),
-        "newsletter": fields.Bool(),
-        "doing_it": fields.Bool(),
-        "registered": fields.Bool(),
-    }
 
     def get(self):
         members = MemberModel.query.all()
         schema = MemberSchema(many=True, exclude=('events_attended',))
         return schema.jsonify(members)
 
-    @use_args(memb_args)
+    @use_args(MemberSchema)
     def post(self, memb_data):
 
         filterable_fields = ['sid','access','email']

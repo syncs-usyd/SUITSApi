@@ -1,7 +1,6 @@
 from flask_restful import Resource
-from flask import request
-
-import json
+from webargs import fields
+from webargs.flaskparser import use_args
 
 from . import api
 from db import db, EventModel
@@ -16,12 +15,13 @@ class Event(Resource):
         schema = EventSchema()
         return schema.jsonify(e)
 
-    def put(self, id):
+    @use_args(EventSchema)
+    def put(self, id, event_data):
         e = EventModel.query.get_or_404(id)
 
-        web_data = json.loads(request.data)
-        EventModel.query.filter(EventModel.id == id).update(web_data)
+        e.update(event_data)
         db.session.commit()
+
         schema = EventSchema(exclude=('members_attended',))
         return schema.jsonify(e)
 
@@ -30,6 +30,7 @@ class Event(Resource):
 
         db.session.delete(e)
         db.session.commit()
+
 
 @api.route('/events')
 class EventList(Resource):
