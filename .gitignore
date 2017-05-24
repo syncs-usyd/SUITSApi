@@ -1,4 +1,5 @@
 .DS_Store
+.cache/
 venv/
 settings.py
 __pycache__/

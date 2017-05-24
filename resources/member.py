@@ -49,6 +49,9 @@ class MemberList(Resource):
         if existing_member:
             # update member
             memb = existing_member
+            if 'registered' in memb_data:
+                # If we're trying to change registration, you can't unregister
+                memb_data['registered'] |= memb.registered
         else:
             # create member
             new_member = MemberModel()
