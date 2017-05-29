@@ -16,10 +16,12 @@ class Event(Resource):
         return schema.jsonify(e)
 
     @use_args(EventSchema)
-    def put(self, id, event_data):
+    def put(self, event_data, id):
         e = EventModel.query.get_or_404(id)
 
-        e.update(event_data)
+        for field in event_data:
+            setattr(e, field, event_data[field])
+
         db.session.commit()
 
         schema = EventSchema(exclude=('members_attended',))
@@ -41,10 +43,10 @@ class EventList(Resource):
         schema = EventSchema(many=True, exclude=('members_attended',))
         return schema.jsonify(events)
 
-    def post(self):
-        web_data = json.loads(request.data)
+    @use_args(EventSchema)
+    def post(self, event_data):
 
-        new_event = EventModel(**web_data)
+        new_event = EventModel(**event_data)
         db.session.add(new_event)
         db.session.commit()
 
