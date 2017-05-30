@@ -13,8 +13,4 @@ class EventSchema(ma.Schema):
 
     members_attended = ma.Nested('AttendanceSchema', many=True, exclude=('events_attended','event'), dump_only=True)
 
-class EventRefSchema(ma.ModelSchema):
-
-    id = ma.Int(dump_only=True)
-
     ref = ma.URLFor('event', id='<id>')

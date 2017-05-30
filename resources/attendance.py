@@ -6,6 +6,14 @@ from db import db, AttendanceModel
 from schemas import AttendanceSchema
 from exceptions import NotFoundException
 
+@api.route('/attendance/<int:id>')
+class Attendance(Resource):
+
+    def get(self, id):
+        att = AttendanceModel.query.get_or_404(id)
+        schema = AttendanceSchema()
+        return schema.jsonify(att)
+
 @api.route('/attendance')
 class AttendanceList(Resource):
 
