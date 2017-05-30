@@ -1,5 +1,5 @@
-from flask_restful import Resource, reqparse
-from flask import request
+from flask_restful import Resource, request
+from webargs.flaskparser import use_args
 
 from . import api
 from db import db, AttendanceModel
@@ -10,20 +10,15 @@ from exceptions import NotFoundException
 class AttendanceList(Resource):
 
     def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('member', type=int, location='args')
-        parser.add_argument('event', type=int, location='args')
-        args = parser.parse_args()
 
         query = AttendanceModel.query
 
-        if args['member']:
-            query = query.filter(AttendanceModel.member_id == args['member'])
+        if request.args.get('member'):
+            query = query.filter(AttendanceModel.member_id == request.args['member'])
 
-        if args['event']:
-            query = query.filter(AttendanceModel.event_id == args['event'])
+        if request.args.get('event'):
+            query = query.filter(AttendanceModel.event_id == request.args['event'])
 
-        print(query)
 
         results = query.all()
         if len(results) == 0:
@@ -33,17 +28,10 @@ class AttendanceList(Resource):
 
         return schema.jsonify(results)
 
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('member', type=int, required=True, location='args')
-        parser.add_argument('event', type=int, required=True, location='args')
+    @use_args(AttendanceSchema)
+    def post(self, att_data):
 
-        parser.add_argument('primary', type=bool, location='json', required=True)
-        parser.add_argument('secondary', type=bool, location='json', required=True)
-        parser.add_argument('additional', type=str, location='json')
-        args = parser.parse_args()
-
-        q = AttendanceModel.query.filter(AttendanceModel.member_id == args['member'], AttendanceModel.event_id == args['event'])
+        q = AttendanceModel.query.filter(AttendanceModel.member_id == request.args['member'], AttendanceModel.event_id == request.args['event'])
 
         att = None
         # record exists
@@ -52,18 +40,18 @@ class AttendanceList(Resource):
 
         att = AttendanceModel()
 
-        att.member_id = args['member']
-        att.event_id = args['event']
-
-        att.primary = args['primary']
-        att.secondary = args['secondary']
-        att.additional = args['additional']
+        att.member_id = request.args['member']
+        att.event_id = request.args['event']
+        for field in att_data:
+            setattr(att, field, att_data[field])
 
         db.session.add(att)
         db.session.commit()
 
         schema = AttendanceSchema()
         return schema.jsonify(att)
+
+
 
 
 

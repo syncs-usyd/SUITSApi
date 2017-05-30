@@ -28,4 +28,4 @@ class MemberSchema(ma.Schema):
 class MemberRefSchema(ma.Schema):
     id = ma.Int(dump_only=True)
 
-    ref = ma.URLFor('member', id='<id>', dump_only=True)
+    ref = ma.URLFor('member', id='<id>')
