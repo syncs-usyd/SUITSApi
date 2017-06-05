@@ -48,3 +48,16 @@ class TestMember:
         resp = client.get('/members/1')
         data = json.loads(resp.data)
         assert data['registered'] == True
+
+    def test_mult_members(self, client, full_memb, unreg_memb):
+        client.post('/members', data=unreg_memb)
+        client.post('/members', data=full_memb)
+
+        resp1 = client.get('/members/1')
+        data = json.loads(resp1.data)
+        assert data['first_name'] == unreg_memb['first_name']
+
+        resp2 = client.get('/members/2')
+        data = json.loads(resp2.data)
+        assert data['first_name'] == full_memb['first_name']
+        

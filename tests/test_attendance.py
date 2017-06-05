@@ -29,5 +29,23 @@ class TestAttendance:
 
         assert resp.status_code == 400
 
+    def test_missing_event_in_qs(self, client, full_memb, event1):
+        client.post('/members', data=full_memb)
+        client.post('/events', data=event1)
+        resp = client.post('/attendance', query_string={'member':1}, data={'primary':True,'secondary': True, 'additional': None})
+
+        assert resp.status_code == 400
+
+    def test_del_att(self, client, full_memb, event1):
+        client.post('/members', data=full_memb)
+        client.post('/events', data=event1)
+        client.post('/attendance', query_string={'member':1}, data={'primary':True,'secondary': True, 'additional': None})
+
+        client.delete('/attendance/1')
+
+        resp = client.get('/attendance/1')
+        assert resp.status_code == 404
+
+
 
 

@@ -1,6 +1,9 @@
 from app import app
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost:3306/api_test'
 from db import db
 import pytest
+import sys
+
 
 @pytest.fixture
 def client():

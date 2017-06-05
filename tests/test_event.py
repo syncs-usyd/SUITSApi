@@ -35,11 +35,29 @@ class TestEvent:
         data = json.loads(resp.data)
         assert data['title'] == event2['title']
 
-    def test_del_event(self, client, event1):
+    def test_del_event(self, client, event1, full_memb):
         client.post('/events', data=event1)
+        client.post('/members', data=full_memb)
+
+        client.post('/attendance', query_string={'member':1, 'event':1}, data={'primary': True})
+
         resp = client.delete('/events/1')
         assert resp.status_code == 200
 
         resp = client.get('/events/1')
         assert resp.status_code == 404
 
+        resp = client.get('/attendance/1')
+        assert resp.status_code == 404
+
+    def test_add_mult_event(self, client, event1, event2):
+        client.post('/events', data=event1)
+        client.post('/events', data=event2)
+
+        resp1 = client.get('/events/1')
+        data = json.loads(resp1.data)
+        assert data['title'] == event1['title']
+
+        resp2 = client.get('/events/2')
+        data = json.loads(resp2.data)
+        assert data['title'] == event2['title']
