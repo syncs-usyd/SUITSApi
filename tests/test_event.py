@@ -25,7 +25,7 @@ class TestEvent:
         print(data)
 
         assert data['title'] == event1['title']
-        assert len(data['members_attended']) == 0
+        assert len(data['membersAttended']) == 0
 
     def test_put_event_data(self, client, event1, event2):
         client.post('/events', data=event1)
