@@ -7,10 +7,10 @@ class MemberModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    email = db.Column(db.String, unique=True)
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String, nullable=False)
-    gender = db.Column(db.String, default="other")
+    email = db.Column(db.String(128), unique=True)
+    first_name = db.Column(db.String(128), nullable=False)
+    last_name = db.Column(db.String(128), nullable=False)
+    gender = db.Column(db.String(10), default="other")
 
     joined_on = db.Column(db.Date, default=date.today) #passing function so the value of `today` is the time when a new row is added.
 
