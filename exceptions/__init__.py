@@ -11,3 +11,7 @@ class NotFoundException(HTTPException):
 class AttendanceExistsError(HTTPException):
     code = 400
     description = "An attendance for this member and event already exists."
+
+class MemberOrEventMissing(HTTPException):
+    code = 400
+    description = "This event or member do not exist"

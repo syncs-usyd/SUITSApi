@@ -1,10 +1,11 @@
 from flask_restful import Resource, request
 from webargs.flaskparser import use_args
+from sqlalchemy import exc
 
 from . import api
 from db import db, AttendanceModel
 from schemas import AttendanceSchema
-from exceptions import NotFoundException
+from exceptions import NotFoundException, MemberOrEventMissing
 
 @api.route('/attendance/<int:id>')
 class Attendance(Resource):
@@ -13,6 +14,11 @@ class Attendance(Resource):
         att = AttendanceModel.query.get_or_404(id)
         schema = AttendanceSchema()
         return schema.jsonify(att)
+
+    def delete(self, id):
+        att = AttendanceModel.query.get_or_404(id)
+        db.session.delete(att)
+
 
 @api.route('/attendance')
 class AttendanceList(Resource):
@@ -54,7 +60,11 @@ class AttendanceList(Resource):
             setattr(att, field, att_data[field])
 
         db.session.add(att)
-        db.session.commit()
+
+        try:
+            db.session.commit()
+        except exc.IntegrityError:
+            raise MemberOrEventMissing
 
         schema = AttendanceSchema()
         return schema.jsonify(att)
