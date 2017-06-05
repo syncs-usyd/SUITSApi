@@ -69,10 +69,3 @@ class AttendanceList(Resource):
         schema = AttendanceSchema()
         return schema.jsonify(att)
 
-
-
-
-
-
-
-
