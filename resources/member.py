@@ -4,10 +4,11 @@ from webargs.flaskparser import use_args
 from . import api
 from db import db, MemberModel
 from schemas import MemberSchema
+from app_socket import send
+
 
 @api.route('/members/<int:id>')
 class Member(Resource):
-
     def get(self, id):
         m = MemberModel.query.get_or_404(id)
         schema = MemberSchema()
@@ -47,8 +48,9 @@ class MemberList(Resource):
             setattr(memb, field, memb_data[field])
 
         db.session.commit()
-
         schema = MemberSchema(exclude=('events_attended',))
-        return schema.jsonify(memb)
+        data = schema.dump(memb)
+
+        return data
 
 

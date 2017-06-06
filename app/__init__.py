@@ -10,3 +10,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 import db
 import schemas
 import resources
+import app_socket
