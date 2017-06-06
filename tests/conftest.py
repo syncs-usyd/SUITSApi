@@ -1,7 +1,6 @@
-from app import app
+from app import app, db
 from settings import TEST_DB_USER, TEST_DB_PASS
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@localhost:3306/api_test'.format(TEST_DB_USER, TEST_DB_PASS)
-from db import db
 import pytest
 import sys
 

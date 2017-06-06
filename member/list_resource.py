@@ -1,35 +1,23 @@
 from flask_restful import Resource
 from webargs.flaskparser import use_args
 
-from . import api
-from db import db, MemberModel
-from schemas import MemberSchema
-from app_socket import send
+from . import Model, Schema
 
-
-@api.route('/members/<int:id>')
-class Member(Resource):
-    def get(self, id):
-        m = MemberModel.query.get_or_404(id)
-        schema = MemberSchema()
-        return schema.jsonify(m)
-
-
-@api.route('/members')
 class MemberList(Resource):
 
     def get(self):
-        members = MemberModel.query.all()
-        schema = MemberSchema(many=True, exclude=('events_attended',))
+        members = Model.query.all()
+        schema = Schema(many=True, exclude=('events_attended',))
         return schema.jsonify(members)
 
-    @use_args(MemberSchema)
+
+    @use_args(Schema)
     def post(self, memb_data):
 
         filterable_fields = ['sid','access','email']
-        filter_args = [getattr(MemberModel, f) == memb_data[f] for f in filterable_fields if memb_data.get(f)]
+        filter_args = [getattr(Model, f) == memb_data[f] for f in filterable_fields if memb_data.get(f)]
 
-        existing_member = MemberModel.query.filter(db.or_(*filter_args)).first()
+        existing_member = Model.query.filter(db.or_(*filter_args)).first()
 
         memb = None
         if existing_member:
@@ -40,7 +28,7 @@ class MemberList(Resource):
                 memb_data['registered'] |= memb.registered
         else:
             # create member
-            new_member = MemberModel()
+            new_member = Model()
             db.session.add(new_member)
             memb = new_member
 
@@ -48,9 +36,8 @@ class MemberList(Resource):
             setattr(memb, field, memb_data[field])
 
         db.session.commit()
-        schema = MemberSchema(exclude=('events_attended',))
+        schema = Schema(exclude=('events_attended',))
         data = schema.dump(memb)
 
         return data
-
 

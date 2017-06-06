@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from . import db
+from app import db
 
-class EventModel(db.Model):
+class Model(db.Model):
     __tablename__ = "Event"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -10,4 +10,4 @@ class EventModel(db.Model):
     description = db.Column(db.String(128))
     time = db.Column(db.DateTime, default=datetime.utcnow)
 
-    members_attended = db.relationship('AttendanceModel', back_populates='event', cascade="all, delete")
+    members_attended = db.relationship('attendance.Model', back_populates='event', cascade="all, delete")

@@ -1,10 +1,11 @@
 from datetime import date
 
-from . import db
+from app import db
 
-class MemberModel(db.Model):
+class Model(db.Model):
     __tablename__ = 'Member'
 
+    print("READING MODEL")
     id = db.Column(db.Integer, primary_key=True)
 
     email = db.Column(db.String(128), unique=True)
@@ -21,7 +22,7 @@ class MemberModel(db.Model):
     doing_it = db.Column(db.Boolean, default=False)
     registered = db.Column(db.Boolean, default=False)
 
-    events_attended = db.relationship('AttendanceModel', back_populates='member', cascade="all, delete")
+    events_attended = db.relationship('attendance.Model', cascade="all, delete", back_populates='member')
 
     @db.validates('email')
     def validate_email(self, key, email):

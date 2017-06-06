@@ -1,6 +1,6 @@
-from . import ma
+from app import ma
 
-class MemberSchema(ma.Schema):
+class Schema(ma.Schema):
 
     class Meta:
         strict = True

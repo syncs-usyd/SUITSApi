@@ -1,6 +1,6 @@
-from . import db
+from app import db
 
-class AttendanceModel(db.Model):
+class Model(db.Model):
     __tablename__ = "Attendance"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +12,6 @@ class AttendanceModel(db.Model):
 
     additional = db.Column(db.String(256))
 
-    member = db.relationship('MemberModel', back_populates='events_attended')
-    event = db.relationship('EventModel', back_populates='members_attended')
+    member = db.relationship('member.Model', back_populates='events_attended')
+    event = db.relationship('event.Model', back_populates='members_attended')
 
