@@ -18,4 +18,4 @@ api = Api(app)
 
 socketio = SocketIO(app)
 
-import member, event, attendance
+import member, event, attendance, auth
