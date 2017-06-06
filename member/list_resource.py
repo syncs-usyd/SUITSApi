@@ -2,6 +2,7 @@ from flask_restful import Resource
 from webargs.flaskparser import use_args
 
 from . import Model, Schema
+from app import db
 
 class MemberList(Resource):
 

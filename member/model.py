@@ -22,7 +22,7 @@ class Model(db.Model):
     doing_it = db.Column(db.Boolean, default=False)
     registered = db.Column(db.Boolean, default=False)
 
-    events_attended = db.relationship('attendance.Model', cascade="all, delete", back_populates='member')
+    events_attended = db.relationship('attendance.model.Model', cascade="all, delete", back_populates='member')
 
     @db.validates('email')
     def validate_email(self, key, email):

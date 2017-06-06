@@ -12,6 +12,6 @@ class Model(db.Model):
 
     additional = db.Column(db.String(256))
 
-    member = db.relationship('member.Model', back_populates='events_attended')
-    event = db.relationship('event.Model', back_populates='members_attended')
+    member = db.relationship('member.model.Model', back_populates='events_attended')
+    event = db.relationship('event.model.Model', back_populates='members_attended')
 

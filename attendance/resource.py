@@ -6,12 +6,12 @@ from . import Model, Schema
 class Attendance(Resource):
 
     def get(self, id):
-        att = AttendanceModel.query.get_or_404(id)
-        schema = AttendanceSchema()
+        att = Model.query.get_or_404(id)
+        schema = Schema()
         return schema.jsonify(att)
 
     def delete(self, id):
-        att = AttendanceModel.query.get_or_404(id)
+        att = Model.query.get_or_404(id)
         db.session.delete(att)
 
 

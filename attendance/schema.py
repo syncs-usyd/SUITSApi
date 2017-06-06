@@ -11,8 +11,8 @@ class Schema(ma.Schema):
     secondary = ma.Bool()
     additional = ma.Str()
 
-    member = ma.Nested('member.Schema', only=('id', 'ref'), dump_only=True)
+    member = ma.Nested('member.schema.Schema', only=('id', 'ref'), dump_only=True)
 
-    event = ma.Nested('event.Schema', only=('id', 'ref'), dump_only=True)
+    event = ma.Nested('event.schema.Schema', only=('id', 'ref'), dump_only=True)
 
     ref = ma.URLFor('attendance', id='<id>')

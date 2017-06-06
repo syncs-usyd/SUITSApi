@@ -22,6 +22,6 @@ class Schema(ma.Schema):
     doing_it = ma.Bool(dump_to="doingIT")
     registered = ma.Bool()
 
-    events_attended = ma.Nested('AttendanceSchema', many=True, exclude=('members_attended', 'member'), dump_only=True, dump_to="eventsAttended")
+    events_attended = ma.Nested('attendance.schema.Schema', many=True, exclude=('members_attended', 'member'), dump_only=True, dump_to="eventsAttended")
 
     ref = ma.URLFor('member', id='<id>')
