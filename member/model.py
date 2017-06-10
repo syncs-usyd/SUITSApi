@@ -5,7 +5,6 @@ from app import db
 class Model(db.Model):
     __tablename__ = 'Member'
 
-    print("READING MODEL")
     id = db.Column(db.Integer, primary_key=True)
 
     email = db.Column(db.String(128), unique=True)

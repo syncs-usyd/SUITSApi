@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#import eventlet
 from app import app, socketio
 
 from argparse import ArgumentParser

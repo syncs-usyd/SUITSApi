@@ -22,5 +22,5 @@ class EventList(Resource):
         db.session.add(new_event)
         db.session.commit()
 
-        schema = Schema(exclude=('members_attended',))
+        schema = Schema(only=('id', 'ref'))
         return schema.jsonify(new_event)

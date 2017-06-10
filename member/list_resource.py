@@ -18,10 +18,13 @@ class MemberList(Resource):
     @use_args(Schema)
     def post(self, memb_data):
 
-        filterable_fields = ['sid','access','email']
-        filter_args = [getattr(Model, f) == memb_data[f] for f in filterable_fields if memb_data.get(f)]
+        existing_member = None
+        filterable_fields = [f for f in ['sid','access','email'] if f in memb_data]  # only filter by fields which were provided in POST data
 
-        existing_member = Model.query.filter(db.or_(*filter_args)).first()
+        if len(filterable_fields) > 0:
+            # only attempt to filter if there is at least one field to filter
+            filter_args = [getattr(Model, f) == memb_data[f] for f in filterable_fields]
+            existing_member = Model.query.filter(db.or_(*filter_args)).first()
 
         memb = None
         if existing_member:
@@ -40,7 +43,7 @@ class MemberList(Resource):
             setattr(memb, field, memb_data[field])
 
         db.session.commit()
-        schema = Schema(exclude=('events_attended',))
+        schema = Schema(only=('id', 'ref'))
         data = schema.dump(memb)
 
         return data
