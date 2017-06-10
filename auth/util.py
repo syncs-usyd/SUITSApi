@@ -8,6 +8,7 @@ from app import app
 from settings import JWT_SECRET
 
 def auth_required(f):
+
     @functools.wraps(f)
     def decorator(*args, **kwargs):
         auth_header = request.headers.get('Authorization')

@@ -3,6 +3,7 @@ from webargs.flaskparser import use_args
 from sqlalchemy import exc
 
 from app import db
+from auth import auth_required
 
 from . import Model, Schema
 from .exceptions import MemberMissingException, EventMissingException, NotFoundException
@@ -12,6 +13,7 @@ import event
 
 class AttendanceList(Resource):
 
+    @auth_required
     def get(self):
         query = Model.query
         if request.args.get('member'):
@@ -28,6 +30,7 @@ class AttendanceList(Resource):
         return schema.jsonify(results)
 
 
+    @auth_required
     @use_args(Schema)
     def post(self, att_data):
 

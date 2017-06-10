@@ -1,7 +1,10 @@
 import pytest
+from copy import copy
 from app import app, db
 from settings import TEST_TOKEN
 from tests.flask_auth_client import FlaskAuthClient
+
+orig_wsgi = copy(app.wsgi_app)
 
 @pytest.fixture(autouse=True)
 def db_setup():
@@ -12,14 +15,15 @@ def db_setup():
     db.drop_all()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture
 def auth_client():
     app.wsgi_app = FlaskAuthClient(app.wsgi_app, TEST_TOKEN)
     return app.test_client()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture
 def unauth_client():
+    app.wsgi_app = orig_wsgi
     return app.test_client()
 
 
