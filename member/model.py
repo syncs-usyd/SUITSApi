@@ -7,7 +7,7 @@ class Model(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    email = db.Column(db.String(128), unique=True)
+    email = db.Column(db.String(128), unique=True, nullable=False)
     first_name = db.Column(db.String(128), nullable=False)
     last_name = db.Column(db.String(128), nullable=False)
     gender = db.Column(db.String(10), default="other")
@@ -19,7 +19,7 @@ class Model(db.Model):
 
     newsletter = db.Column(db.Boolean, default=True)
     doing_it = db.Column(db.Boolean, default=False)
-    registered = db.Column(db.Boolean, default=False)
+    registered = db.Column(db.Boolean, default=True)
 
     events_attended = db.relationship('attendance.model.Model', cascade="all, delete", back_populates='member')
 

@@ -4,9 +4,9 @@ from .model import Model
 from .schema import Schema
 
 @event.listens_for(Model, 'after_insert')
-def send_member_insert(mapper, connection, target):
+def send_event_insert(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.dumps(target)
+    data, err = schema.dump(target)
 
     socketio.send({
         "resource": "Event",
@@ -15,9 +15,9 @@ def send_member_insert(mapper, connection, target):
     })
 
 @event.listens_for(Model, 'after_update')
-def send_member_insert(mapper, connection, target):
+def send_event_update(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.load(target)
+    data, err = schema.dump(target)
 
     socketio.send({
         "resource": "Event",
@@ -26,9 +26,9 @@ def send_member_insert(mapper, connection, target):
     })
 
 @event.listens_for(Model, 'after_delete')
-def send_member_insert(mapper, connection, target):
+def send_event_delete(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.dumps(target)
+    data, err = schema.dump(target)
 
     socketio.send({
         "resource": "Event",

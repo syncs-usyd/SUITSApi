@@ -7,23 +7,32 @@ from app import app
 
 from settings import JWT_SECRET
 
+def checkToken(token):
+        try:
+            decode(token, JWT_SECRET, algorithm='HS256')
+            return True
+        except DecodeError:
+            return False
+
 def auth_required(f):
 
     @functools.wraps(f)
     def decorator(*args, **kwargs):
-        auth_header = request.headers.get('Authorization')
+        token = request.args.get('token')
+        if not token:
+            auth_header = request.headers.get('Authorization')
+            if not auth_header:
+                raise NoAuthHeaderException()
 
-        if not auth_header:
-            raise NoAuthHeaderException
+            components = auth_header.split()
+            if components[0] != 'Bearer':
+                raise AuthHeaderNoBearerException()
 
-        components = auth_header.split()
-        if components[0] != 'Bearer':
-            raise AuthHeaderNoBearerException
+            token = components[1]
+            
+        if not checkToken(token):
+            raise BadTokenException()
 
-        try:
-            decode(components[1], JWT_SECRET, algorithm='HS256')
-        except DecodeError:
-            raise BadTokenException
 
         return f(*args, **kwargs)
 

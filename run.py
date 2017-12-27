@@ -1,4 +1,4 @@
-#import eventlet
+import eventlet
 from app import app, socketio
 
 from argparse import ArgumentParser

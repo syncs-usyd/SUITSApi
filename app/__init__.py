@@ -3,12 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
 from flask_socketio import SocketIO
-from flask_cors import CORS
 
 from settings import DB_USER, DB_PASS
 
 app = Flask(__name__)
-CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@localhost:3306/api'.format(DB_USER, DB_PASS)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

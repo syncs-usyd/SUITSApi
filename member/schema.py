@@ -7,8 +7,8 @@ class Schema(ma.Schema):
 
     id = ma.Int(dump_only=True)
 
-    first_name = ma.Str(dump_to="firstName")
-    last_name = ma.Str(dump_to="lastName")
+    first_name = ma.Str(dump_to="firstName", load_from="firstName")
+    last_name = ma.Str(dump_to="lastName", load_from="lastName")
     gender = ma.Str()
 
     email = ma.Str()
@@ -19,7 +19,7 @@ class Schema(ma.Schema):
     sid = ma.Int()
 
     newsletter = ma.Bool()
-    doing_it = ma.Bool(dump_to="doingIT")
+    doing_it = ma.Bool(dump_to="doingIT", load_from="doingIT")
     registered = ma.Bool()
 
     events_attended = ma.Nested('attendance.schema.Schema', many=True, exclude=('members_attended', 'member'), dump_only=True, dump_to="eventsAttended")

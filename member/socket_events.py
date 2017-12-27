@@ -6,7 +6,7 @@ from .schema import Schema
 @event.listens_for(Model, 'after_insert')
 def send_member_insert(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.dumps(target)
+    data, err = schema.dump(target)
 
     socketio.send({
         "resource": "Member",
@@ -15,10 +15,9 @@ def send_member_insert(mapper, connection, target):
     })
 
 @event.listens_for(Model, 'after_update')
-def send_member_insert(mapper, connection, target):
+def send_member_update(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.load(target)
-
+    data, err = schema.dump(target)
     socketio.send({
         "resource": "Member",
         "action": "UPDATE",
@@ -26,9 +25,9 @@ def send_member_insert(mapper, connection, target):
     })
 
 @event.listens_for(Model, 'after_delete')
-def send_member_insert(mapper, connection, target):
+def send_member_delete(mapper, connection, target):
     schema = Schema(strict=False)
-    data, err = schema.dumps(target)
+    data, err = schema.dump(target)
 
     socketio.send({
         "resource": "Member",

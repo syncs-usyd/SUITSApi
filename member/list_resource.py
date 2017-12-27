@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from webargs.flaskparser import use_args
 from auth import auth_required
+from flask import request
 
 from .model import Model
 from .schema import Schema

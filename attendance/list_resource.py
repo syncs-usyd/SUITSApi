@@ -6,7 +6,7 @@ from app import db
 from auth import auth_required
 
 from . import Model, Schema
-from .exceptions import MemberMissingException, EventMissingException, NotFoundException
+from .exceptions import MemberMissingException, EventMissingException, NotFoundException, AttendanceExistsException
 
 import member
 import event
@@ -23,9 +23,6 @@ class AttendanceList(Resource):
 
         results = query.all()
 
-        if len(results) == 0:
-            raise NotFoundException
-
         schema = Schema(many=True)
         return schema.jsonify(results)
 
@@ -40,16 +37,16 @@ class AttendanceList(Resource):
 
         # sanity checks
         if q.count() == 1:
-            raise AttendanceExistsError
+            raise AttendanceExistsException()
         if not member.Model.query.get(request.args['member']):
-            raise MemberMissingException
+            raise MemberMissingException()
         if not event.Model.query.get(request.args['event']):
-            raise EventMissingException
+            raise EventMissingException()
 
         att = Model()
 
-        att.member_id = request.args['member']
-        att.event_id = request.args['event']
+        att.member_id = int(request.args['member'])
+        att.event_id = int(request.args['event'])
         for field in att_data:
             setattr(att, field, att_data[field])
 

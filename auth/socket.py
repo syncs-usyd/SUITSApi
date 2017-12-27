@@ -7,6 +7,6 @@ from .exceptions import AuthHeaderNoBearerException, BadTokenException
 from . import auth_required
 
 @socketio.on('connect')
-@auth_required
+#@auth_required
 def auth_connection():
     pass # just need something to call on connect
