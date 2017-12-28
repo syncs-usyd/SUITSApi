@@ -1,4 +1,5 @@
 import eventlet
+eventlet.monkey_patch()
 from app import app, socketio
 
 from argparse import ArgumentParser
