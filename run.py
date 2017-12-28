@@ -12,5 +12,5 @@ if args.dev:
     db.create_all()
     socketio.run(app, debug=True)
 else:
-    socketio.run(app)
+    socketio.run(app, log_output=True)
 
