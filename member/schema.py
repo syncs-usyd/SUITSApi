@@ -7,8 +7,8 @@ class Schema(ma.Schema):
 
     id = ma.Int(dump_only=True)
 
-    first_name = ma.Str(dump_to="firstName", load_from="firstName")
-    last_name = ma.Str(dump_to="lastName", load_from="lastName")
+    first_name = ma.Str(dump_to="firstName", load_from="firstName", required=True)
+    last_name = ma.Str(dump_to="lastName", load_from="lastName", required=True)
     gender = ma.Str()
 
     email = ma.Str()

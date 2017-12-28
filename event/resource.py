@@ -1,31 +1,46 @@
 from flask_restful import Resource
-from webargs.flaskparser import use_args
 from auth import auth_required
+
+from flask_apispec import use_kwargs, marshal_with, doc
+from flask_apispec.views import MethodResource
 
 from app import db
 from . import Model, Schema
 
-class Event(Resource):
+@doc(tags=['events'])
+class Event(MethodResource):
 
+    @doc(
+        summary="Retrieve a particular event",
+        description="""Retrieves an event with a given ID.
+        Also returns the references to members who attended the event."""
+    )
     @auth_required
+    @marshal_with(Schema)
     def get(self, id):
-        e = Model.query.get_or_404(id)
-        schema = Schema()
-        return schema.jsonify(e)
+        return Model.query.get_or_404(id)
 
+    @doc(
+        summary="Modify a particular event",
+        description="""Modifies an event with a given ID with the data in the request body."""
+    )
     @auth_required
-    @use_args(Schema)
-    def put(self, event_data, id):
+    @use_kwargs(Schema)
+    @marshal_with(Schema(exclude=('events_attended',)))
+    def put(self, id, **event_data):
         e = Model.query.get_or_404(id)
 
         for field in event_data:
             setattr(e, field, event_data[field])
 
         db.session.commit()
+        return e
 
-        schema = Schema(exclude=('members_attended',))
-        return schema.jsonify(e)
-
+    @doc(
+        summary="Delete a particular event",
+        description="""Deletes an event with a given ID.
+        Also deletes all attendance records for this event."""
+    )
     @auth_required
     def delete(self, id):
         e = Model.query.get_or_404(id)

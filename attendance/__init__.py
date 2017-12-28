@@ -1,4 +1,4 @@
-from app import api
+from app import api, docs
 
 from .model import Model
 from .schema import Schema
@@ -9,3 +9,6 @@ from .socket_events import *
 
 api.add_resource(Attendance, '/attendance/<int:id>')
 api.add_resource(AttendanceList, '/attendance')
+
+docs.register(Attendance)
+docs.register(AttendanceList)

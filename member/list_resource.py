@@ -1,29 +1,43 @@
 from flask_restful import Resource
-from webargs.flaskparser import use_args
 from auth import auth_required
 from flask import request
+
+from flask_apispec import use_kwargs, marshal_with, doc
+from flask_apispec.views import MethodResource
 
 from .model import Model
 from .schema import Schema
 from app import db
 
-class MemberList(Resource):
+@doc(tags=['members'])
+class MemberList(MethodResource):
 
+    @doc(
+        summary="Retrieve all members",
+        description="""Retrieves all members (registered or not) from the system.
+        Does not retrieve the events they attended."""
+    )
     @auth_required
+    @marshal_with(Schema(many=True, exclude=('events_attended',)))
     def get(self):
-        members = Model.query.all()
-        schema = Schema(many=True, exclude=('events_attended',))
-        return schema.jsonify(members)
+        return Model.query.all()
 
 
-    @use_args(Schema)
-    def post(self, memb_data):
+    @doc(
+        summary="Add a new member",
+        description="""Adds a new member to the system.
+        This endpoit tries to match the new data to an existing member.
+        If a match is found, the existing member data is updated instead."""
+    )
+    @use_kwargs(Schema)
+    @marshal_with(Schema(only=('id', 'ref')))
+    def post(self, **memb_data):
 
         existing_member = None
         filterable_fields = [f for f in ['sid','access','email'] if f in memb_data]  # only filter by fields which were provided in POST data
 
         if len(filterable_fields) > 0:
-            # only attempt to filter if there is at least one field to filter
+            # only attempt to filter if there is at least one field to filter by
             filter_args = [getattr(Model, f) == memb_data[f] for f in filterable_fields]
             existing_member = Model.query.filter(db.or_(*filter_args)).first()
 
@@ -44,8 +58,5 @@ class MemberList(Resource):
             setattr(memb, field, memb_data[field])
 
         db.session.commit()
-        schema = Schema(only=('id', 'ref'))
-        data = schema.dump(memb)
-
-        return data
+        return memb
 
