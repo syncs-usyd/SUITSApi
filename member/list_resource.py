@@ -8,7 +8,7 @@ from .model import Model
 from .schema import Schema
 from app import db
 
-@doc(tags=['members'])
+@doc(tags=['Members'])
 class MemberList(MethodResource):
 
     @doc(
