@@ -24,4 +24,4 @@ class Schema(ma.Schema):
 
     events_attended = ma.Nested('attendance.schema.Schema', many=True, exclude=('members_attended', 'member'), dump_only=True, dump_to="eventsAttended")
 
-    ref = ma.URLFor('member', id='<id>')
+    ref = ma.URLFor('member', id='<id>', dump_only=True)

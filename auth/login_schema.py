@@ -6,4 +6,4 @@ class LoginSchema(ma.Schema):
         strict = True
 
     user = ma.String()
-    pass_ = ma.String(load_from='pass')
+    password = ma.String(load_from='pass')

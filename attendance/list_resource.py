@@ -1,8 +1,7 @@
-from flask_restful import Resource, request
-
 from app import db
 from auth import auth_required
 
+from flask import request
 from flask_apispec import use_kwargs, marshal_with, doc
 from flask_apispec.views import MethodResource
 
@@ -12,16 +11,13 @@ from .exceptions import MemberMissingException, EventMissingException, NotFoundE
 import member
 import event
 
-@doc(tags=['attendance'])
+@doc(tags=['Attendance'])
 class AttendanceList(MethodResource):
 
     @doc(
         summary="Get all attendance",
         description="""Retrieves all attendance.
-        Can be filtered by member and event IDs in the query string.
-        The request will fail if a record for a given member and event
-        already exists. 
-        If you want to change an existing attendace record, use the PUT endpoint."""
+        Can be filtered by member and event IDs in the query string."""
     )
     @marshal_with(Schema(many=True))
     @auth_required
@@ -35,11 +31,12 @@ class AttendanceList(MethodResource):
         return query.all()
 
 
-
     @doc(
         summary="Add a new attendance record",
         description="""Adds a new record of attendance for a given member at a given event.
-        Both an event ID and a member ID must be present in the query string when making this request."""
+        Both an event ID and member ID must be present in the query string when making this request.
+        The request will fail if a record for a given member and event already exists. 
+        If you want to change an existing attendance record, use the PUT endpoint."""
     )
     @auth_required
     @use_kwargs(Schema)

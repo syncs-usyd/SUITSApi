@@ -1,4 +1,3 @@
-from webargs.flaskparser import use_args
 from auth import auth_required
 
 from flask_apispec import marshal_with, doc
@@ -7,7 +6,7 @@ from flask_apispec.views import MethodResource
 from .model import Model
 from .schema import Schema
 
-@doc(tags=['members'])
+@doc(tags=['Members'])
 class Member(MethodResource):
 
     @doc(

@@ -1,7 +1,6 @@
-from flask_restful import Resource
 from auth import auth_required
-from flask import request
 
+from flask import request
 from flask_apispec import use_kwargs, marshal_with, doc
 from flask_apispec.views import MethodResource
 

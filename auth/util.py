@@ -1,5 +1,5 @@
 from jwt import decode
-from jwt.exceptions import DecodeError
+from jwt.exceptions import InvalidTokenError
 from .exceptions import AuthHeaderNoBearerException, BadTokenException, NoAuthHeaderException
 from flask import request
 import functools
@@ -11,7 +11,7 @@ def checkToken(token):
         try:
             decode(token, JWT_SECRET, algorithm='HS256')
             return True
-        except DecodeError:
+        except InvalidTokenError:
             return False
 
 def auth_required(f):

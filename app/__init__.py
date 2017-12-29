@@ -19,7 +19,7 @@ app.config.update({
         plugins=['apispec.ext.marshmallow'],
         info = {
             'description': """SUITS API for memberships, events and attendance. All changes to the data can be observed via
-            a Socket.IO which can be procured if you have the API key."""
+            Socket.IO which can be procured if you have the API key."""
         }
     ),
     'APISPEC_SWAGGER_URL': '/docs.json',

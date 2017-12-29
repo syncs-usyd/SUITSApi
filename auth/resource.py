@@ -1,12 +1,12 @@
-from flask_restful import Resource, request
 from settings import JWT_USER, JWT_SECRET, JWT_PASS
 
-from flask_apispec import use_kwargs, marshal_with, doc
+from flask_apispec import use_kwargs, doc
 from flask_apispec.views import MethodResource
 
 import jwt
 import json
 import hmac
+from datetime import datetime, timedelta
 
 from .exceptions import IncorrectLoginException
 from .login_schema import LoginSchema
@@ -22,7 +22,8 @@ class Token(MethodResource):
     @use_kwargs(LoginSchema)
     def post(self, **credentials):
 
-        if credentials['user'] == JWT_USER and hmac.compare_digest(credentials['pass_'], JWT_PASS):
-            return {"token": jwt.encode({"user":JWT_USER}, JWT_SECRET, algorithm="HS256").decode()}
+        if credentials['user'] == JWT_USER and hmac.compare_digest(credentials['password'], JWT_PASS):
+            expTime = datetime.utcnow() + timedelta(hours=6)
+            return {"token": jwt.encode({"user":JWT_USER, "exp":expTime}, JWT_SECRET, algorithm="HS256").decode()}
         else:
-            raise IncorrectLoginException
+            raise IncorrectLoginException()
