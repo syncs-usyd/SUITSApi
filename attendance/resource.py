@@ -10,7 +10,7 @@ from . import Model, Schema
 class Attendance(MethodResource):
 
     @doc(
-        summary="Retrieve a particular attendance record.",
+        summary="Retrieve an attendance record.",
         description="""Retrieves an attendace record with a given ID.
         Also returns the references to the member and event for which
         this attendance record was made.
@@ -25,7 +25,7 @@ class Attendance(MethodResource):
         return Model.query.get_or_404(id)
 
     @doc(
-        summary="Delete a particular attendance record",
+        summary="Delete an attendance record",
         description="""Deletes an attendance record given the id of the record.
         Will not delete either the member of the event for which this record was made.
         """
@@ -37,7 +37,7 @@ class Attendance(MethodResource):
         db.session.commit()
 
     @doc(
-        summary="Modify a particular attendance record",
+        summary="Modify an attendance record",
         description="""Modifies an attendance record with a given id with
         the data in the request body."""
     )

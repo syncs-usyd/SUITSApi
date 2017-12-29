@@ -10,7 +10,7 @@ from . import Model, Schema
 class Event(MethodResource):
 
     @doc(
-        summary="Retrieve a particular event",
+        summary="Retrieve an event",
         description="""Retrieves an event with a given ID.
         Also returns the references to members who attended the event."""
     )
@@ -20,7 +20,7 @@ class Event(MethodResource):
         return Model.query.get_or_404(id)
 
     @doc(
-        summary="Modify a particular event",
+        summary="Modify an event",
         description="""Modifies an event with a given ID with the data in the request body."""
     )
     @auth_required
@@ -36,7 +36,7 @@ class Event(MethodResource):
         return e
 
     @doc(
-        summary="Delete a particular event",
+        summary="Delete an event",
         description="""Deletes an event with a given ID.
         Also deletes all attendance records for this event."""
     )

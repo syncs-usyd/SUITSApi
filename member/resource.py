@@ -10,7 +10,7 @@ from .schema import Schema
 class Member(MethodResource):
 
     @doc(
-        summary="Retrieve a particular member",
+        summary="Retrieve a member",
         description="""Retrieves a member with a given ID.
         Unlike its list counterpart, this endpoint will also 
         return references to all events attended by this member."""

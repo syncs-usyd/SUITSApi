@@ -15,7 +15,7 @@ from .login_schema import LoginSchema
 class Token(MethodResource):
 
     @doc(
-        summary="Get API authentication token",
+        summary="Get an API authentication token",
         description="""Returns a JWT to be used in subsequent requests
         on the API. Need to provide valid login credentials."""
     )
