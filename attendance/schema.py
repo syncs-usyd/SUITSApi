@@ -15,4 +15,4 @@ class Schema(ma.Schema):
 
     event = ma.Nested('event.schema.Schema', only=('id', 'ref'), dump_only=True)
 
-    ref = ma.URLFor('attendance', id='<id>', dump_only=True)
+    ref = ma.URLFor('attendance', id='<id>')
