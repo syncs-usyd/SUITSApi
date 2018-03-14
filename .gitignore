@@ -1,5 +1,4 @@
 .DS_Store
-.cache/
-venv/
-settings.py
-__pycache__/
+node_modules/
+dist/
+.vscode/
