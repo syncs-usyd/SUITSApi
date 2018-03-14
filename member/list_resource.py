@@ -37,7 +37,7 @@ class MemberList(MethodResource):
 
         if len(filterable_fields) > 0:
             # only attempt to filter if there is at least one field to filter by
-            filter_args = [getattr(Model, f) == memb_data[f] for f in filterable_fields]
+            filter_args = [getattr(Model, f) and getattr(Model, f) == memb_data[f] for f in filterable_fields]
             existing_member = Model.query.filter(db.or_(*filter_args)).first()
 
         memb = None

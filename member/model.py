@@ -7,7 +7,7 @@ class Model(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    email = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True)
     first_name = db.Column(db.String(128), nullable=False)
     last_name = db.Column(db.String(128), nullable=False)
     gender = db.Column(db.String(10), default="other")
