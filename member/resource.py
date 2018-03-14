@@ -1,4 +1,5 @@
 from auth import auth_required
+from app import db
 
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
