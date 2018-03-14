@@ -1,6 +1,6 @@
 from auth import auth_required
 
-from flask_apispec import marshal_with, doc
+from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
 
 from .model import Model
@@ -19,6 +19,33 @@ class Member(MethodResource):
     @marshal_with(Schema)
     def get(self, id):
         return Model.query.get_or_404(id)
+
+    @doc(
+        summary="Update member data",
+        description="Updates the data of a member with the given ID"
+    )
+    @auth_required
+    @use_kwargs(Schema)
+    @marshal_with(Schema)
+    def put(self, id, **member_data):
+        member = Model.query.get_or_404(id)
+
+        for field in member_data:
+            setattr(member, field, member_data[field])
+
+        db.session.commit()
+        return member
+
+    @doc(
+        summary="Delete a member",
+        description="Delete a member with a given ID"
+    )
+    @auth_required
+    def delete(self, id):
+        e = Model.query.get_or_404(id)
+
+        db.session.delete(e)
+        db.session.commit()
 
 
 
