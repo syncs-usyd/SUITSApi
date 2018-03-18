@@ -28,10 +28,6 @@ export class Subscriber<T extends BaseEntity> implements EntitySubscriberInterfa
         ));
     }
 
-    listenTo() {
-        return BaseEntity;
-    }
-
     afterInsert(entity: InsertEvent<T>) {
         this.send(Action.Insert, entity.entity)
     }
