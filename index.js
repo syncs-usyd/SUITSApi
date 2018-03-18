@@ -1,2 +1,3 @@
 require('ts-node/register');
-require('./src/main');
+require('tsconfig-paths/register');
+require('./src/app');
