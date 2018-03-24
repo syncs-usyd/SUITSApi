@@ -4,7 +4,7 @@ import { EventEntity } from './event';
 import { CompleteAttendance } from 'interfaces/attendance';
 import { BaseEntity } from './entity.base';
 
-@Entity()
+@Entity({name: "Attendance"})
 @Index("member_event_unique_attendance", (att: AttendanceEntity) => [att.memberId, att.eventId], {unique : true})
 export class AttendanceEntity extends BaseEntity implements CompleteAttendance {
 

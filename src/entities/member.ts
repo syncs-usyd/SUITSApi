@@ -4,7 +4,7 @@ import { Gender } from 'interfaces/member/gender';
 import { CompleteMember } from 'interfaces/member';
 import { BaseEntity } from './entity.base';
 
-@Entity()
+@Entity({name: "Member"})
 export class MemberEntity extends BaseEntity implements CompleteMember {
 
     @PrimaryGeneratedColumn()
