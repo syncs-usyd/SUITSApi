@@ -14,8 +14,34 @@ export class MembersService {
     ) {}
 
     async add(data: MemberDto): Promise<MemberEntity> {
-        // TODO: Business logic
-        let member = this.repo.create(data)
+        let member: MemberEntity
+        let validVals = [data.email, data.access, data.sid].filter(v => !!v) // looking for non-falsy value
+        if (validVals.length == 0)
+            member = this.repo.create(data);
+        else {
+            let fields = { email: data.email, access: data.access, sid: data.sid }
+
+            let q = this.repo.createQueryBuilder("member")
+            q = q.select()
+
+            // since we know that one of the following is valid, we don't need to check
+            if (fields.email)
+                q = q.where("member.email IS NOT NULL AND member.email = :email", fields)
+            if (fields.access)
+                q = q.where("member.access IS NOT NULL AND member.access = :access", fields)
+            if (fields.sid)
+                q = q.where("member.sid IS NOT NULL AND member.sid = :sid", fields)
+
+            let result = await q.getOne()
+
+            if (result) {
+                member = result
+                member = this.repo.merge(member, data)
+            }
+            else
+                member = this.repo.create(data)
+        }
+
         await this.repo.save(member)
         return this.repo.findOneById(member.id)
     }
