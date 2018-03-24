@@ -1,1 +1,1 @@
-export { WebSocketService } from './websocket.service';
+export { WebSocketModule } from './websocket.module';
