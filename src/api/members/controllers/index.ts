@@ -1,2 +1,2 @@
-export { MembersRootController } from './members.root'
-export { MembersSingleController } from './members.single'
+export { MembersIndexController } from './members.index'
+export { MembersIdController } from './members.id'

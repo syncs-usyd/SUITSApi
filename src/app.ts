@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
-import { BaseSubscriber } from './websocket/subscriber'
-import { WebSocketService } from 'websocket/websocket.service';
+import { BaseSubscriber } from './websocket/subscriber.base'
+import { WebSocketService } from 'websocket/service';
 import { WebSocketModule } from 'websocket';
 
 async function bootstrap() {

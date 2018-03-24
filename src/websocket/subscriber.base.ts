@@ -5,12 +5,12 @@ import {
     EntitySubscriberInterface} from 'typeorm'
 import * as SocketIO from 'socket.io'
 
-import { BaseResource } from 'utils/resource.base';
+import { BaseResource } from 'resources/resource.base';
 
-import { Action } from './Action';
+import { Action } from './action';
 import { serialize } from 'utils/serialize';
 import { ClassType } from 'class-transformer/ClassTransformer';
-import { BaseEntity } from 'utils/entity.base';
+import { BaseEntity } from 'entities/entity.base';
 
 export abstract class BaseSubscriber<E extends BaseEntity, R extends BaseResource> implements EntitySubscriberInterface {
     private static websocket: SocketIO.Server;

@@ -1,0 +1,1 @@
+export { AttendanceResource } from './attendance'

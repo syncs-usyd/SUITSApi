@@ -1,14 +1,16 @@
 import { Controller, Get, Put, Delete, Param, Body, UseInterceptors } from '@nestjs/common';
-import { MembersService } from '../service';
-import { MemberEntity } from 'entities';
-import { MemberDto } from '../dto';
-import { Serializer } from 'utils/Serializer';
-import { CompleteMemberResource } from '../resources/completemember';
 import { plainToClass } from 'class-transformer';
 
-@Controller('members/:id')
+import { MemberEntity } from 'entities';
+import { Serializer } from 'utils/Serializer';
+import { CompleteMemberResource } from 'resources/member';
+
+import { MembersService } from '../service';
+import { MemberDto } from '../dto';
+
+@Controller(new CompleteMemberResource().prefix+"/:id")
 @UseInterceptors(Serializer(CompleteMemberResource))
-export class MembersSingleController {
+export class MembersIdController {
     
     constructor(private readonly membersService: MembersService) {}
 

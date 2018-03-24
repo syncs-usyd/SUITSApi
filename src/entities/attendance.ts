@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, IndexOptions 
 import { MemberEntity } from './member'
 import { EventEntity } from './event';
 import { CompleteAttendance } from 'interfaces/attendance';
-import { BaseEntity } from 'utils/entity.base';
+import { BaseEntity } from './entity.base';
 
 @Entity()
 @Index("member_event_unique_attendance", (att: AttendanceEntity) => [att.memberId, att.eventId], {unique : true})

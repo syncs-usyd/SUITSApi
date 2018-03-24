@@ -1,7 +1,8 @@
 import { Type } from "class-transformer";
-import { MemberResource } from "api/members/resources/member";
+
+import { MemberResource } from "./member";
 import { CompleteMember } from "interfaces/member";
-import { AttendanceResource } from "api/attendance/resources/resource";
+import { AttendanceResource } from "resources/attendance";
 
 export class CompleteMemberResource extends MemberResource implements CompleteMember {
 

@@ -1,6 +1,6 @@
 import { Subscriber } from './subscriber'
 import { MemberEntity } from 'entities';
-import { MemberResource } from 'api/members/resources/member';
+import { MemberResource } from 'resources/member';
 
 let MemberSubscriber = Subscriber(MemberEntity, MemberResource)
 

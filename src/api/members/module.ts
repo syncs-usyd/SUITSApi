@@ -6,7 +6,7 @@ import { MemberEntity } from 'entities';
 
 @Module({
     imports: [TypeOrmModule.forFeature([MemberEntity])],
-    controllers: [controllers.MembersRootController, controllers.MembersSingleController],
+    controllers: [controllers.MembersIndexController, controllers.MembersIdController],
     components: [MembersService]
 })
 export class MembersModule {}

@@ -1,12 +1,11 @@
-import { BaseResource } from "utils/resource.base";
+import { BaseResource } from "resources/resource.base";
 import { Attendance } from "interfaces/attendance";
-import { MemberResource } from "api/members/resources/member";
+import { MemberResource } from "resources/member";
 import { Type } from "class-transformer";
+import { EventResource } from "resources/event/event";
 
 export class AttendanceResource extends BaseResource implements Attendance {
 
-    protected readonly prefix: string = "/attendance"
-    
     id: number;
     
     primary: boolean;
@@ -21,12 +20,17 @@ export class AttendanceResource extends BaseResource implements Attendance {
         ref: string
     }
 
+    @Type(() => EventResource)
     event: {
         id: number
         ref: string
     }
+
+    get prefix(): string {
+        return "attendance"
+    }
     
     getResourceName(): string {
-        return "Member"
+        return "Attendance"
     }
 }

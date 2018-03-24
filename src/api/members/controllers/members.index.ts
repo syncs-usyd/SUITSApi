@@ -6,11 +6,11 @@ import { Serializer } from 'utils/Serializer';
 
 import { MembersService } from '../service';
 import { MemberDto } from '../dto';
-import { MemberResource } from '../resources/member';
+import { MemberResource } from 'resources/member';
 
-@Controller('members')
+@Controller(new MemberResource().prefix)
 @UseInterceptors(Serializer(MemberResource))
-export class MembersRootController {
+export class MembersIndexController {
 
     constructor(
         private readonly membersService: MembersService) {}

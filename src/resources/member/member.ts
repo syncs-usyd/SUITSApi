@@ -1,10 +1,7 @@
-import { BaseResource } from "utils/resource.base";
-import { Gender } from "interfaces/member/gender";
-import { Member } from "interfaces/member";
+import { BaseResource } from 'resources/resource.base'
+import { Member, Gender } from 'interfaces/member'
 
 export class MemberResource extends BaseResource implements Member {
-
-    protected readonly prefix: string = "/members"
 
     id: number;
 
@@ -27,6 +24,10 @@ export class MemberResource extends BaseResource implements Member {
     doingIT: boolean;
 
     registered: boolean;
+
+    get prefix() {
+        return "members"
+    }
 
     getResourceName(): string {
         return "Member"

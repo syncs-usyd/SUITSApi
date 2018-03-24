@@ -1,5 +1,5 @@
 import { Event } from "interfaces/event";
-import { Attendance } from "entities";
+import { Attendance } from "interfaces/attendance";
 
 export interface CompleteEvent extends Event {
 

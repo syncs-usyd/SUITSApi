@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map'
 import { classToPlain, plainToClass } from "class-transformer";
 import { ClassType } from "class-transformer/ClassTransformer";
 import { serialize } from './serialize';
-import { BaseResource } from "utils/resource.base";
+import { BaseResource } from "resources/resource.base";
 
 export function Serializer<T extends BaseResource>(type: ClassType<T>) {
 
