@@ -1,9 +1,16 @@
-export class AttendanceDto {
+import { Attendance } from "interfaces/attendance";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
+export class AttendanceDto implements Attendance {
+
+    @IsBoolean()
     primary: boolean
 
+    @IsBoolean()
     secondary: boolean
 
-    additional: string
+    @IsOptional()
+    @IsString()
+    additional?: string
 
 }

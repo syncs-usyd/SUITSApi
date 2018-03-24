@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { plainToClass, classToPlain } from 'class-transformer';
 
 import { MemberEntity } from 'entities';
@@ -21,7 +21,7 @@ export class MembersIndexController {
     }
 
     @Post()
-    addMember(@Body() member: MemberDto): Promise<MemberEntity> {
+    addMember(@Body(new ValidationPipe({transform: true})) member: MemberDto): Promise<MemberEntity> {
         return this.membersService.add(member);
     }
 }

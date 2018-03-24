@@ -13,11 +13,11 @@ export class MembersService {
         private readonly repo: Repository<MemberEntity>
     ) {}
 
-    async add(member: MemberDto): Promise<MemberEntity> {
+    async add(data: MemberDto): Promise<MemberEntity> {
         // TODO: Business logic
-        let m = this.repo.create(member)
-        await this.repo.save(m)
-        return this.repo.findOneById(m.id)
+        let member = this.repo.create(data)
+        await this.repo.save(member)
+        return this.repo.findOneById(member.id)
     }
 
     getAll(): Promise<MemberEntity[]> {
@@ -28,12 +28,15 @@ export class MembersService {
         return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
     }
 
-    async edit(id: number, member: MemberDto): Promise<void> {
-        this.repo.updateById(id, member)
+    async edit(id: number, data: MemberDto): Promise<void> {
+        let member = await this.get(id)
+        member = this.repo.merge(member, data)
+        await this.repo.save(member)
     }
 
     async delete(id: number): Promise<void> {
-        this.repo.deleteById(id)
+        let member = await this.get(id)
+        await this.repo.remove(member)
     }
 
 }

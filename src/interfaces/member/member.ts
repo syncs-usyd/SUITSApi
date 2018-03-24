@@ -8,18 +8,16 @@ export interface Member {
 
     lastName: string;
 
-    gender: Gender
-
-    joinedOn: Date
+    gender?: Gender
 
     access?: number
 
     sid?: number
 
-    newsletter: boolean
+    newsletter?: boolean
 
-    doingIT: boolean
+    doingIT?: boolean
     
-    registered: boolean
+    registered?: boolean
    
 }
