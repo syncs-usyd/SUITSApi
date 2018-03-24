@@ -12,7 +12,7 @@ export class EventEntity extends BaseEntity implements CompleteEvent {
     @Column()
     title: string
 
-    @Column()
+    @Column({nullable: true})
     description?: string
 
     @Column({type: Date})

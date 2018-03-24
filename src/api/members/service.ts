@@ -1,9 +1,8 @@
-import { Component } from '@nestjs/common';
+import { Component, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { MemberDto } from './dto';
-import { classToPlain, plainToClass } from 'class-transformer';
 import { MemberEntity } from 'entities/member';
 
 @Component()
@@ -50,8 +49,12 @@ export class MembersService {
         return this.repo.find()
     }
 
-    get(id: number): Promise<MemberEntity> {
-        return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
+    async get(id: number): Promise<MemberEntity> {
+        let m = await this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
+        if (!m)
+            throw new NotFoundException()
+
+        return m;
     }
 
     async edit(id: number, data: MemberDto): Promise<void> {

@@ -12,7 +12,7 @@ export class EventResource extends BaseResource implements Event {
     time: Date;
 
     get prefix(): string {
-        return 'events'
+        return '/events'
     }
 
     getResourceName(): string {

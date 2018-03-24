@@ -1,5 +1,5 @@
 import { Event } from "interfaces/event";
-import { IsString, IsOptional, IsDate } from "class-validator";
+import { IsString, IsOptional, IsDate, IsDateString } from "class-validator";
 
 export class EventDto implements Event {
 
@@ -10,6 +10,6 @@ export class EventDto implements Event {
     @IsString()
     description?: string;
 
-    @IsDate()
+    @IsDateString()
     time: Date;
 }

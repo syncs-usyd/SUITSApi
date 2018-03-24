@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Delete, Param, Body, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
 import { MemberEntity } from 'entities';
@@ -16,15 +16,21 @@ export class MembersIdController {
 
     @Get()
     async getMember(@Param('id') id: number) : Promise<MemberEntity> {
-        return this.membersService.get(id)
+        let member = await this.membersService.get(id)
+        if (!member)
+            throw new NotFoundException()
+        
+        return member;
     }
 
     @Put()
-    editMember(@Param('id') id: number, @Body() member: MemberDto) : Promise<void> {
+    @HttpCode(204)
+    editMember(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) member: MemberDto) : Promise<void> {
         return this.membersService.edit(id, member);
     }
 
     @Delete()
+    @HttpCode(204)
     deleteMember(@Param('id') id: number) : Promise<void> {
         return this.membersService.delete(id);
     }

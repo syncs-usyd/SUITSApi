@@ -7,7 +7,7 @@ export abstract class BaseResource {
     abstract getResourceName(): string
 
     get ref() : string {
-        return `${this.prefix}/id`
+        return `${this.prefix}/${this.id}`
     }
 
     abstract get prefix(): string

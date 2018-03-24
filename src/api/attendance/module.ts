@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AttendanceEntity } from 'entities';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([MemberEntity])],
-    controllers: [controllers.MembersRootController, controllers.MembersSingleController],
-    components: [MembersService]
+    imports: [TypeOrmModule.forFeature([AttendanceEntity])],
+    controllers: [controllers.AttendanceIndexController, controllers.AttendanceIdController],
+    components: [AttendanceService]
 })
-export class MembersModule {}
+export class AttendanceModule {}

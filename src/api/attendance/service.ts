@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common';
+import { Component, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AttendanceDto } from './dto';
@@ -12,28 +12,35 @@ export class AttendanceService {
         private readonly repo: Repository<AttendanceEntity>
     ) {}
 
-    async add(att: AttendanceDto, eventId: number, memberId: number): Promise<AttendanceEntity> {
-        let m = this.repo.create(att)
-        m.memberId = memberId;
-        m.eventId = eventId;
-        await this.repo.save(m)
-        return this.get(m.id);
+    async add(data: AttendanceDto, memberId: number, eventId: number): Promise<AttendanceEntity> {
+        let att = this.repo.create(data)
+        att.memberId = memberId;
+        att.eventId = eventId;
+        await this.repo.save(att)
+        return this.get(att.id);
     }
 
-    getAll(): Promise<AttendanceEntity[]> {
-        return this.repo.find()
+    find(options?: {memberId?: number, eventId?: number}): Promise<AttendanceEntity[]> {
+        return this.repo.find(options)
     }
 
-    get(id: number): Promise<AttendanceEntity> {
-        return this.repo.findOneById(id, { relations: [ 'member', 'event' ] })
+    async get(id: number): Promise<AttendanceEntity> {
+        let a = await this.repo.findOneById(id, { relations: [ 'member', 'event' ] })
+        if (!a)
+            throw new NotFoundException()
+
+        return a
     }
 
-    edit(id: number, att: AttendanceDto): Promise<void> {
-        return this.repo.updateById(id, att);
+    async edit(id: number, data: AttendanceDto): Promise<void> {
+        let att = await this.get(id)
+        att = this.repo.merge(att, data)
+        this.repo.save(att)
     }
 
-    delete(id: number): Promise<void> {
-        return this.repo.deleteById(id);
+    async delete(id: number): Promise<void> {
+        let att = await this.get(id)
+        this.repo.delete(att)
     }
 
 }

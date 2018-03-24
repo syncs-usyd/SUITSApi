@@ -26,7 +26,7 @@ export class MemberResource extends BaseResource implements Member {
     registered: boolean;
 
     get prefix() {
-        return "members"
+        return "/members"
     }
 
     getResourceName(): string {
