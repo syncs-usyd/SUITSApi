@@ -16,7 +16,7 @@ export class AttendanceService {
         let att = this.repo.create(data)
         att.memberId = memberId;
         att.eventId = eventId;
-        await this.repo.save(att)
+        att = await this.repo.save(att)
         return this.get(att.id);
     }
 
