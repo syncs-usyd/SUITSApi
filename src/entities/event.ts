@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { BaseEntity } from 'utils/baseentity';
 import { AttendanceEntity } from './attendance';
 import { CompleteEvent } from 'interfaces/event/event.complete';
+import { BaseEntity } from 'utils/entity.base';
 
 @Entity()
 export class EventEntity extends BaseEntity implements CompleteEvent {

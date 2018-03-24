@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { WebSocketService } from './websocket.service';
+import { WebSocketService } from './service';
 
 @Module({
     components: [WebSocketService]

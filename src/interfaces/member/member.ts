@@ -19,5 +19,7 @@ export interface Member {
     newsletter: boolean
 
     doingIT: boolean
+    
+    registered: boolean
    
 }

@@ -1,9 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { BaseEntity } from 'utils/baseentity';
 import { AttendanceEntity } from './attendance'
 import { Gender } from 'interfaces/member/gender';
 import { CompleteMember } from 'interfaces/member';
-
+import { BaseEntity } from 'utils/entity.base';
 
 @Entity()
 export class MemberEntity extends BaseEntity implements CompleteMember {

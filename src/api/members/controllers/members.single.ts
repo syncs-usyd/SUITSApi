@@ -1,6 +1,6 @@
 import { Controller, Get, Put, Delete, Param, Body, UseInterceptors } from '@nestjs/common';
 import { MembersService } from '../service';
-import { Member } from 'entities';
+import { MemberEntity } from 'entities';
 import { MemberDto } from '../dto';
 import { Serializer } from 'utils/Serializer';
 import { CompleteMemberResource } from '../resources/completemember';
@@ -13,7 +13,7 @@ export class MembersSingleController {
     constructor(private readonly membersService: MembersService) {}
 
     @Get()
-    async getMember(@Param('id') id: number) : Promise<Member> {
+    async getMember(@Param('id') id: number) : Promise<MemberEntity> {
         return this.membersService.get(id)
     }
 

@@ -4,6 +4,6 @@ import { MembersModule } from './members'
 @Module({
     imports: [
         MembersModule
-    ]
+    ],
 })
 export class ApiModule {}

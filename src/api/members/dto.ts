@@ -1,5 +1,5 @@
-import { Member } from "entities";
 import { Gender } from "interfaces/member/gender";
+import { Member } from "interfaces/member";
 
 export class MemberDto implements Member {
 
@@ -11,6 +11,8 @@ export class MemberDto implements Member {
 
     gender: Gender
 
+    joinedOn: Date;
+
     access?: number
 
     sid?: number
@@ -18,5 +20,7 @@ export class MemberDto implements Member {
     newsletter: boolean
 
     doingIT: boolean
+
+    registered: boolean;
 
 }

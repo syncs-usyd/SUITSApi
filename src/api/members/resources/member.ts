@@ -1,28 +1,34 @@
-import { Gender } from "entities/member";
-import { BaseResource } from "utils/BaseResource";
-import { Exclude } from "class-transformer";
+import { BaseResource } from "utils/resource.base";
+import { Gender } from "interfaces/member/gender";
+import { Member } from "interfaces/member";
 
-export class MemberResource extends BaseResource {
+export class MemberResource extends BaseResource implements Member {
 
-    @Exclude()
     protected readonly prefix: string = "/members"
 
-    id: number
+    id: number;
 
     email?: string;
 
     firstName: string;
-
+    
     lastName: string;
+    
+    gender: Gender;
 
-    gender: Gender
+    joinedOn: Date;
 
-    access?: number
+    access?: number;
 
-    sid?: number
+    sid?: number;
 
-    newsletter: boolean
+    newsletter: boolean;
 
-    doingIT: boolean
+    doingIT: boolean;
 
+    registered: boolean;
+
+    getResourceName(): string {
+        return "Member"
+    }
 }

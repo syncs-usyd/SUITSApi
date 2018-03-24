@@ -2,38 +2,38 @@ import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Member } from 'entities';
 import { MemberDto } from './dto';
 import { classToPlain, plainToClass } from 'class-transformer';
+import { MemberEntity } from 'entities/member';
 
 @Component()
 export class MembersService {
     constructor(
-        @InjectRepository(Member)
-        private readonly repo: Repository<Member>
+        @InjectRepository(MemberEntity)
+        private readonly repo: Repository<MemberEntity>
     ) {}
 
-    async add(member: MemberDto): Promise<Member> {
+    async add(member: MemberDto): Promise<MemberEntity> {
         // TODO: Business logic
         let m = this.repo.create(member)
         await this.repo.save(m)
-        return this.get(m.id);
+        return this.repo.findOneById(m.id)
     }
 
-    getAll(): Promise<Member[]> {
+    getAll(): Promise<MemberEntity[]> {
         return this.repo.find()
     }
 
-    get(id: number): Promise<Member> {
-        return this.repo.findOneById(id)
+    get(id: number): Promise<MemberEntity> {
+        return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
     }
 
-    edit(id: number, member: MemberDto): Promise<void> {
-        return this.repo.updateById(id, member);
+    async edit(id: number, member: MemberDto): Promise<void> {
+        this.repo.updateById(id, member)
     }
 
-    delete(id: number): Promise<void> {
-        return this.repo.deleteById(id);
+    async delete(id: number): Promise<void> {
+        this.repo.deleteById(id)
     }
 
 }

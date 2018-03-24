@@ -1,13 +1,15 @@
-import { Expose, Exclude } from 'class-transformer'
-import { URL } from 'url';
+import { Exclude } from 'class-transformer'
 
 export abstract class BaseResource {
 
+    @Exclude()
     protected readonly abstract prefix: string
 
     abstract id: number
 
-    getRef() : string {
+    abstract getResourceName(): string
+
+    get ref() : string {
         return `${this.prefix}/id`
     }
 }

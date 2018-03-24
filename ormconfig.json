@@ -6,6 +6,6 @@
   "password": "test",
   "database": "test",
   "entities": ["src/entities/*"],
-  "subscribers": ["src/websocket/subscriber.ts"],
+  "subscribers": ["src/websocket/subscribers/*.ts"],
   "synchronize": true
 }
