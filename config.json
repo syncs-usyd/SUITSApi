@@ -1,0 +1,10 @@
+{
+    "api": {
+        "user": "suits",
+        "pass": "password"
+    },
+    "jwt": {
+        "secret": "supersecret",
+        "duration": "6h"
+    }
+}

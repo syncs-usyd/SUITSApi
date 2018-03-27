@@ -4,20 +4,23 @@ import { Repository } from 'typeorm';
 
 import { MemberDto } from './dto';
 import { MemberEntity } from 'entities/member';
+import { WebSocketService } from 'websocket/service';
+import { MemberResource } from 'resources/member';
+import { BaseEntityService } from 'utils/entity.service.base';
 
 @Component()
-export class MembersService {
+export class MembersService extends BaseEntityService<MemberEntity, MemberResource> {
+
     constructor(
         @InjectRepository(MemberEntity)
-        private readonly repo: Repository<MemberEntity>
-    ) {}
+        repo: Repository<MemberEntity>,
+        websocket: WebSocketService
+    ) { super(repo, websocket, MemberResource) }
 
-    async add(data: MemberDto): Promise<MemberEntity> {
-        let member: MemberEntity
+    private async getMemberIfExists(data: MemberDto): Promise<MemberEntity | undefined> {
         let validVals = [data.email, data.access, data.sid].filter(v => !!v) // looking for non-falsy value
-        if (validVals.length == 0)
-            member = this.repo.create(data);
-        else {
+        if (validVals.length != 0) {
+
             let fields = { email: data.email, access: data.access, sid: data.sid }
 
             let q = this.repo.createQueryBuilder("member")
@@ -33,39 +36,39 @@ export class MembersService {
 
             let result = await q.getOne()
 
-            if (result) {
-                member = result
-                member = this.repo.merge(member, data)
-            }
-            else
-                member = this.repo.create(data)
+            if (result) 
+                return result
         }
-
-        await this.repo.save(member)
-        return this.repo.findOneById(member.id)
     }
 
-    getAll(): Promise<MemberEntity[]> {
+    async addMember(data: MemberDto): Promise<MemberEntity> {
+        let existingMember = await this.getMemberIfExists(data)
+        let member: MemberEntity
+        if (existingMember)
+        {
+            member = (await this.update(existingMember.id, data))!
+        }
+        else {
+            member = await this.insert(data)
+        }
+
+        return member
+    }
+
+    getAllMembers(): Promise<MemberEntity[]> {
         return this.repo.find()
     }
 
-    async get(id: number): Promise<MemberEntity> {
-        let m = await this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
-        if (!m)
-            throw new NotFoundException()
-
-        return m;
+    getMember(id: number): Promise<MemberEntity | undefined> {
+        return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
     }
 
-    async edit(id: number, data: MemberDto): Promise<void> {
-        let member = await this.get(id)
-        member = this.repo.merge(member, data)
-        await this.repo.save(member)
+    updateMember(id: number, data: MemberDto) : Promise<MemberEntity | undefined> {
+        return this.update(id, data)
     }
 
-    async delete(id: number): Promise<void> {
-        let member = await this.get(id)
-        await this.repo.remove(member)
+    deleteMember(id: number) : Promise<MemberEntity | undefined> {
+        return this.delete(id)
     }
 
 }

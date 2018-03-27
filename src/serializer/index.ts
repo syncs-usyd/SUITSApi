@@ -1,0 +1,1 @@
+export { SerializerModule } from './module'

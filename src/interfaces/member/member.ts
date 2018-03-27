@@ -2,11 +2,11 @@ import { Gender } from "interfaces/member/gender";
 
 export interface Member {
  
-    email?: string;
+    email?: string
 
-    firstName: string;
+    firstName: string
 
-    lastName: string;
+    lastName: string
 
     gender?: Gender
 

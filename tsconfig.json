@@ -3,6 +3,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "noImplicitAny": true,
+        "strictNullChecks": true,
 
         "lib": ["es5", "es6"],
         "target": "ES6",
@@ -12,7 +13,8 @@
         "paths": {
             "*": [
                 "src/*",
-                "node_modules/*"
+                "node_modules/*",
+                "./*.json"
             ]
         }
     },

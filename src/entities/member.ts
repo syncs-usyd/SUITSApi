@@ -1,11 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { AttendanceEntity } from './attendance'
 import { Gender } from 'interfaces/member/gender';
-import { CompleteMember } from 'interfaces/member';
+import { Member } from 'interfaces/member';
 import { BaseEntity } from './entity.base';
 
 @Entity({name: "Member"})
-export class MemberEntity extends BaseEntity implements CompleteMember {
+export class MemberEntity extends BaseEntity implements Member {
 
     @PrimaryGeneratedColumn()
     id: number;

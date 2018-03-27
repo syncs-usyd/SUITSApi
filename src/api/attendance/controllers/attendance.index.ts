@@ -2,7 +2,7 @@ import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body } f
 
 import { AttendanceEntity } from "entities";
 import { AttendanceResource } from "resources/attendance";
-import { Serializer } from "utils/Serializer";
+import { Serializer } from "serializer/interceptor";
 
 import { AttendanceService } from "api/attendance/service";
 import { AttendanceDto } from "api/attendance/dto";

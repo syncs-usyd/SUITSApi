@@ -2,7 +2,7 @@ import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationP
 import { plainToClass } from 'class-transformer';
 
 import { EventEntity } from 'entities';
-import { Serializer } from 'utils/Serializer';
+import { Serializer } from 'serializer/interceptor';
 import { CompleteEventResource } from 'resources/event';
 
 import { EventService } from '../service';

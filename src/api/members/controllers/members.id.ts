@@ -1,12 +1,13 @@
-import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode } from '@nestjs/common';
+import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode, UseGuards, NestInterceptor, ExecutionContext, Interceptor } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
 import { MemberEntity } from 'entities';
-import { Serializer } from 'utils/Serializer';
+import { Serializer } from 'serializer/interceptor';
 import { CompleteMemberResource } from 'resources/member';
 
 import { MembersService } from '../service';
 import { MemberDto } from '../dto';
+import { ApiGuard } from 'api/auth/guard.api';
 
 @Controller(new CompleteMemberResource().prefix+"/:id")
 @UseInterceptors(Serializer(CompleteMemberResource))
@@ -16,23 +17,29 @@ export class MembersIdController {
 
     @Get()
     async getMember(@Param('id') id: number) : Promise<MemberEntity> {
-        let member = await this.membersService.get(id)
+        let member = await this.membersService.getMember(id)
         if (!member)
-            throw new NotFoundException()
-        
-        return member;
+            throw new NotFoundException
+
+        return member
     }
 
     @Put()
     @HttpCode(204)
-    editMember(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) member: MemberDto) : Promise<void> {
-        return this.membersService.edit(id, member);
+    async editMember(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) member: MemberDto) : Promise<MemberEntity> {
+        let m = await this.membersService.updateMember(id, member);
+        if (!m)
+            throw new NotFoundException
+        
+        return m
     }
 
     @Delete()
     @HttpCode(204)
-    deleteMember(@Param('id') id: number) : Promise<void> {
-        return this.membersService.delete(id);
+    async deleteMember(@Param('id') id: number) : Promise<void> {
+        let result = await this.membersService.deleteMember(id);
+        if (!result)
+            throw new NotFoundException
     }
 
 }

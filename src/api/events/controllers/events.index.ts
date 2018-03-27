@@ -1,7 +1,7 @@
 import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body } from "@nestjs/common";
 
 import { EventEntity } from "entities";
-import { Serializer } from "utils/Serializer";
+import { Serializer } from "serializer/interceptor";
 import { EventResource } from "resources/event/event";
 import { EventService } from "api/events/service";
 import { EventTargetLike } from "rxjs/observable/FromEventObservable";
