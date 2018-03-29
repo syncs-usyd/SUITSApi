@@ -18,11 +18,11 @@ export class EventIndexController {
 
     @Get()
     getEvents(): Promise<EventEntity[]> {
-        return this.eventService.getAll();
+        return this.eventService.getAllEvents();
     }
 
     @Post()
     addEvent(@Body(new ValidationPipe()) data: EventDto): Promise<EventEntity> {
-        return this.eventService.add(data);
+        return this.eventService.addEvent(data);
     }
 }

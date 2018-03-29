@@ -19,6 +19,6 @@ export class EventEntity extends BaseEntity implements Event {
     time: Date
 
     @OneToMany(type => AttendanceEntity, att => att.event)
-    membersAttended: AttendanceEntity[]
+    membersAttended?: AttendanceEntity[]
 
 }

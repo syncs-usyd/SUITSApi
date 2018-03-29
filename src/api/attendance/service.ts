@@ -4,43 +4,37 @@ import { Repository } from 'typeorm';
 import { AttendanceDto } from './dto';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { AttendanceEntity } from 'entities';
+import { BaseEntityService } from 'utils/entity.service.base';
+import { AttendanceResource } from 'resources/attendance';
+import { WebSocketService } from 'websocket/service';
 
 @Component()
-export class AttendanceService {
+export class AttendanceService extends BaseEntityService<AttendanceEntity, AttendanceResource> {
+
     constructor(
         @InjectRepository(AttendanceEntity)
-        private readonly repo: Repository<AttendanceEntity>
-    ) {}
+        repo: Repository<AttendanceEntity>,
+        websocket: WebSocketService
+    ) {super(repo, websocket, AttendanceResource)}
 
-    async add(data: AttendanceDto, memberId: number, eventId: number): Promise<AttendanceEntity> {
-        let att = this.repo.create(data)
-        att.memberId = memberId;
-        att.eventId = eventId;
-        att = await this.repo.save(att)
-        return this.get(att.id);
+    async addAttendance(data: AttendanceDto, memberId: number, eventId: number): Promise<AttendanceEntity> {
+        return this.insert({...data, memberId, eventId})
     }
 
-    find(options?: {memberId?: number, eventId?: number}): Promise<AttendanceEntity[]> {
+    findAttendance(options?: {memberId?: number, eventId?: number}): Promise<AttendanceEntity[]> {
         return this.repo.find(options)
     }
 
-    async get(id: number): Promise<AttendanceEntity> {
-        let a = await this.repo.findOneById(id, { relations: [ 'member', 'event' ] })
-        if (!a)
-            throw new NotFoundException()
-
-        return a
+    getAttendance(id: number): Promise<AttendanceEntity | undefined> {
+        return this.repo.findOneById(id, { relations: [ 'member', 'event' ] })
     }
 
-    async edit(id: number, data: AttendanceDto): Promise<void> {
-        let att = await this.get(id)
-        att = this.repo.merge(att, data)
-        this.repo.save(att)
+    updateAttendance(id: number, data: AttendanceDto): Promise<AttendanceEntity | undefined> {
+        return this.update(id, data)
     }
 
-    async delete(id: number): Promise<void> {
-        let att = await this.get(id)
-        this.repo.delete(att)
+    deleteAttendance(id: number): Promise<AttendanceEntity | undefined> {
+        return this.delete(id)
     }
 
 }

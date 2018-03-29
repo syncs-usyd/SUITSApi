@@ -4,40 +4,37 @@ import { Repository } from 'typeorm';
 
 import { EventDto } from './dto';
 import { EventEntity } from 'entities';
+import { EventResource } from 'resources/event';
+import { BaseEntityService } from 'utils/entity.service.base';
+import { WebSocketService } from 'websocket/service';
 
 @Component()
-export class EventService {
+export class EventService extends BaseEntityService<EventEntity, EventResource> {
+
     constructor(
         @InjectRepository(EventEntity)
-        private readonly repo: Repository<EventEntity>
-    ) {}
+        repo: Repository<EventEntity>,
+        websocket: WebSocketService
+    ) { super(repo, websocket, EventResource) }
 
-    async add(data: EventDto): Promise<EventEntity> {
-        let event = this.repo.create(data);
-        event = await this.repo.save(event);
-        return this.get(event.id)
+    addEvent(data: EventDto): Promise<EventEntity> {
+        return this.insert(data)
     }
 
-    getAll(): Promise<EventEntity[]> {
+    getAllEvents(): Promise<EventEntity[]> {
         return this.repo.find()
     }
 
-    async get(id: number): Promise<EventEntity> {
-        let e = await this.repo.findOneById(id, { relations: [ 'membersAttended' ] })
-        if (!e)
-            throw new NotFoundException()
-        return e;
+    getEvent(id: number): Promise<EventEntity | undefined> {
+        return this.repo.findOneById(id, { relations: [ 'membersAttended' ] })
     }
 
-    async edit(id: number, data: EventDto): Promise<void> {
-        let event = await this.get(id)
-        event = this.repo.merge(event, data)
-        await this.repo.save(event)
+    updateEvent(id: number, data: EventDto): Promise<EventEntity | undefined> {
+        return this.update(id, data)
     }
 
-    async delete(id: number): Promise<void> {
-        let event = await this.get(id)
-        await this.repo.remove(event)
+    deleteEvent(id: number): Promise<EventEntity | undefined> {
+        return this.delete(id)
     }
 
 }

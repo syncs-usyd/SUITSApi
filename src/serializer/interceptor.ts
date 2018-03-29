@@ -14,6 +14,7 @@ export function Serializer<E extends BaseEntity, R extends BaseResource>(type: C
         constructor(private readonly serializer: SerializerService) {}
 
         intercept(dataOrRequest: any, context: ExecutionContext, stream$: Observable<E>): Observable<Object> | Promise<Observable<Object>> {
+            
             return stream$.map(x => this.serialize(x))
         }
 

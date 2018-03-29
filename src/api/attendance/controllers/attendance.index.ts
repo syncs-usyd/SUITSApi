@@ -26,11 +26,11 @@ export class AttendanceIndexController {
 
     @Get()
     getAttendance(@Query() attendanceFilter: {member?: number, event?: number}): Promise<AttendanceEntity[]> {
-        return this.attendanceService.find({memberId: attendanceFilter.member, eventId: attendanceFilter.event});
+        return this.attendanceService.findAttendance({memberId: attendanceFilter.member, eventId: attendanceFilter.event});
     }
 
     @Post()
     addAttendance(@Query(new ValidationPipe()) attendanceQuery: AttendanceQuery, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<AttendanceEntity> {
-        return this.attendanceService.add(data, attendanceQuery.member, attendanceQuery.event);
+        return this.attendanceService.addAttendance(data, attendanceQuery.member, attendanceQuery.event);
     }
 }

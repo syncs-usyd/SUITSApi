@@ -41,6 +41,6 @@ export class MemberEntity extends BaseEntity implements Member {
     registered: boolean
 
     @OneToMany(type => AttendanceEntity, att => att.member)
-    eventsAttended: AttendanceEntity[]
+    eventsAttended?: AttendanceEntity[]
 
 }

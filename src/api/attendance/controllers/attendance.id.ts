@@ -1,4 +1,4 @@
-import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, Param, Put, HttpCode, Delete } from "@nestjs/common";
+import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, Param, Put, HttpCode, Delete, NotFoundException } from "@nestjs/common";
 
 import { AttendanceEntity } from "entities";
 import { AttendanceResource } from "resources/attendance";
@@ -16,20 +16,29 @@ export class AttendanceIdController {
     ) {}
 
     @Get()
-    getAttendance(@Param('id') id: number): Promise<AttendanceEntity> {
-        return this.attendanceService.get(id);
+    async getAttendance(@Param('id') id: number): Promise<AttendanceEntity> {
+        let a = await this.attendanceService.getAttendance(id);
+        if (!a)
+            throw new NotFoundException
+
+        return a
     }
 
     @Put()
-    @HttpCode(204)
-    updateAttendance(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<void> {
-        return this.attendanceService.edit(id, data);
+    async updateAttendance(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<AttendanceEntity> {
+        let a = await this.attendanceService.updateAttendance(id, data);
+        if (!a)
+            throw new NotFoundException
+
+        return a
     }
 
     @Delete()
     @HttpCode(204)
-    deleteAttendance(@Param('id') id: number): Promise<void> {
-        return this.attendanceService.delete(id);
+    async deleteAttendance(@Param('id') id: number): Promise<void> {
+        let a = await this.attendanceService.deleteAttendance(id);
+        if (!a)
+            throw new NotFoundException
     }
 
 }

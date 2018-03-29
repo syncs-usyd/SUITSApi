@@ -25,7 +25,6 @@ export class MembersIdController {
     }
 
     @Put()
-    @HttpCode(204)
     async editMember(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) member: MemberDto) : Promise<MemberEntity> {
         let m = await this.membersService.updateMember(id, member);
         if (!m)

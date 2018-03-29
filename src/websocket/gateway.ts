@@ -19,7 +19,9 @@ export class WebSocketGateway implements OnGatewayConnection {
     handleConnection(client: SocketIO.Socket) {
         let token = client.handshake.query.token
 
+        /*
         if (!token || !this.authService.verifyToken(token))
             client.disconnect();
+            */
     }
 }
