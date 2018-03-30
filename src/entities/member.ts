@@ -13,16 +13,16 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({unique: true, nullable: true})
     email?: string;
 
-    @Column()
+    @Column({name: "first_name"})
     firstName: string;
 
-    @Column()
+    @Column({name: "last_name"})
     lastName: string;
 
     @Column({enum: Gender, default: Gender.Other})
     gender: Gender
 
-    @Column({default: () => "CURRENT_TIMESTAMP"})
+    @Column({name: "joined_on", default: () => "CURRENT_TIMESTAMP"})
     joinedOn: Date
 
     @Column({unique: true, nullable: true})
@@ -34,7 +34,7 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({default: true})
     newsletter: boolean
 
-    @Column({default: false})
+    @Column({name: "doing_it", default: false})
     doingIT: boolean
 
     @Column({default: true})

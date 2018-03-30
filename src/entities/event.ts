@@ -15,7 +15,7 @@ export class EventEntity extends BaseEntity implements Event {
     @Column({nullable: true})
     description?: string
 
-    @Column({type: Date})
+    @Column({nullable: false, type: Date})
     time: Date
 
     @OneToMany(type => AttendanceEntity, att => att.event)

@@ -11,10 +11,10 @@ export class AttendanceEntity extends BaseEntity implements CompleteAttendance {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({name: "member_id"})
     memberId: number
 
-    @Column()
+    @Column({name: "event_id"})
     eventId: number
 
     @ManyToOne(type => MemberEntity, member => member.eventsAttended, {
