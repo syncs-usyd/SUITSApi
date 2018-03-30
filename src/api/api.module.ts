@@ -11,6 +11,5 @@ import { AuthModule } from './auth';
         EventModule,
         AttendanceModule
     ],
-    exports: [AuthModule]
 })
 export class ApiModule {}
