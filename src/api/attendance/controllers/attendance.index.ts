@@ -6,13 +6,26 @@ import { Serializer } from "serializer/interceptor";
 
 import { AttendanceService } from "api/attendance/service";
 import { AttendanceDto } from "api/attendance/dto";
-import { IsNumber, IsNumberString } from "class-validator";
+import { IsNumber, IsNumberString, IsOptional, IsNotEmpty } from "class-validator";
+import { Transform } from "class-transformer";
+import { pickBy, identity } from 'lodash'
 
 class AttendanceQuery {
-    @IsNumberString()
+    @Transform((m: string) => Number(m))
+    @IsNumber()
     member: number
 
-    @IsNumberString()
+    @Transform((e: string) => Number(e))
+    @IsNumber()
+    event: number
+}
+
+class OptionalAttendanceQuery extends AttendanceQuery {
+
+    @IsOptional()
+    member: number
+
+    @IsOptional()
     event: number
 }
 
@@ -25,12 +38,13 @@ export class AttendanceIndexController {
     ) {}
 
     @Get()
-    getAttendance(@Query() attendanceFilter: {member?: number, event?: number}): Promise<AttendanceEntity[]> {
-        return this.attendanceService.findAttendance({memberId: attendanceFilter.member, eventId: attendanceFilter.event});
+    getAttendance(@Query(new ValidationPipe({transform: true})) attendanceFilter: OptionalAttendanceQuery): Promise<AttendanceEntity[]> {
+        let options = pickBy({ memberId: attendanceFilter.member, eventId: attendanceFilter.event }, identity)
+        return this.attendanceService.findAttendance(options);
     }
 
     @Post()
-    addAttendance(@Query(new ValidationPipe()) attendanceQuery: AttendanceQuery, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<AttendanceEntity> {
+    addAttendance(@Query(new ValidationPipe({transform: true})) attendanceQuery: AttendanceQuery, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<AttendanceEntity> {
         return this.attendanceService.addAttendance(data, attendanceQuery.member, attendanceQuery.event);
     }
 }

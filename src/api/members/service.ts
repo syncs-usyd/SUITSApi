@@ -60,7 +60,7 @@ export class MembersService extends BaseEntityService<MemberEntity, MemberResour
     }
 
     getMember(id: number): Promise<MemberEntity | undefined> {
-        return this.repo.findOneById(id, { relations: [ 'eventsAttended', 'eventsAttended.event' ] })
+        return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
     }
 
     updateMember(id: number, data: MemberDto) : Promise<MemberEntity | undefined> {

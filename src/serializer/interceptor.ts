@@ -11,14 +11,16 @@ export function Serializer<E extends BaseEntity, R extends BaseResource>(type: C
     @Interceptor()
     class SerializeInterceptor implements NestInterceptor {
 
-        constructor(private readonly serializer: SerializerService) {}
+        constructor(private readonly serializer: SerializerService) {console.log(type)}
 
-        intercept(dataOrRequest: any, context: ExecutionContext, stream$: Observable<E>): Observable<Object> | Promise<Observable<Object>> {
-            
+        intercept(dataOrRequest: any, context: ExecutionContext, stream$: Observable<E | E[] | undefined>): Observable<Object> | Promise<Observable<Object>> {
             return stream$.map(x => this.serialize(x))
         }
 
-        serialize(data: E) : Object {
+        serialize(data: E | E[] | undefined) : Object {
+            if (data == undefined)
+                return {}
+
             let resource = this.serializer.getResource(data, type)
             return this.serializer.serialize(resource)
         }

@@ -18,11 +18,13 @@ export class AttendanceEntity extends BaseEntity implements CompleteAttendance {
     eventId: number
 
     @ManyToOne(type => MemberEntity, member => member.eventsAttended, {
+        eager: true,
         onDelete: "CASCADE"
     })
     member?: MemberEntity
 
     @ManyToOne(type => EventEntity, event => event.membersAttended, {
+        eager: true,
         onDelete: "CASCADE"
     })
     event?: EventEntity

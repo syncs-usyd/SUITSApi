@@ -26,7 +26,7 @@ export class AttendanceService extends BaseEntityService<AttendanceEntity, Atten
     }
 
     getAttendance(id: number): Promise<AttendanceEntity | undefined> {
-        return this.repo.findOneById(id, { relations: [ 'member', 'event' ] })
+        return this.repo.findOneById(id)
     }
 
     updateAttendance(id: number, data: AttendanceDto): Promise<AttendanceEntity | undefined> {

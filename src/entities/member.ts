@@ -19,7 +19,7 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column()
     lastName: string;
 
-    @Column({enum: Gender})
+    @Column({enum: Gender, default: Gender.Other})
     gender: Gender
 
     @Column({default: () => "CURRENT_TIMESTAMP"})

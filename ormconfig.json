@@ -2,9 +2,11 @@
   "type": "sqlite",
   "host": "localhost",
   "port": 3306,
+  "logging": true,
   "username": "test",
   "password": "test",
   "database": "test",
   "entities": ["src/entities/*"],
-  "subscribers": ["src/websocket/subscribers/*.ts"]
+  "subscribers": ["src/websocket/subscribers/*.ts"],
+  "synchronize": true
 }

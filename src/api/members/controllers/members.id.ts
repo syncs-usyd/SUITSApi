@@ -3,14 +3,14 @@ import { plainToClass } from 'class-transformer';
 
 import { MemberEntity } from 'entities';
 import { Serializer } from 'serializer/interceptor';
-import { CompleteMemberResource } from 'resources/member';
+import { MemberResource } from 'resources/member';
 
 import { MembersService } from '../service';
 import { MemberDto } from '../dto';
 import { ApiGuard } from 'api/auth/guard.api';
 
-@Controller(new CompleteMemberResource().prefix+"/:id")
-@UseInterceptors(Serializer(CompleteMemberResource))
+@Controller(new MemberResource().prefix+"/:id")
+@UseInterceptors(Serializer(MemberResource))
 export class MembersIdController {
     
     constructor(private readonly membersService: MembersService) {}

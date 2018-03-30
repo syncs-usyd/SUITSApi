@@ -21,8 +21,8 @@ export class EventService extends BaseEntityService<EventEntity, EventResource> 
         return this.insert(data)
     }
 
-    getAllEvents(): Promise<EventEntity[]> {
-        return this.repo.find()
+    async getAllEvents(): Promise<EventEntity[]> {
+        return await this.repo.find()
     }
 
     getEvent(id: number): Promise<EventEntity | undefined> {

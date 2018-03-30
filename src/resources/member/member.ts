@@ -1,6 +1,8 @@
 import { BaseResource } from 'resources/resource.base'
 import { Member, Gender } from 'interfaces/member'
-import { Allow } from 'class-validator';
+import { Allow, ValidateNested, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { AttendanceResource } from 'resources/attendance';
 
 export class MemberResource extends BaseResource implements Member {
 
@@ -36,6 +38,10 @@ export class MemberResource extends BaseResource implements Member {
 
     @Allow()
     registered: boolean;
+
+    @Type(() => AttendanceResource)
+    @ValidateNested()
+    eventsAttended?: AttendanceResource[]
 
     get prefix() {
         return "/members"

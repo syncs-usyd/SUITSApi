@@ -8,7 +8,6 @@ export abstract class BaseResource {
     abstract getResourceName(): string
 
     @Expose()
-    @Allow()
     get ref() : string {
         return `${this.prefix}/${this.id}`
     }

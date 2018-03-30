@@ -1,6 +1,8 @@
 import { Event } from "interfaces/event";
 import { BaseResource } from "resources/resource.base";
-import { Allow } from "class-validator";
+import { Allow, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
+import { AttendanceResource } from "resources/attendance";
 
 export class EventResource extends BaseResource implements Event {
 
@@ -15,6 +17,10 @@ export class EventResource extends BaseResource implements Event {
 
     @Allow()
     time: Date;
+
+    @Type(() => AttendanceResource)
+    @ValidateNested()
+    membersAttended?: AttendanceResource[];
 
     get prefix(): string {
         return '/events'
