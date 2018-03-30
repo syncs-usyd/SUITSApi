@@ -4,6 +4,7 @@
         "emitDecoratorMetadata": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
+        "skipLibCheck": true,
 
         "lib": ["es5", "es6"],
         "target": "ES6",

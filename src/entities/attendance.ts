@@ -1,12 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, IndexOptions } from 'typeorm';
 import { MemberEntity } from './member'
 import { EventEntity } from './event';
-import { CompleteAttendance } from 'interfaces/attendance';
+import { Attendance } from 'interfaces/attendance';
 import { BaseEntity } from './entity.base';
 
 @Entity({name: "Attendance"})
 @Index("member_event_unique_attendance", (att: AttendanceEntity) => [att.memberId, att.eventId], {unique : true})
-export class AttendanceEntity extends BaseEntity implements CompleteAttendance {
+export class AttendanceEntity extends BaseEntity implements Attendance {
 
     @PrimaryGeneratedColumn()
     id: number
