@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, IndexOptions } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, IndexOptions, JoinColumn } from 'typeorm';
 import { MemberEntity } from './member'
 import { EventEntity } from './event';
 import { Attendance } from 'interfaces/attendance';
@@ -21,12 +21,14 @@ export class AttendanceEntity extends BaseEntity implements Attendance {
         eager: true,
         onDelete: "CASCADE"
     })
+    @JoinColumn({name: "member_id"})
     member?: MemberEntity
 
     @ManyToOne(type => EventEntity, event => event.membersAttended, {
         eager: true,
         onDelete: "CASCADE"
     })
+    @JoinColumn({name: "event_id"})
     event?: EventEntity
 
     @Column()

@@ -27,9 +27,9 @@ export abstract class BaseEntityService<E extends BaseEntity, R extends BaseReso
             return undefined
 
         entity = this.repo.merge(entity, data)
-        entity = await this.repo.save(entity as any)
+        await this.repo.insert(entity)
 
-        this.websocket.sendUpdate(entity!, this.resourceType)
+        this.websocket.sendUpdate(entity, this.resourceType)
         return entity
     }
 
@@ -38,7 +38,7 @@ export abstract class BaseEntityService<E extends BaseEntity, R extends BaseReso
         if (!entity)
             return undefined
 
-        await this.repo.remove(entity)
+        await this.repo.deleteById(id)
 
         this.websocket.sendDelete(entity, this.resourceType)
         return entity
