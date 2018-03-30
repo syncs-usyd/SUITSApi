@@ -12,6 +12,7 @@ import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix+"/:id")
+@UseGuards(ApiGuard)
 @UseInterceptors(Serializer(MemberResource))
 export class MembersIdController {
     

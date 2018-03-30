@@ -27,7 +27,7 @@ export abstract class BaseEntityService<E extends BaseEntity, R extends BaseReso
             return undefined
 
         entity = this.repo.merge(entity, data)
-        await this.repo.insert(entity)
+        await this.repo.updateById(id, entity as any)
 
         this.websocket.sendUpdate(entity, this.resourceType)
         return entity

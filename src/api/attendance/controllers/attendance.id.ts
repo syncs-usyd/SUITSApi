@@ -1,4 +1,4 @@
-import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, Param, Put, HttpCode, Delete, NotFoundException } from "@nestjs/common";
+import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, Param, Put, HttpCode, Delete, NotFoundException, UseGuards } from "@nestjs/common";
 
 import { AttendanceEntity } from "entities";
 import { AttendanceResource } from "resources/attendance";
@@ -7,9 +7,11 @@ import { Serializer } from "serializer/interceptor";
 import { AttendanceService } from "api/attendance/service";
 import { AttendanceDto } from "api/attendance/dto";
 import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiGuard } from "api/auth/guard.api";
 
 @ApiUseTags('attendance')
 @Controller(new AttendanceResource().prefix+"/:id")
+@UseGuards(ApiGuard)
 @UseInterceptors(Serializer(AttendanceResource))
 export class AttendanceIdController {
 

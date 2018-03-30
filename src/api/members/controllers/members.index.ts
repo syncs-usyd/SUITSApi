@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, ValidationPipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ValidationPipe, HttpCode, UseGuards } from '@nestjs/common';
 import { plainToClass, classToPlain } from 'class-transformer';
 
 import { MemberEntity } from 'entities';
@@ -8,6 +8,7 @@ import { MemberResource } from 'resources/member';
 import { MembersService } from '../service';
 import { MemberDto } from '../dto';
 import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiGuard } from 'api/auth/guard.api';
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix)
@@ -17,6 +18,7 @@ export class MembersIndexController {
     constructor(private readonly membersService: MembersService) {}
 
     @Get()
+    @UseGuards(ApiGuard)
     @ApiOperation({
         title: "Retrieve all members",
         description: "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended.",

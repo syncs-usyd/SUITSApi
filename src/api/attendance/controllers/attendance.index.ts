@@ -1,4 +1,4 @@
-import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body } from "@nestjs/common";
+import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, UseGuards } from "@nestjs/common";
 
 import { AttendanceEntity } from "entities";
 import { AttendanceResource } from "resources/attendance";
@@ -10,6 +10,7 @@ import { IsNumber, IsNumberString, IsOptional, IsNotEmpty } from "class-validato
 import { Transform } from "class-transformer";
 import { pickBy, identity } from 'lodash'
 import { ApiUseTags, ApiResponse, ApiOperation, ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiGuard } from "api/auth/guard.api";
 
 class AttendanceQuery {
 
@@ -41,6 +42,7 @@ class OptionalAttendanceQuery {
 
 @ApiUseTags('attendance')
 @Controller(new AttendanceResource().prefix)
+@UseGuards(ApiGuard)
 @UseInterceptors(Serializer(AttendanceResource))
 export class AttendanceIndexController {
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode } from '@nestjs/common';
+import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode, UseGuards } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
 import { EventEntity } from 'entities';
@@ -8,9 +8,11 @@ import { EventResource } from 'resources/event';
 import { EventService } from '../service';
 import { EventDto } from '../dto';
 import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiGuard } from 'api/auth/guard.api';
 
 @ApiUseTags("events")
 @Controller(new EventResource().prefix+"/:id")
+@UseGuards(ApiGuard)
 @UseInterceptors(Serializer(EventResource))
 export class EventIdController {
     
