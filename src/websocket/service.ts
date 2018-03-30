@@ -21,7 +21,7 @@ export class WebSocketService {
     }
 
     private send<E extends BaseEntity, R extends BaseResource>(entity: E, type: ClassType<R>, action: Action) {
-        let resource = this.serializer.getResource(entity,type)
+        let resource = this.serializer.getResource(entity,type) as R
         this.getSocket().send({
             resource: resource.getResourceName(),
             action,

@@ -6,7 +6,9 @@ import { Serializer } from "serializer/interceptor";
 
 import { AttendanceService } from "api/attendance/service";
 import { AttendanceDto } from "api/attendance/dto";
+import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
+@ApiUseTags('attendance')
 @Controller(new AttendanceResource().prefix+"/:id")
 @UseInterceptors(Serializer(AttendanceResource))
 export class AttendanceIdController {
@@ -16,6 +18,14 @@ export class AttendanceIdController {
     ) {}
 
     @Get()
+    @ApiOperation({
+        title: "Retrieve an attendance record",
+        description: "Retrieve a record of attendance associated with a given id.",
+    })
+    @ApiResponse({
+        status: 200,
+        type: AttendanceEntity,
+    })
     async getAttendance(@Param('id') id: number): Promise<AttendanceEntity> {
         let a = await this.attendanceService.getAttendance(id);
         if (!a)
@@ -25,6 +35,14 @@ export class AttendanceIdController {
     }
 
     @Put()
+    @ApiOperation({
+        title: "Update an attendance record",
+        description: "Update the attendance record associated with the given id.",
+    })
+    @ApiResponse({
+        status: 200,
+        type: AttendanceEntity,
+    })
     async updateAttendance(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) data: AttendanceDto): Promise<AttendanceEntity> {
         let a = await this.attendanceService.updateAttendance(id, data);
         if (!a)
@@ -35,6 +53,10 @@ export class AttendanceIdController {
 
     @Delete()
     @HttpCode(204)
+    @ApiOperation({
+        title: "Delete an attendance record",
+        description: "Delete the attendance record associated with the given id.",
+    })
     async deleteAttendance(@Param('id') id: number): Promise<void> {
         let a = await this.attendanceService.deleteAttendance(id);
         if (!a)

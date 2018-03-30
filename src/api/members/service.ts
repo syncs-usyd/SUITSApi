@@ -46,6 +46,7 @@ export class MembersService extends BaseEntityService<MemberEntity, MemberResour
         let member: MemberEntity
         if (existingMember)
         {
+            data.registered = data.registered || existingMember.registered // disallow unregistering
             member = (await this.update(existingMember.id, data))!
         }
         else {

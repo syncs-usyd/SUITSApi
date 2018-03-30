@@ -7,7 +7,9 @@ import { EventResource } from 'resources/event';
 
 import { EventService } from '../service';
 import { EventDto } from '../dto';
+import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiUseTags("events")
 @Controller(new EventResource().prefix+"/:id")
 @UseInterceptors(Serializer(EventResource))
 export class EventIdController {
@@ -15,6 +17,14 @@ export class EventIdController {
     constructor(private readonly eventService: EventService) {}
 
     @Get()
+    @ApiOperation({
+        title: "Retrieve an event",
+        description: "Retrieve an event with a given id.",
+    })
+    @ApiResponse({
+        status: 200,
+        type: EventResource,
+    })
     async getEvent(@Param('id') id: number) : Promise<EventEntity> {
         let event = await this.eventService.getEvent(id)
         if (!event)
@@ -24,6 +34,14 @@ export class EventIdController {
     }
 
     @Put()
+    @ApiOperation({
+        title: "Update an event",
+        description: "Update data about the event with a given id.",
+    })
+    @ApiResponse({
+        status: 200,
+        type: EventResource,
+    })
     async editEvent(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) event: EventDto) : Promise<EventEntity> {
         let e = await this.eventService.updateEvent(id, event)
         if (!e)
@@ -34,6 +52,10 @@ export class EventIdController {
 
     @Delete()
     @HttpCode(204)
+    @ApiOperation({
+        title: "Delete an event",
+        description: "Delete the event and all attendance associated with it.",
+    })
     async deleteEvent(@Param('id') id: number) : Promise<void> {
         let e = this.eventService.deleteEvent(id);
     }
