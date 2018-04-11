@@ -1,18 +1,18 @@
-import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode, UseGuards, NestInterceptor, ExecutionContext, Interceptor } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
+import { Controller, Get, Put, Delete, Param, Body, UseInterceptors, ValidationPipe, NotFoundException, HttpCode, UseGuards, NestInterceptor, ExecutionContext, Interceptor } from '@nestjs/common'
+import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { plainToClass } from 'class-transformer'
 
-import { MemberEntity } from 'entities';
-import { Serializer } from 'serializer/interceptor';
-import { MemberResource } from 'resources/member';
+import { MemberEntity } from 'entities'
+import { Serializer } from 'serializer/interceptor'
+import { MemberResource } from 'resources/member'
+import { AuthGuard } from 'api/auth'
 
-import { MembersService } from '../service';
-import { MemberDto } from '../dto';
-import { ApiGuard } from 'api/auth/guard.api';
-import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { MembersService } from './members.service'
+import { MemberDto } from './members.dto'
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix+"/:id")
-@UseGuards(ApiGuard)
+@UseGuards(AuthGuard)
 @UseInterceptors(Serializer(MemberResource))
 export class MembersIdController {
     
@@ -45,7 +45,7 @@ export class MembersIdController {
         type: MemberResource,
     })
     async editMember(@Param('id') id: number, @Body(new ValidationPipe({transform: true})) member: MemberDto) : Promise<MemberEntity> {
-        let m = await this.membersService.updateMember(id, member);
+        let m = await this.membersService.updateMember(id, member)
         if (!m)
             throw new NotFoundException
         
@@ -59,7 +59,7 @@ export class MembersIdController {
         description: "Delete a member and any attendances belonging to that member.",
     })
     async deleteMember(@Param('id') id: number) : Promise<void> {
-        let result = await this.membersService.deleteMember(id);
+        let result = await this.membersService.deleteMember(id)
         if (!result)
             throw new NotFoundException
     }

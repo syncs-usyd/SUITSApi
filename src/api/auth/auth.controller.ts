@@ -1,7 +1,8 @@
-import { Controller, ValidationPipe, Post, Body, UnauthorizedException } from "@nestjs/common";
-import { AuthDto } from "api/auth/dto";
-import { AuthService } from "api/auth/service";
 import { ApiUseTags, ApiOperation, ApiResponse, ApiModelProperty } from "@nestjs/swagger";
+import { Controller, ValidationPipe, Post, Body, UnauthorizedException } from "@nestjs/common";
+
+import { AuthDto } from "./auth.dto";
+import { AuthService } from "./auth.service";
 
 class TokenResource {
     @ApiModelProperty()

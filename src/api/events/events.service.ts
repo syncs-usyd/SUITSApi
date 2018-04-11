@@ -2,14 +2,15 @@ import { Component, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { EventDto } from './dto';
 import { EventEntity } from 'entities';
 import { EventResource } from 'resources/event';
 import { BaseEntityService } from 'utils/entity.service.base';
 import { WebSocketService } from 'websocket/service';
 
+import { EventDto } from './events.dto';
+
 @Component()
-export class EventService extends BaseEntityService<EventEntity, EventResource> {
+export class EventsService extends BaseEntityService<EventEntity, EventResource> {
 
     constructor(
         @InjectRepository(EventEntity)

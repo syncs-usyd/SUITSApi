@@ -1,6 +1,8 @@
-import { AuthDto } from "./dto";
 import { verify, sign, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { Component } from "@nestjs/common";
+
+import { AuthDto } from "./auth.dto";
+
 let config = require('entities/../../config.json');
 
 @Component()

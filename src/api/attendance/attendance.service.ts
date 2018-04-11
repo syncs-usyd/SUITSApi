@@ -1,7 +1,7 @@
 import { Component, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AttendanceDto } from './dto';
+import { AttendanceDto } from './attendance.dto';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { AttendanceEntity } from 'entities';
 import { BaseEntityService } from 'utils/entity.service.base';

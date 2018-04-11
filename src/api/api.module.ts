@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MembersModule } from './members'
 import { AttendanceModule } from './attendance';
-import { EventModule } from './events'
+import { EventsModule } from './events'
 import { AuthModule } from './auth';
 
 @Module({
     imports: [
         AuthModule,
         MembersModule,
-        EventModule,
+        EventsModule,
         AttendanceModule
     ],
 })

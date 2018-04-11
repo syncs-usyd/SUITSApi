@@ -2,11 +2,12 @@ import { Component, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { MemberDto } from './dto';
-import { MemberEntity } from 'entities/member';
+import { MemberEntity } from 'entities';
 import { WebSocketService } from 'websocket/service';
 import { MemberResource } from 'resources/member';
 import { BaseEntityService } from 'utils/entity.service.base';
+
+import { MemberDto } from './members.dto';
 
 @Component()
 export class MembersService extends BaseEntityService<MemberEntity, MemberResource> {

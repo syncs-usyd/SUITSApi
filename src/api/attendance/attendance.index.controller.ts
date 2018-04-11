@@ -1,48 +1,22 @@
 import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, UseGuards } from "@nestjs/common";
+import { ApiUseTags, ApiResponse, ApiOperation, ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { IsNumber, IsNumberString, IsOptional, IsNotEmpty } from "class-validator";
+import { Transform } from "class-transformer";
+import { pickBy, identity } from 'lodash'
 
 import { AttendanceEntity } from "entities";
 import { AttendanceResource } from "resources/attendance";
 import { Serializer } from "serializer/interceptor";
+import { AuthGuard } from "api/auth/auth.guard";
 
-import { AttendanceService } from "api/attendance/service";
-import { AttendanceDto } from "api/attendance/dto";
-import { IsNumber, IsNumberString, IsOptional, IsNotEmpty } from "class-validator";
-import { Transform } from "class-transformer";
-import { pickBy, identity } from 'lodash'
-import { ApiUseTags, ApiResponse, ApiOperation, ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
-import { ApiGuard } from "api/auth/guard.api";
+import { AttendanceService } from "./attendance.service";
+import { AttendanceDto } from "./attendance.dto";
+import { OptionalAttendanceQuery, AttendanceQuery } from "./attendance.query";
 
-class AttendanceQuery {
-
-    @ApiModelProperty()
-    @Transform((m: string) => Number(m))
-    @IsNumber()
-    member: number
-
-    @ApiModelProperty()
-    @Transform((e: string) => Number(e))
-    @IsNumber()
-    event: number
-}
-
-class OptionalAttendanceQuery {
-
-    @ApiModelPropertyOptional()
-    @Transform((m: string) => Number(m))
-    @IsOptional()
-    @IsNumber()
-    member: number
-
-    @ApiModelPropertyOptional()
-    @Transform((m: string) => Number(m))
-    @IsOptional()
-    @IsNumber()
-    event: number
-}
 
 @ApiUseTags('attendance')
 @Controller(new AttendanceResource().prefix)
-@UseGuards(ApiGuard)
+@UseGuards(AuthGuard)
 @UseInterceptors(Serializer(AttendanceResource))
 export class AttendanceIndexController {
 

@@ -7,7 +7,7 @@ import {
     OnGatewayConnection,
 } from '@nestjs/websockets';
 import * as SocketIO from 'socket.io';
-import { AuthService } from 'api/auth/service';
+import { AuthService } from 'api/auth';
 
 @WSGateway()
 export class WebSocketGateway implements OnGatewayConnection {

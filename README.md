@@ -8,8 +8,6 @@ To get this running locally you'll need to have MySQL installed and a database c
 
 (Don't try to use sqlite because it doesn't have good support for foreign key constraints.)
 
-It is recommended to run this api in a `venv`. The following steps should get it running:
-
 NOTE: currently migrating to TypeScript, so this will be updated
 
 3. Check your database connection:

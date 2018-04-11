@@ -1,22 +1,23 @@
 import { UseInterceptors, Controller, Get, Query, Post, ValidationPipe, Body, UseGuards } from "@nestjs/common";
+import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { EventTargetLike } from "rxjs/observable/FromEventObservable";
 
 import { EventEntity } from "entities";
 import { Serializer } from "serializer/interceptor";
 import { EventResource } from "resources/event/event";
-import { EventService } from "api/events/service";
-import { EventTargetLike } from "rxjs/observable/FromEventObservable";
-import { EventDto } from "api/events/dto";
-import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { ApiGuard } from "api/auth/guard.api";
+import { AuthGuard } from "api/auth";
+
+import { EventsService } from "./events.service";
+import { EventDto } from "./events.dto";
 
 @ApiUseTags("events")
 @Controller(new EventResource().prefix)
-@UseGuards(ApiGuard)
+@UseGuards(AuthGuard)
 @UseInterceptors(Serializer(EventResource))
-export class EventIndexController {
+export class EventsIndexController {
 
     constructor(
-        private readonly eventService: EventService
+        private readonly EventsService: EventsService
     ) {}
 
     @Get()
@@ -29,7 +30,7 @@ export class EventIndexController {
         type: EventResource,
     })
     getEvents(): Promise<EventEntity[]> {
-        return this.eventService.getAllEvents();
+        return this.EventsService.getAllEvents();
     }
 
     @Post()
@@ -42,6 +43,6 @@ export class EventIndexController {
         type: EventResource,
     })
     addEvent(@Body(new ValidationPipe()) data: EventDto): Promise<EventEntity> {
-        return this.eventService.addEvent(data);
+        return this.EventsService.addEvent(data);
     }
 }
