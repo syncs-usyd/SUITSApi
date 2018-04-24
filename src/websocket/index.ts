@@ -1,1 +1,0 @@
-export { WebSocketModule } from './module'

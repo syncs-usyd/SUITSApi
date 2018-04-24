@@ -3,23 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { EventEntity } from 'entities';
-import { EventResource } from 'resources/event';
-import { BaseEntityService } from 'utils/entity.service.base';
-import { WebSocketService } from 'websocket/service';
-
+import { EventResource } from 'resources';
+import { WebSocketService } from 'core';
 import { EventDto } from './events.dto';
 
 @Component()
-export class EventsService extends BaseEntityService<EventEntity, EventResource> {
+export class EventsService {
 
     constructor(
         @InjectRepository(EventEntity)
-        repo: Repository<EventEntity>,
-        websocket: WebSocketService
-    ) { super(repo, websocket, EventResource) }
+        private readonly repo: Repository<EventEntity>,
+        private readonly websocket: WebSocketService
+    ) {}
 
-    addEvent(data: EventDto): Promise<EventEntity> {
-        return this.insert(data)
+    async addEvent(data: EventDto): Promise<EventEntity> {
+        let event = this.repo.create(data)
+        event = await this.repo.save(event)
+        this.websocket.sendInsert(event)
+
+        return event
     }
 
     async getAllEvents(): Promise<EventEntity[]> {
@@ -30,12 +32,27 @@ export class EventsService extends BaseEntityService<EventEntity, EventResource>
         return this.repo.findOneById(id, { relations: [ 'membersAttended' ] })
     }
 
-    updateEvent(id: number, data: EventDto): Promise<EventEntity | undefined> {
-        return this.update(id, data)
+    async updateEvent(id: number, data: EventDto): Promise<EventEntity | undefined> {
+        let event = await this.repo.findOneById(id)
+        if (!event)
+            return undefined
+        
+        event = this.repo.merge(event, data)
+        event = await this.repo.save(event)
+
+        this.websocket.sendUpdate(event)
+        return event
     }
 
-    deleteEvent(id: number): Promise<EventEntity | undefined> {
-        return this.delete(id)
+    async deleteEvent(id: number): Promise<EventEntity | undefined> {
+        let event = await this.repo.findOneById(id)
+        if (!event)
+            return undefined
+
+        await this.repo.deleteById(id)
+
+        this.websocket.sendDelete(event)
+        return event
     }
 
 }

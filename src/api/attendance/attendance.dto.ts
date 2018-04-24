@@ -1,4 +1,4 @@
-import { Attendance } from "interfaces/attendance";
+import { Attendance } from "interfaces";
 import { IsBoolean, IsOptional, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 

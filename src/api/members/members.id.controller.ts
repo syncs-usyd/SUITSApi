@@ -3,9 +3,9 @@ import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { plainToClass } from 'class-transformer'
 
 import { MemberEntity } from 'entities'
-import { Serializer } from 'serializer/interceptor'
-import { MemberResource } from 'resources/member'
-import { AuthGuard } from 'api/auth'
+import { SerializerInterceptor } from "core";
+import { MemberResource } from 'resources'
+import { AuthGuard } from 'core'
 
 import { MembersService } from './members.service'
 import { MemberDto } from './members.dto'
@@ -13,7 +13,7 @@ import { MemberDto } from './members.dto'
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix+"/:id")
 @UseGuards(AuthGuard)
-@UseInterceptors(Serializer(MemberResource))
+@UseInterceptors(SerializerInterceptor)
 export class MembersIdController {
     
     constructor(private readonly membersService: MembersService) {}

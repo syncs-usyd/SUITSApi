@@ -1,3 +1,3 @@
-export { AttendanceEntity } from './attendance';
-export { MemberEntity } from './member';
-export { EventEntity } from './event';
+export { AttendanceEntity } from './attendance.entity';
+export { MemberEntity } from './member.entity';
+export { EventEntity } from './event.entity';

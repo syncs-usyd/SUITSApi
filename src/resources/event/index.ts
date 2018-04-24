@@ -1,1 +1,0 @@
-export { EventResource } from './event'

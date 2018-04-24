@@ -21,11 +21,11 @@ export class OptionalAttendanceQuery {
     @Transform((m: string) => Number(m))
     @IsOptional()
     @IsNumber()
-    member: number
+    member?: number
 
     @ApiModelPropertyOptional()
     @Transform((m: string) => Number(m))
     @IsOptional()
     @IsNumber()
-    event: number
+    event?: number
 }

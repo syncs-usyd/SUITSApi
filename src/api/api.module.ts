@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MembersModule } from './members'
-import { AttendanceModule } from './attendance';
-import { EventsModule } from './events'
-import { AuthModule } from './auth';
+import { MembersModule } from './members/members.module'
+import { AttendanceModule } from './attendance/attendance.module';
+import { EventsModule } from './events/events.module'
+import { TokenModule } from './token';
 
 @Module({
     imports: [
-        AuthModule,
+        TokenModule,
         MembersModule,
         EventsModule,
         AttendanceModule

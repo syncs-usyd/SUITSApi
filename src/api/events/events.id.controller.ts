@@ -3,17 +3,16 @@ import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 
 import { EventEntity } from 'entities';
-import { AuthGuard } from 'api/auth';
-import { Serializer } from 'serializer/interceptor';
-import { EventResource } from 'resources/event';
+import { AuthGuard, SerializerInterceptor } from 'core';
+import { EventResource } from 'resources';
 
-import { EventsService } from './events.service';
+import { EventsService } from "./events.service";
 import { EventDto } from './events.dto';
 
 @ApiUseTags("events")
 @Controller(new EventResource().prefix+"/:id")
 @UseGuards(AuthGuard)
-@UseInterceptors(Serializer(EventResource))
+@UseInterceptors(SerializerInterceptor)
 export class EventsIdController {
     
     constructor(private readonly EventsService: EventsService) {}

@@ -3,9 +3,9 @@ import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { EventTargetLike } from "rxjs/observable/FromEventObservable";
 
 import { EventEntity } from "entities";
-import { Serializer } from "serializer/interceptor";
-import { EventResource } from "resources/event/event";
-import { AuthGuard } from "api/auth";
+import { SerializerInterceptor } from "core";
+import { EventResource } from "resources";
+import { AuthGuard } from "core";
 
 import { EventsService } from "./events.service";
 import { EventDto } from "./events.dto";
@@ -13,7 +13,7 @@ import { EventDto } from "./events.dto";
 @ApiUseTags("events")
 @Controller(new EventResource().prefix)
 @UseGuards(AuthGuard)
-@UseInterceptors(Serializer(EventResource))
+@UseInterceptors(SerializerInterceptor)
 export class EventsIndexController {
 
     constructor(

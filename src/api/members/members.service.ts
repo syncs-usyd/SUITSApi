@@ -3,20 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { MemberEntity } from 'entities';
-import { WebSocketService } from 'websocket/service';
-import { MemberResource } from 'resources/member';
-import { BaseEntityService } from 'utils/entity.service.base';
-
-import { MemberDto } from './members.dto';
+import { WebSocketService } from 'core';
+import { MemberResource } from 'resources';
+import { MemberDto } from 'api/members/members.dto';
 
 @Component()
-export class MembersService extends BaseEntityService<MemberEntity, MemberResource> {
+export class MembersService {
 
     constructor(
         @InjectRepository(MemberEntity)
-        repo: Repository<MemberEntity>,
-        websocket: WebSocketService
-    ) { super(repo, websocket, MemberResource) }
+        private readonly repo: Repository<MemberEntity>,
+        private readonly websocket: WebSocketService
+    ) {}
 
     private async getMemberIfExists(data: MemberDto): Promise<MemberEntity | undefined> {
         let validVals = [data.email, data.access, data.sid].filter(v => !!v) // looking for non-falsy value
@@ -45,13 +43,19 @@ export class MembersService extends BaseEntityService<MemberEntity, MemberResour
     async addMember(data: MemberDto): Promise<MemberEntity> {
         let existingMember = await this.getMemberIfExists(data)
         let member: MemberEntity
-        if (existingMember)
-        {
+        if (existingMember) {
             data.registered = data.registered || existingMember.registered // disallow unregistering
-            member = (await this.update(existingMember.id, data))!
+
+            member = this.repo.merge(existingMember, data)
+            member = await this.repo.save(member)
+
+            this.websocket.sendUpdate(member)
         }
         else {
-            member = await this.insert(data)
+            member = this.repo.create(data) 
+            member = await this.repo.save(member)
+
+            this.websocket.sendInsert(member)
         }
 
         return member
@@ -65,12 +69,27 @@ export class MembersService extends BaseEntityService<MemberEntity, MemberResour
         return this.repo.findOneById(id, { relations: [ 'eventsAttended' ] })
     }
 
-    updateMember(id: number, data: MemberDto) : Promise<MemberEntity | undefined> {
-        return this.update(id, data)
+    async updateMember(id: number, data: MemberDto) : Promise<MemberEntity | undefined> {
+        let member = await this.repo.findOneById(id)
+        if (!member)
+            return undefined
+        
+        member = this.repo.merge(member, data)
+        member = await this.repo.save(member)
+        
+        this.websocket.sendUpdate(member)
+        return member
     }
 
-    deleteMember(id: number) : Promise<MemberEntity | undefined> {
-        return this.delete(id)
+    async deleteMember(id: number) : Promise<MemberEntity | undefined> {
+        let member = await this.repo.findOneById(id)
+        if (!member)
+            return undefined
+
+        await this.repo.deleteById(id)
+
+        this.websocket.sendDelete(member)
+        return member
     }
 
 }

@@ -1,4 +1,4 @@
-import { Member, Gender } from "interfaces/member";
+import { Member, Gender } from "interfaces";
 import { IsEmail, IsString, IsEnum, IsNumber, IsBoolean, Validate, IsOptional } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 

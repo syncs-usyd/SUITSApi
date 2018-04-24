@@ -1,1 +1,0 @@
-export { MemberResource } from './member'
