@@ -26,12 +26,8 @@ export class MembersService {
             q = q.select()
 
             // since we know that one of the following is valid, we don't need to check
-            if (fields.email)
-                q = q.where("member.email IS NOT NULL AND member.email = :email", fields)
-            if (fields.access)
-                q = q.where("member.access IS NOT NULL AND member.access = :access", fields)
-            if (fields.sid)
-                q = q.where("member.sid IS NOT NULL AND member.sid = :sid", fields)
+            let where = ["email", "access", "sid"].map(field => `(member.${field} IS NOT NULL AND member.${field} = :${field})`)
+            q = q.where(where.join(" OR "), fields)
 
             let result = await q.getOne()
 
