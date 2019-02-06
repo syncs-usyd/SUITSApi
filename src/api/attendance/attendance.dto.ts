@@ -1,5 +1,5 @@
 import { Attendance } from "interfaces";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsOptional, IsString, IsNumber } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class AttendanceDto implements Attendance {
@@ -9,8 +9,8 @@ export class AttendanceDto implements Attendance {
     primary: boolean
 
     @ApiModelProperty()
-    @IsBoolean()
-    secondary: boolean
+    @IsNumber()
+    secondary: number
 
     @ApiModelPropertyOptional()
     @IsOptional()

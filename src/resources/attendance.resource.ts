@@ -20,7 +20,7 @@ export class AttendanceResource extends BaseResource implements Attendance {
 
     @ApiModelProperty()
     @Allow()
-    secondary: boolean;
+    secondary: number;
     
     @ApiModelPropertyOptional()
     @Allow()

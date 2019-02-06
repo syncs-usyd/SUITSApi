@@ -2,7 +2,7 @@ export interface Attendance {
 
     primary: boolean
 
-    secondary: boolean
+    secondary: number
 
     additional?: string
 

@@ -37,7 +37,7 @@ export class AttendanceEntity extends BaseEntity implements Attendance {
     primary: boolean
 
     @Column()
-    secondary: boolean
+    secondary: number
 
     @Column({nullable: true})
     additional?: string
