@@ -32,7 +32,7 @@ export class MemberDto implements Member {
     @IsNumber()
     sid?: number
 
-    @ApiModelPropertyOptional({default: true})
+    @ApiModelPropertyOptional({default: false})
     @IsOptional()
     @IsBoolean()
     newsletter?: boolean
@@ -42,7 +42,7 @@ export class MemberDto implements Member {
     @IsBoolean()
     doingIT?: boolean
 
-    @ApiModelPropertyOptional({default: true})
+    @ApiModelPropertyOptional({default: false})
     @IsOptional()
     @IsBoolean()
     registered?: boolean;

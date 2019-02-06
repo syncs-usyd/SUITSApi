@@ -31,13 +31,13 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({unique: true, nullable: true})
     sid?: number
 
-    @Column({default: true})
+    @Column({default: false})
     newsletter: boolean
 
     @Column({name: "doing_it", default: false})
     doingIT: boolean
 
-    @Column({default: true})
+    @Column({default: false})
     registered: boolean
 
     @OneToMany(type => AttendanceEntity, att => att.member)
