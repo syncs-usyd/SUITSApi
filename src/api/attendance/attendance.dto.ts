@@ -3,23 +3,21 @@ import { IsBoolean, IsOptional, IsString, IsNumber } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class AttendanceDto implements Attendance {
-
     @ApiModelProperty()
     @IsBoolean()
-    primary: boolean
+    primary: boolean;
 
     @ApiModelProperty()
     @IsNumber()
-    secondary: number
+    secondary: number;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsString()
-    additional?: string
+    additional?: string;
 
-    @ApiModelPropertyOptional({default: false})
+    @ApiModelPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
-    paidByCard?: boolean
-
+    paidByCard?: boolean;
 }

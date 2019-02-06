@@ -8,7 +8,6 @@ import { BaseResource } from "./base.resource";
 import { AttendanceResource } from "./attendance.resource";
 
 export class EventResource extends BaseResource implements Event {
-
     @ApiModelProperty()
     @Allow()
     id: number;
@@ -25,20 +24,20 @@ export class EventResource extends BaseResource implements Event {
     @Allow()
     time: Date;
 
-    @ApiModelPropertyOptional({isArray: true, type: AttendanceResource})
+    @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()
     membersAttended?: AttendanceResource[];
 
     get prefix(): string {
-        return '/events'
+        return "/events";
     }
 
     getResourceName(): string {
-        return "Event"
+        return "Event";
     }
 
     getType(): new (...args: any[]) => BaseResource {
-        return EventResource
+        return EventResource;
     }
 }

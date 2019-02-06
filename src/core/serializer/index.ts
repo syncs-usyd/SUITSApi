@@ -1,2 +1,2 @@
-export { SerializerService } from './serializer.service'
-export { SerializerInterceptor } from './serializer.interceptor'
+export { SerializerService } from "./serializer.service";
+export { SerializerInterceptor } from "./serializer.interceptor";

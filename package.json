@@ -48,5 +48,8 @@
     "@types/node": "^9.6.4",
     "nodemon": "^1.18.9",
     "ts-node": "^4.1.0"
+  },
+  "prettier": {
+	"tabWidth": 2
   }
 }

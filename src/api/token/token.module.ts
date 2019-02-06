@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 
-import { TokenController } from './token.controller';
+import { TokenController } from "./token.controller";
 
 @Module({
-    controllers: [TokenController],
+    controllers: [TokenController]
 })
 export class TokenModule {}

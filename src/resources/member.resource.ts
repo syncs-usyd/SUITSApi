@@ -1,15 +1,14 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Allow, ValidateNested, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { Allow, ValidateNested, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
 
-import { Member, Gender } from 'interfaces'
-import { MemberEntity } from 'entities';
+import { Member, Gender } from "interfaces";
+import { MemberEntity } from "entities";
 
-import { BaseResource } from './base.resource'
-import { AttendanceResource } from './attendance.resource';
+import { BaseResource } from "./base.resource";
+import { AttendanceResource } from "./attendance.resource";
 
 export class MemberResource extends BaseResource implements Member {
-
     @ApiModelProperty()
     @Allow()
     id: number;
@@ -21,11 +20,11 @@ export class MemberResource extends BaseResource implements Member {
     @ApiModelProperty()
     @Allow()
     firstName: string;
-    
+
     @ApiModelProperty()
     @Allow()
     lastName: string;
-    
+
     @ApiModelPropertyOptional()
     @Allow()
     gender?: Gender;
@@ -62,20 +61,20 @@ export class MemberResource extends BaseResource implements Member {
     @Allow()
     international?: boolean;
 
-    @ApiModelPropertyOptional({isArray: true, type: AttendanceResource})
+    @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()
-    eventsAttended?: AttendanceResource[]
+    eventsAttended?: AttendanceResource[];
 
     get prefix() {
-        return "/members"
+        return "/members";
     }
 
     getResourceName(): string {
-        return "Member"
+        return "Member";
     }
 
     getType(): new (...args: any[]) => BaseResource {
-        return MemberResource
+        return MemberResource;
     }
 }

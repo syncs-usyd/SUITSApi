@@ -9,11 +9,10 @@ import { EventResource } from "./event.resource";
 import { MemberResource } from "./member.resource";
 
 export class AttendanceResource extends BaseResource implements Attendance {
-
     @ApiModelProperty()
     @Allow()
     id: number;
-    
+
     @ApiModelProperty()
     @Allow()
     primary: boolean;
@@ -21,7 +20,7 @@ export class AttendanceResource extends BaseResource implements Attendance {
     @ApiModelProperty()
     @Allow()
     secondary: number;
-    
+
     @ApiModelPropertyOptional()
     @Allow()
     additional?: string;
@@ -33,30 +32,34 @@ export class AttendanceResource extends BaseResource implements Attendance {
     @ApiModelPropertyOptional()
     @Allow()
     @Type(() => MemberResource)
-    @Transform((m: MemberResource) => {return {id: m.id, ref: m.ref}})
+    @Transform((m: MemberResource) => {
+        return { id: m.id, ref: m.ref };
+    })
     member: {
-        id: number,
-        ref: string
-    }
+        id: number;
+        ref: string;
+    };
 
     @ApiModelPropertyOptional()
     @Allow()
     @Type(() => EventResource)
-    @Transform((e: EventResource) => {return {id: e.id, ref: e.ref}})
+    @Transform((e: EventResource) => {
+        return { id: e.id, ref: e.ref };
+    })
     event: {
-        id: number,
-        ref: string
-    }
+        id: number;
+        ref: string;
+    };
 
     get prefix(): string {
-        return "/attendance"
+        return "/attendance";
     }
-    
+
     getResourceName(): string {
-        return "Attendance"
+        return "Attendance";
     }
 
     getType(): new (...args: any[]) => BaseResource {
-        return AttendanceResource
+        return AttendanceResource;
     }
 }

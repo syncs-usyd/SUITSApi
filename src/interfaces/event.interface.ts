@@ -1,9 +1,7 @@
 export interface Event {
+    title: string;
 
-    title: string
+    description?: string;
 
-    description?: string
-
-    time: Date
-
+    time: Date;
 }
