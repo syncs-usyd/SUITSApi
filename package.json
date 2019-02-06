@@ -1,6 +1,6 @@
 {
   "name": "suitsapi",
-  "version": "1.0.0",
+  "version": "2019.0.0",
   "description": "Membership and Attendance API for SUITS",
   "main": "index.js",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kostacoffee/SUITSApi.git"
+    "url": "git+https://github.com/suits-usyd/SUITSApi.git"
   },
-  "author": "",
+  "author": "Kosta Dunn, David Vo",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/kostacoffee/SUITSApi/issues"
+    "url": "https://github.com/suits-usyd/SUITSApi/issues"
   },
-  "homepage": "https://github.com/kostacoffee/SUITSApi#readme",
+  "homepage": "https://github.com/suits-usyd/SUITSApi#readme",
   "dependencies": {
     "@nestjs/common": "^4.6.6",
     "@nestjs/core": "^4.6.6",
