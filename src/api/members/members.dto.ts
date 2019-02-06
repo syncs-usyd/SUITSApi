@@ -1,9 +1,16 @@
 import { Member, Gender } from "interfaces";
-import { IsEmail, IsString, IsEnum, IsNumber, IsBoolean, Validate, IsOptional } from "class-validator";
+import {
+    IsEmail,
+    IsString,
+    IsEnum,
+    IsNumber,
+    IsBoolean,
+    Validate,
+    IsOptional
+} from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class MemberDto implements Member {
-
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsEmail()
@@ -17,33 +24,43 @@ export class MemberDto implements Member {
     @IsString()
     lastName: string;
 
-    @ApiModelPropertyOptional({default: Gender.Other})
+    @ApiModelPropertyOptional()
     @IsOptional()
     @IsEnum(Gender)
-    gender?: Gender
+    gender?: Gender;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsNumber()
-    access?: number
+    access?: number;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsNumber()
-    sid?: number
+    sid?: number;
 
-    @ApiModelPropertyOptional({default: true})
+    @ApiModelPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
-    newsletter?: boolean
+    newsletter?: boolean;
 
-    @ApiModelPropertyOptional({default: false})
+    @ApiModelPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
-    doingIT?: boolean
+    doingIT?: boolean;
 
-    @ApiModelPropertyOptional({default: true})
+    @ApiModelPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
     registered?: boolean;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @IsNumber()
+    expectedGradYear?: number;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @IsBoolean()
+    international?: boolean;
 }

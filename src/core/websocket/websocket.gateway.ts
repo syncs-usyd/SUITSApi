@@ -4,23 +4,21 @@ import {
     WsResponse,
     WebSocketServer,
     WsException,
-    OnGatewayConnection,
-} from '@nestjs/websockets';
-import * as SocketIO from 'socket.io';
+    OnGatewayConnection
+} from "@nestjs/websockets";
+import * as SocketIO from "socket.io";
 
-import { AuthService } from 'core';
+import { AuthService } from "core";
 
 @WSGateway()
 export class WebSocketGateway implements OnGatewayConnection {
-
     constructor(private readonly authService: AuthService) {}
 
-    @WebSocketServer() server: SocketIO.Server
+    @WebSocketServer() server: SocketIO.Server;
 
     handleConnection(client: SocketIO.Socket) {
-        let token = client.handshake.query.token
+        let token = client.handshake.query.token;
 
-        if (!token || !this.authService.verifyToken(token))
-            client.disconnect();
+        if (!token || !this.authService.verifyToken(token)) client.disconnect();
     }
 }

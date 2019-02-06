@@ -4,7 +4,6 @@ import { IsString, IsOptional, IsDate, IsDateString } from "class-validator";
 import { Event } from "interfaces";
 
 export class EventDto implements Event {
-
     @ApiModelProperty()
     @IsString()
     title: string;
@@ -14,7 +13,7 @@ export class EventDto implements Event {
     @IsString()
     description?: string;
 
-    @ApiModelProperty({default: "Date.now()"})
+    @ApiModelProperty({ default: "Date.now()" })
     @IsDateString()
     time: Date;
 }

@@ -1,31 +1,40 @@
-import { Controller, Get, Post, Body, UseInterceptors, ValidationPipe, HttpCode, UseGuards } from '@nestjs/common';
-import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { plainToClass, classToPlain } from 'class-transformer';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    UseInterceptors,
+    ValidationPipe,
+    HttpCode,
+    UseGuards
+} from "@nestjs/common";
+import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { plainToClass, classToPlain } from "class-transformer";
 
-import { MemberEntity } from 'entities';
-import { SerializerInterceptor } from "core";;
-import { MemberResource } from 'resources';
-import { AuthGuard } from 'core';
+import { MemberEntity } from "entities";
+import { SerializerInterceptor } from "core";
+import { MemberResource } from "resources";
+import { AuthGuard } from "core";
 
-import { MembersService } from './members.service';
-import { MemberDto } from './members.dto';
+import { MembersService } from "./members.service";
+import { MemberDto } from "./members.dto";
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix)
 @UseInterceptors(SerializerInterceptor)
 export class MembersIndexController {
-
     constructor(private readonly membersService: MembersService) {}
 
     @Get()
     @UseGuards(AuthGuard)
     @ApiOperation({
         title: "Retrieve all members",
-        description: "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended.",
+        description:
+            "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended."
     })
     @ApiResponse({
         status: 200,
-        type: MemberResource,
+        type: MemberResource
     })
     getAllMembers(): Promise<MemberEntity[]> {
         return this.membersService.getAllMembers();
@@ -35,9 +44,12 @@ export class MembersIndexController {
     @HttpCode(200)
     @ApiOperation({
         title: "Add a new member",
-        description: "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead."
+        description:
+            "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead."
     })
-    addMember(@Body(new ValidationPipe({transform: true})) member: MemberDto): Promise<MemberEntity> {
+    addMember(
+        @Body(new ValidationPipe({ transform: true })) member: MemberDto
+    ): Promise<MemberEntity> {
         return this.membersService.addMember(member);
     }
 }

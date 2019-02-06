@@ -1,23 +1,25 @@
 import { Gender } from "./gender.enum";
 
 export interface Member {
- 
-    email?: string
+    email?: string;
 
-    firstName: string
+    firstName: string;
 
-    lastName: string
+    lastName: string;
 
-    gender?: Gender
+    gender?: Gender;
 
-    access?: number
+    access?: number;
 
-    sid?: number
+    sid?: number;
 
-    newsletter?: boolean
+    newsletter?: boolean;
 
-    doingIT?: boolean
-    
-    registered?: boolean
-   
+    doingIT?: boolean;
+
+    registered?: boolean;
+
+    expectedGradYear?: number;
+
+    international?: boolean;
 }

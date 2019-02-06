@@ -1,1 +1,1 @@
-export { TokenModule } from './token.module'
+export { TokenModule } from "./token.module";

@@ -1,1 +1,1 @@
-export { WebSocketService } from './websocket.service'
+export { WebSocketService } from "./websocket.service";

@@ -6,17 +6,18 @@ import { MemberResource, EventResource, AttendanceResource } from "resources";
 
 @Component()
 export class EntityResourceMapperService {
-
     getResourceType(entity: BaseEntity): new (...args: any[]) => BaseResource {
-
-        let type = entity.getType()
+        let type = entity.getType();
 
         switch (type) {
-            case MemberEntity: return MemberResource
-            case EventEntity: return EventResource
-            case AttendanceEntity: return AttendanceResource
+            case MemberEntity:
+                return MemberResource;
+            case EventEntity:
+                return EventResource;
+            case AttendanceEntity:
+                return AttendanceResource;
         }
 
-        throw new Error(`Entity ${type.name} has no valid resource!`)
+        throw new Error(`Entity ${type.name} has no valid resource!`);
     }
 }

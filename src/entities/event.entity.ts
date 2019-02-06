@@ -1,29 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Event } from 'interfaces';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Event } from "interfaces";
 
-import { AttendanceEntity } from './attendance.entity';
-import { BaseEntity } from './base.entity';
+import { AttendanceEntity } from "./attendance.entity";
+import { BaseEntity } from "./base.entity";
 
-@Entity({name: "Event"})
+@Entity({ name: "Event" })
 export class EventEntity extends BaseEntity implements Event {
-
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    title: string
+    title: string;
 
-    @Column({nullable: true})
-    description?: string
+    @Column({ nullable: true })
+    description?: string;
 
-    @Column({nullable: false, type: "timestamp"})
-    time: Date
+    @Column({ nullable: false, type: "timestamp" })
+    time: Date;
 
     @OneToMany(type => AttendanceEntity, att => att.event)
-    membersAttended?: AttendanceEntity[]
+    membersAttended?: AttendanceEntity[];
 
     getType(): new (...args: any[]) => EventEntity {
-        return EventEntity
+        return EventEntity;
     }
-
 }

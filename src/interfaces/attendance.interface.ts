@@ -1,9 +1,9 @@
 export interface Attendance {
+    primary: boolean;
 
-    primary: boolean
+    secondary: number;
 
-    secondary: boolean
+    additional?: string;
 
-    additional?: string
-
+    paidByCard?: boolean;
 }
