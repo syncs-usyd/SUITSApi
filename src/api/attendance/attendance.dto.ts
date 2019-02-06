@@ -17,4 +17,9 @@ export class AttendanceDto implements Attendance {
     @IsString()
     additional?: string
 
+    @ApiModelPropertyOptional({default: false})
+    @IsOptional()
+    @IsBoolean()
+    paidByCard?: boolean
+
 }

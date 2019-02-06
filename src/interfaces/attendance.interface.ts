@@ -6,4 +6,6 @@ export interface Attendance {
 
     additional?: string
 
+    paidByCard?: boolean
+
 }

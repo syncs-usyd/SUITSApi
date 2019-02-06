@@ -26,6 +26,10 @@ export class AttendanceResource extends BaseResource implements Attendance {
     @Allow()
     additional?: string;
 
+    @ApiModelProperty()
+    @Allow()
+    paidByCard: boolean;
+
     @ApiModelPropertyOptional()
     @Allow()
     @Type(() => MemberResource)

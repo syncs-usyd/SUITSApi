@@ -42,6 +42,9 @@ export class AttendanceEntity extends BaseEntity implements Attendance {
     @Column({nullable: true})
     additional?: string
 
+    @Column({name: "paid_by_card", default: false})
+    paidByCard: boolean
+
     getType(): new (...args: any[]) => AttendanceEntity {
         return AttendanceEntity
     }
