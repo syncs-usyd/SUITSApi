@@ -17,7 +17,7 @@ export class MemberDto implements Member {
     @IsString()
     lastName: string;
 
-    @ApiModelPropertyOptional({default: Gender.Other})
+    @ApiModelPropertyOptional()
     @IsOptional()
     @IsEnum(Gender)
     gender?: Gender

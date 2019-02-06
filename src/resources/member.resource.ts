@@ -26,9 +26,9 @@ export class MemberResource extends BaseResource implements Member {
     @Allow()
     lastName: string;
     
-    @ApiModelProperty()
+    @ApiModelPropertyOptional()
     @Allow()
-    gender: Gender;
+    gender?: Gender;
 
     @ApiModelProperty() // TODO: look into how to format a date type correctly with nest swagger
     @Allow()

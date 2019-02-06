@@ -19,8 +19,8 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({name: "last_name"})
     lastName: string;
 
-    @Column("enum", {default: Gender.Other, enum: Gender})
-    gender: Gender
+    @Column("enum", {enum: Gender, nullable: true})
+    gender?: Gender
 
     @Column({name: "joined_on", default: () => "CURRENT_TIMESTAMP", type: "timestamp"})
     joinedOn: Date
