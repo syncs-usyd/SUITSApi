@@ -26,7 +26,8 @@ export class MembersService {
             q = q.select()
 
             // since we know that one of the following is valid, we don't need to check
-            let where = ["email", "access", "sid"].map(field => `(member.${field} IS NOT NULL AND member.${field} = :${field})`)
+            let where = ["email", "access", "sid"].map(
+                field => `(member.${field} IS NOT NULL AND member.${field} = :${field})`)
             q = q.where(where.join(" OR "), fields)
 
             let result = await q.getOne()
