@@ -19,5 +19,9 @@ export interface Member {
     doingIT?: boolean
     
     registered?: boolean
-   
+
+    expectedGradYear?: number
+
+    international?: boolean
+
 }

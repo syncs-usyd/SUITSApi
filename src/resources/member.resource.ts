@@ -54,6 +54,14 @@ export class MemberResource extends BaseResource implements Member {
     @Allow()
     registered: boolean;
 
+    @ApiModelPropertyOptional()
+    @Allow()
+    expectedGradYear?: number;
+
+    @ApiModelPropertyOptional()
+    @Allow()
+    international?: boolean;
+
     @ApiModelPropertyOptional({isArray: true, type: AttendanceResource})
     @Type(() => AttendanceResource)
     @ValidateNested()

@@ -40,6 +40,12 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({default: false})
     registered: boolean
 
+    @Column({name: "expected_grad_year", nullable: true})
+    expectedGradYear?: number
+
+    @Column({nullable: true})
+    international?: boolean
+
     @OneToMany(type => AttendanceEntity, att => att.member)
     eventsAttended?: AttendanceEntity[]
 

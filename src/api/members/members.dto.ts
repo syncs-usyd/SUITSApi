@@ -46,4 +46,14 @@ export class MemberDto implements Member {
     @IsOptional()
     @IsBoolean()
     registered?: boolean;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @IsNumber()
+    expectedGradYear?: number;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @IsBoolean()
+    international?: boolean;
 }
