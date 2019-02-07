@@ -9,6 +9,6 @@ import { EventsService } from "./events.service";
     imports: [TypeOrmModule.forFeature([EventEntity])],
     controllers: [EventsIndexController, EventsIdController],
     components: [EventsService],
-    exports: [EventsService]
+    exports: [EventsService],
 })
 export class EventsModule {}

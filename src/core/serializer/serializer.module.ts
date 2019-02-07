@@ -7,8 +7,8 @@ import { EntityResourceMapperService } from "./entity-resource-mapper.service";
     components: [
         EntityResourceMapperService,
         SerializerService,
-        SerializerInterceptor
+        SerializerInterceptor,
     ],
-    exports: [SerializerService, SerializerInterceptor]
+    exports: [SerializerService, SerializerInterceptor],
 })
 export class SerializerModule {}

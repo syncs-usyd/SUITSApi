@@ -24,7 +24,7 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({
         name: "joined_on",
         default: () => "CURRENT_TIMESTAMP",
-        type: "timestamp"
+        type: "timestamp",
     })
     joinedOn: Date;
 

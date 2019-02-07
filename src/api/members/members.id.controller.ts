@@ -10,12 +10,8 @@ import {
     NotFoundException,
     HttpCode,
     UseGuards,
-    NestInterceptor,
-    ExecutionContext,
-    Interceptor
 } from "@nestjs/common";
 import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { plainToClass } from "class-transformer";
 
 import { MemberEntity } from "entities";
 import { SerializerInterceptor } from "core";
@@ -35,11 +31,11 @@ export class MembersIdController {
     @Get()
     @ApiOperation({
         title: "Retrieve a member",
-        description: "Retrieve a member with a given id."
+        description: "Retrieve a member with a given id.",
     })
     @ApiResponse({
         status: 200,
-        type: MemberResource
+        type: MemberResource,
     })
     async getMember(@Param("id") id: number): Promise<MemberEntity> {
         let member = await this.membersService.getMember(id);
@@ -51,15 +47,15 @@ export class MembersIdController {
     @Put()
     @ApiOperation({
         title: "Update member",
-        description: "Update info stored on the member with a given id."
+        description: "Update info stored on the member with a given id.",
     })
     @ApiResponse({
         status: 200,
-        type: MemberResource
+        type: MemberResource,
     })
     async editMember(
         @Param("id") id: number,
-        @Body(new ValidationPipe({ transform: true })) member: MemberDto
+        @Body(new ValidationPipe({ transform: true })) member: MemberDto,
     ): Promise<MemberEntity> {
         let m = await this.membersService.updateMember(id, member);
         if (!m) throw new NotFoundException();
@@ -72,7 +68,7 @@ export class MembersIdController {
     @ApiOperation({
         title: "Delete a member",
         description:
-            "Delete a member and any attendances belonging to that member."
+            "Delete a member and any attendances belonging to that member.",
     })
     async deleteMember(@Param("id") id: number): Promise<void> {
         let result = await this.membersService.deleteMember(id);

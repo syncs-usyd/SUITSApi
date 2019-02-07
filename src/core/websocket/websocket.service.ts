@@ -13,7 +13,7 @@ import { BaseEntity } from "entities/base.entity";
 export class WebSocketService {
     constructor(
         private readonly serializer: SerializerService,
-        private readonly gateway: WebSocketGateway
+        private readonly gateway: WebSocketGateway,
     ) {}
 
     private getSocket(): SocketIO.Server {
@@ -26,7 +26,7 @@ export class WebSocketService {
         this.getSocket().send({
             resource: resource.getResourceName(),
             action,
-            data: this.serializer.serialize(resource)
+            data: this.serializer.serialize(resource),
         });
     }
 

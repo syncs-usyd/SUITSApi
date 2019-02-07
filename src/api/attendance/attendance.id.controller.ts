@@ -2,8 +2,6 @@ import {
     UseInterceptors,
     Controller,
     Get,
-    Query,
-    Post,
     ValidationPipe,
     Body,
     Param,
@@ -11,7 +9,7 @@ import {
     HttpCode,
     Delete,
     NotFoundException,
-    UseGuards
+    UseGuards,
 } from "@nestjs/common";
 import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
@@ -34,11 +32,11 @@ export class AttendanceIdController {
     @ApiOperation({
         title: "Retrieve an attendance record",
         description:
-            "Retrieve a record of attendance associated with a given id."
+            "Retrieve a record of attendance associated with a given id.",
     })
     @ApiResponse({
         status: 200,
-        type: AttendanceEntity
+        type: AttendanceEntity,
     })
     async getAttendance(@Param("id") id: number): Promise<AttendanceEntity> {
         let a = await this.attendanceService.getAttendance(id);
@@ -51,15 +49,15 @@ export class AttendanceIdController {
     @ApiOperation({
         title: "Update an attendance record",
         description:
-            "Update the attendance record associated with the given id."
+            "Update the attendance record associated with the given id.",
     })
     @ApiResponse({
         status: 200,
-        type: AttendanceEntity
+        type: AttendanceEntity,
     })
     async updateAttendance(
         @Param("id") id: number,
-        @Body(new ValidationPipe({ transform: true })) data: AttendanceDto
+        @Body(new ValidationPipe({ transform: true })) data: AttendanceDto,
     ): Promise<AttendanceEntity> {
         let a = await this.attendanceService.updateAttendance(id, data);
         if (!a) throw new NotFoundException();
@@ -72,7 +70,7 @@ export class AttendanceIdController {
     @ApiOperation({
         title: "Delete an attendance record",
         description:
-            "Delete the attendance record associated with the given id."
+            "Delete the attendance record associated with the given id.",
     })
     async deleteAttendance(@Param("id") id: number): Promise<void> {
         let a = await this.attendanceService.deleteAttendance(id);

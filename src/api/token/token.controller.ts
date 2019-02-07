@@ -2,14 +2,14 @@ import {
     ApiUseTags,
     ApiOperation,
     ApiResponse,
-    ApiModelProperty
+    ApiModelProperty,
 } from "@nestjs/swagger";
 import {
     Controller,
     ValidationPipe,
     Post,
     Body,
-    UnauthorizedException
+    UnauthorizedException,
 } from "@nestjs/common";
 
 import { AuthService } from "core";
@@ -26,11 +26,11 @@ export class TokenController {
     @ApiOperation({
         title: "Retrieve a token",
         description:
-            "Retrieves the authentication token to be used as bearer authorization on authorized endpoints."
+            "Retrieves the authentication token to be used as bearer authorization on authorized endpoints.",
     })
     @ApiResponse({
         status: 200,
-        type: TokenResource
+        type: TokenResource,
     })
     auth(@Body(new ValidationPipe()) creds: CredsDto): TokenResource {
         if (!this.authService.verifyCreds(creds.user, creds.pass))

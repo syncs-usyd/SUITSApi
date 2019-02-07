@@ -13,10 +13,10 @@ import { AttendanceService } from "api/attendance";
     imports: [
         TypeOrmModule.forFeature([AttendanceEntity]),
         MembersModule,
-        EventsModule
+        EventsModule,
     ],
     controllers: [AttendanceIndexController, AttendanceIdController],
     components: [AttendanceService],
-    exports: [AttendanceService]
+    exports: [AttendanceService],
 })
 export class AttendanceModule {}

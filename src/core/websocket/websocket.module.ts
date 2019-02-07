@@ -5,6 +5,6 @@ import { WebSocketGateway } from "./websocket.gateway";
 @Global()
 @Module({
     components: [WebSocketGateway, WebSocketService],
-    exports: [WebSocketService]
+    exports: [WebSocketService],
 })
 export class WebSocketModule {}

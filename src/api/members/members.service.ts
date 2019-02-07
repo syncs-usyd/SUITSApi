@@ -1,10 +1,9 @@
-import { Component, NotFoundException } from "@nestjs/common";
+import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { MemberEntity } from "entities";
 import { WebSocketService } from "core";
-import { MemberResource } from "resources";
 import { MemberDto } from "api/members/members.dto";
 
 @Component()
@@ -12,18 +11,18 @@ export class MembersService {
     constructor(
         @InjectRepository(MemberEntity)
         private readonly repo: Repository<MemberEntity>,
-        private readonly websocket: WebSocketService
+        private readonly websocket: WebSocketService,
     ) {}
 
     private async getMemberIfExists(
-        data: MemberDto
+        data: MemberDto,
     ): Promise<MemberEntity | undefined> {
         let validVals = [data.email, data.access, data.sid].filter(v => !!v); // looking for non-falsy value
         if (validVals.length != 0) {
             let fields = {
                 email: data.email,
                 access: data.access,
-                sid: data.sid
+                sid: data.sid,
             };
 
             let q = this.repo.createQueryBuilder("member");
@@ -32,7 +31,7 @@ export class MembersService {
             // since we know that one of the following is valid, we don't need to check
             let where = ["email", "access", "sid"].map(
                 field =>
-                    `(member.${field} IS NOT NULL AND member.${field} = :${field})`
+                    `(member.${field} IS NOT NULL AND member.${field} = :${field})`,
             );
             q = q.where(where.join(" OR "), fields);
 
@@ -72,7 +71,7 @@ export class MembersService {
 
     async updateMember(
         id: number,
-        data: MemberDto
+        data: MemberDto,
     ): Promise<MemberEntity | undefined> {
         let member = await this.repo.findOneById(id);
         if (!member) return undefined;

@@ -11,7 +11,7 @@ async function bootstrap() {
     const options = new DocumentBuilder()
         .setTitle("SUITS API")
         .setDescription(
-            "SUITS API for memberships, events and attendance. All changes to the data can be observed via Socket.IO which can be procured if you have the API key."
+            "SUITS API for memberships, events and attendance. All changes to the data can be observed via Socket.IO which can be procured if you have the API key.",
         )
         .setVersion("3.0")
         .build();

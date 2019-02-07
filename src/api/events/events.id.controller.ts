@@ -9,10 +9,9 @@ import {
     ValidationPipe,
     NotFoundException,
     HttpCode,
-    UseGuards
+    UseGuards,
 } from "@nestjs/common";
 import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { plainToClass } from "class-transformer";
 
 import { EventEntity } from "entities";
 import { AuthGuard, SerializerInterceptor } from "core";
@@ -31,11 +30,11 @@ export class EventsIdController {
     @Get()
     @ApiOperation({
         title: "Retrieve an event",
-        description: "Retrieve an event with a given id."
+        description: "Retrieve an event with a given id.",
     })
     @ApiResponse({
         status: 200,
-        type: EventResource
+        type: EventResource,
     })
     async getEvent(@Param("id") id: number): Promise<EventEntity> {
         let event = await this.EventsService.getEvent(id);
@@ -47,15 +46,15 @@ export class EventsIdController {
     @Put()
     @ApiOperation({
         title: "Update an event",
-        description: "Update data about the event with a given id."
+        description: "Update data about the event with a given id.",
     })
     @ApiResponse({
         status: 200,
-        type: EventResource
+        type: EventResource,
     })
     async editEvent(
         @Param("id") id: number,
-        @Body(new ValidationPipe({ transform: true })) event: EventDto
+        @Body(new ValidationPipe({ transform: true })) event: EventDto,
     ): Promise<EventEntity> {
         let e = await this.EventsService.updateEvent(id, event);
         if (!e) throw new NotFoundException();
@@ -67,7 +66,7 @@ export class EventsIdController {
     @HttpCode(204)
     @ApiOperation({
         title: "Delete an event",
-        description: "Delete the event and all attendance associated with it."
+        description: "Delete the event and all attendance associated with it.",
     })
     async deleteEvent(@Param("id") id: number): Promise<void> {
         let e = this.EventsService.deleteEvent(id);

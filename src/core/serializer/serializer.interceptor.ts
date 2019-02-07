@@ -15,7 +15,7 @@ export class SerializerInterceptor implements NestInterceptor {
     intercept(
         dataOrRequest: any,
         context: ExecutionContext,
-        stream$: Observable<BaseEntity | BaseEntity[] | undefined>
+        stream$: Observable<BaseEntity | BaseEntity[] | undefined>,
     ): Observable<Object> | Promise<Observable<Object>> {
         return stream$.pipe(map(x => this.serialize(x)));
     }

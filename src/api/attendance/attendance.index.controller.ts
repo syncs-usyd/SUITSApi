@@ -7,20 +7,20 @@ import {
     ValidationPipe,
     Body,
     UseGuards,
-    HttpException
+    HttpException,
 } from "@nestjs/common";
 import {
     ApiUseTags,
     ApiResponse,
     ApiOperation,
     ApiModelProperty,
-    ApiModelPropertyOptional
+    ApiModelPropertyOptional,
 } from "@nestjs/swagger";
 import {
     IsNumber,
     IsNumberString,
     IsOptional,
-    IsNotEmpty
+    IsNotEmpty,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { pickBy, identity } from "lodash";
@@ -43,29 +43,29 @@ export class AttendanceIndexController {
     constructor(
         private readonly membersService: MembersService,
         private readonly eventsService: EventsService,
-        private readonly attendanceService: AttendanceService
+        private readonly attendanceService: AttendanceService,
     ) {}
 
     @Get()
     @ApiOperation({
         title: "Get all attendance",
         description:
-            "Retrieve attendance, filtering by the event and member IDs if needed."
+            "Retrieve attendance, filtering by the event and member IDs if needed.",
     })
     @ApiResponse({
         status: 200,
-        type: AttendanceResource
+        type: AttendanceResource,
     })
     getAttendance(
         @Query(new ValidationPipe({ transform: true }))
-        attendanceFilter: OptionalAttendanceQuery
+        attendanceFilter: OptionalAttendanceQuery,
     ): Promise<AttendanceEntity[]> {
         let options = pickBy(
             {
                 memberId: attendanceFilter.member,
-                eventId: attendanceFilter.event
+                eventId: attendanceFilter.event,
             },
-            identity
+            identity,
         );
         return this.attendanceService.findAttendance(options);
     }
@@ -74,43 +74,43 @@ export class AttendanceIndexController {
     @ApiOperation({
         title: "Add a new attendance record",
         description:
-            "Add a new attendance record. Event and Member IDs must be provided."
+            "Add a new attendance record. Event and Member IDs must be provided.",
     })
     @ApiResponse({
         status: 200,
-        type: AttendanceResource
+        type: AttendanceResource,
     })
     async addAttendance(
         @Query(new ValidationPipe({ transform: true }))
         attendanceQuery: AttendanceQuery,
-        @Body(new ValidationPipe({ transform: true })) data: AttendanceDto
+        @Body(new ValidationPipe({ transform: true })) data: AttendanceDto,
     ): Promise<AttendanceEntity> {
         let member = await this.membersService.getMember(
-            attendanceQuery.member
+            attendanceQuery.member,
         );
         if (!member)
             throw new HttpException(
                 `Member with id ${attendanceQuery.member} could not be found.`,
-                400
+                400,
             );
 
         let event = await this.eventsService.getEvent(attendanceQuery.event);
         if (!event)
             throw new HttpException(
                 `Event with id ${attendanceQuery.event} could not be found.`,
-                400
+                400,
             );
 
         let att = await this.attendanceService.findAttendance({
             memberId: attendanceQuery.member,
-            eventId: attendanceQuery.event
+            eventId: attendanceQuery.event,
         });
         if (att.length == 1)
             throw new HttpException(
                 `Attendance record for member ${member.id} and event ${
                     event.id
                 } already exists.`,
-                400
+                400,
             );
 
         return this.attendanceService.addAttendance(data, member, event);

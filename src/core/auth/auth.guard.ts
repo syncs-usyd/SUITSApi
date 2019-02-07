@@ -3,7 +3,7 @@ import {
     UnauthorizedException,
     Guard,
     CanActivate,
-    ExecutionContext
+    ExecutionContext,
 } from "@nestjs/common";
 import { Observable } from "rxjs/Observable";
 
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(
         request: Request,
-        context: ExecutionContext
+        context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean> {
         let result = this.authService.verifyToken(this.getToken(request));
         if (!result)
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
 
         if (!bearerAuth.startsWith("Bearer "))
             throw new UnauthorizedException(
-                "Bearer prefix is missing from Authorization header."
+                "Bearer prefix is missing from Authorization header.",
             );
 
         return bearerAuth.substring(7);

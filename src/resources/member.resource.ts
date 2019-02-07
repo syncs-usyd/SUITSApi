@@ -1,9 +1,8 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
-import { Allow, ValidateNested, IsOptional } from "class-validator";
+import { Allow, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 import { Member, Gender } from "interfaces";
-import { MemberEntity } from "entities";
 
 import { BaseResource } from "./base.resource";
 import { AttendanceResource } from "./attendance.resource";

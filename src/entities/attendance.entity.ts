@@ -4,8 +4,7 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
     Index,
-    IndexOptions,
-    JoinColumn
+    JoinColumn,
 } from "typeorm";
 
 import { Attendance } from "interfaces";
@@ -18,7 +17,7 @@ import { BaseEntity } from "./base.entity";
 @Index(
     "member_event_unique_attendance",
     (a: AttendanceEntity) => [a.member, a.event],
-    { unique: true }
+    { unique: true },
 )
 export class AttendanceEntity extends BaseEntity implements Attendance {
     @PrimaryGeneratedColumn()
@@ -32,14 +31,14 @@ export class AttendanceEntity extends BaseEntity implements Attendance {
 
     @ManyToOne(type => MemberEntity, member => member.eventsAttended, {
         eager: true,
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
     })
     @JoinColumn({ name: "member_id" })
     member?: MemberEntity;
 
     @ManyToOne(type => EventEntity, event => event.membersAttended, {
         eager: true,
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
     })
     @JoinColumn({ name: "event_id" })
     event?: EventEntity;

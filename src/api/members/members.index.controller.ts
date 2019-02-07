@@ -6,10 +6,9 @@ import {
     UseInterceptors,
     ValidationPipe,
     HttpCode,
-    UseGuards
+    UseGuards,
 } from "@nestjs/common";
 import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { plainToClass, classToPlain } from "class-transformer";
 
 import { MemberEntity } from "entities";
 import { SerializerInterceptor } from "core";
@@ -30,11 +29,11 @@ export class MembersIndexController {
     @ApiOperation({
         title: "Retrieve all members",
         description:
-            "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended."
+            "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended.",
     })
     @ApiResponse({
         status: 200,
-        type: MemberResource
+        type: MemberResource,
     })
     getAllMembers(): Promise<MemberEntity[]> {
         return this.membersService.getAllMembers();
@@ -45,10 +44,10 @@ export class MembersIndexController {
     @ApiOperation({
         title: "Add a new member",
         description:
-            "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead."
+            "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead.",
     })
     addMember(
-        @Body(new ValidationPipe({ transform: true })) member: MemberDto
+        @Body(new ValidationPipe({ transform: true })) member: MemberDto,
     ): Promise<MemberEntity> {
         return this.membersService.addMember(member);
     }

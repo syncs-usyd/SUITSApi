@@ -8,7 +8,7 @@ import { EntityResourceMapperService } from "./entity-resource-mapper.service";
 @Component()
 export class SerializerService {
     constructor(
-        private readonly entityResourceMapper: EntityResourceMapperService
+        private readonly entityResourceMapper: EntityResourceMapperService,
     ) {}
 
     serialize(resource: BaseResource | BaseResource[]): Object {
@@ -17,19 +17,19 @@ export class SerializerService {
     }
 
     getResource(
-        entity: BaseEntity | BaseEntity[]
+        entity: BaseEntity | BaseEntity[],
     ): BaseResource | BaseResource[] {
         let resourceType: new (...args: any[]) => BaseResource;
         if (Array.isArray(entity)) {
             if (entity.length == 0) return [];
             else
                 resourceType = this.entityResourceMapper.getResourceType(
-                    entity[0]
+                    entity[0],
                 );
         } else resourceType = this.entityResourceMapper.getResourceType(entity);
 
         return transformAndValidateSync(resourceType, entity, {
-            validator: { whitelist: true }
+            validator: { whitelist: true },
         });
     }
 }

@@ -1,9 +1,8 @@
-import { Component, NotFoundException } from "@nestjs/common";
+import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { EventEntity } from "entities";
-import { EventResource } from "resources";
 import { WebSocketService } from "core";
 import { EventDto } from "./events.dto";
 
@@ -12,7 +11,7 @@ export class EventsService {
     constructor(
         @InjectRepository(EventEntity)
         private readonly repo: Repository<EventEntity>,
-        private readonly websocket: WebSocketService
+        private readonly websocket: WebSocketService,
     ) {}
 
     async addEvent(data: EventDto): Promise<EventEntity> {
@@ -33,7 +32,7 @@ export class EventsService {
 
     async updateEvent(
         id: number,
-        data: EventDto
+        data: EventDto,
     ): Promise<EventEntity | undefined> {
         let event = await this.repo.findOneById(id);
         if (!event) return undefined;

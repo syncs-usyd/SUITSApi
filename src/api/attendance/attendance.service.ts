@@ -1,9 +1,7 @@
 import { Component, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { classToPlain, plainToClass } from "class-transformer";
 import { AttendanceEntity, MemberEntity, EventEntity } from "entities";
-import { AttendanceResource } from "resources";
 import { WebSocketService } from "core";
 import { AttendanceDto } from "./attendance.dto";
 
@@ -12,13 +10,13 @@ export class AttendanceService {
     constructor(
         @InjectRepository(AttendanceEntity)
         private readonly repo: Repository<AttendanceEntity>,
-        private readonly websocket: WebSocketService
+        private readonly websocket: WebSocketService,
     ) {}
 
     async addAttendance(
         data: AttendanceDto,
         member: MemberEntity,
-        event: EventEntity
+        event: EventEntity,
     ): Promise<AttendanceEntity> {
         let attendance = this.repo.create({ ...data });
         attendance.member = member;
@@ -45,7 +43,7 @@ export class AttendanceService {
 
     async updateAttendance(
         id: number,
-        data: AttendanceDto
+        data: AttendanceDto,
     ): Promise<AttendanceEntity | undefined> {
         let attendance = await this.repo.findOneById(id);
         if (!attendance) return undefined;

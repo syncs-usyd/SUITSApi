@@ -50,6 +50,7 @@
     "ts-node": "^4.1.0"
   },
   "prettier": {
-	"tabWidth": 2
+    "tabWidth": 4,
+    "trailingComma": "all"
   }
 }

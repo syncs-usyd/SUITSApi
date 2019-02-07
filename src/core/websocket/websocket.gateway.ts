@@ -4,7 +4,7 @@ import {
     WsResponse,
     WebSocketServer,
     WsException,
-    OnGatewayConnection
+    OnGatewayConnection,
 } from "@nestjs/websockets";
 import * as SocketIO from "socket.io";
 

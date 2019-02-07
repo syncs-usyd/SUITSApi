@@ -5,6 +5,6 @@ import { EventsModule } from "./events/events.module";
 import { TokenModule } from "./token";
 
 @Module({
-    imports: [TokenModule, MembersModule, EventsModule, AttendanceModule]
+    imports: [TokenModule, MembersModule, EventsModule, AttendanceModule],
 })
 export class ApiModule {}

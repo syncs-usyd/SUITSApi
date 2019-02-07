@@ -2,7 +2,7 @@ import {
     verify,
     sign,
     JsonWebTokenError,
-    TokenExpiredError
+    TokenExpiredError,
 } from "jsonwebtoken";
 import { Component } from "@nestjs/common";
 
@@ -28,7 +28,7 @@ export class AuthService {
 
     getToken(): string {
         return sign({ user: config.api.user }, config.jwt.secret, {
-            expiresIn: config.jwt.duration
+            expiresIn: config.jwt.duration,
         });
     }
 }
