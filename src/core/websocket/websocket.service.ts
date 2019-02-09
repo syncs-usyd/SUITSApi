@@ -22,7 +22,6 @@ export class WebSocketService {
 
     private send(entity: BaseEntity, action: Action) {
         let resource = this.serializer.getResource(entity) as BaseResource; // websockets will only receive single resources
-        console.log(entity);
         this.getSocket().send({
             resource: resource.getResourceName(),
             action,
