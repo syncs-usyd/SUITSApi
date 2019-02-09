@@ -49,6 +49,13 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column({ nullable: true })
     international?: boolean;
 
+    @Column({
+        name: "last_joined_on",
+        type: "timestamp",
+        nullable: true,
+    })
+    lastJoinedOn?: Date;
+
     @OneToMany(type => AttendanceEntity, att => att.member)
     eventsAttended?: AttendanceEntity[];
 

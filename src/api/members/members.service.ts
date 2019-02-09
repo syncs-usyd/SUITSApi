@@ -44,6 +44,9 @@ export class MembersService {
     async addMember(data: MemberDto): Promise<MemberEntity> {
         let existingMember = await this.getMemberIfExists(data);
         let member: MemberEntity;
+        if (data.registered) {
+            data.lastJoinedOn = new Date();
+        }
         if (existingMember) {
             data.registered = data.registered || existingMember.registered; // disallow unregistering
 

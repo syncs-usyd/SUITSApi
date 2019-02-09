@@ -60,6 +60,10 @@ export class MemberResource extends BaseResource implements Member {
     @Allow()
     international?: boolean;
 
+    @ApiModelPropertyOptional()
+    @Allow()
+    lastJoinedOn?: Date;
+
     @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()

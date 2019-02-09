@@ -9,6 +9,8 @@ export interface Member {
 
     gender?: Gender;
 
+    joinedOn?: Date;
+
     access?: number;
 
     sid?: number;
@@ -22,4 +24,6 @@ export interface Member {
     expectedGradYear?: number;
 
     international?: boolean;
+
+    lastJoinedOn?: Date;
 }

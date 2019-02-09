@@ -30,6 +30,10 @@ export class MemberDto implements Member {
 
     @ApiModelPropertyOptional()
     @IsOptional()
+    joinedOn?: Date;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
     @IsNumber()
     access?: number;
 
@@ -62,4 +66,8 @@ export class MemberDto implements Member {
     @IsOptional()
     @IsBoolean()
     international?: boolean;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    lastJoinedOn?: Date;
 }
