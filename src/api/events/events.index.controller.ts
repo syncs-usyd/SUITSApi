@@ -2,7 +2,6 @@ import {
     UseInterceptors,
     Controller,
     Get,
-    Query,
     Post,
     ValidationPipe,
     Body,
