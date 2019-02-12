@@ -1,7 +1,5 @@
-import { ClassType } from "class-transformer-validator";
-
 export abstract class BaseEntity {
-    abstract id: number;
+    public abstract id: number;
 
-    abstract getType(): new (...args: any[]) => BaseEntity;
+    public abstract getType(): new (...args: any[]) => BaseEntity;
 }

@@ -1,13 +1,15 @@
 import { Component } from "@nestjs/common";
+import { AttendanceEntity, EventEntity, MemberEntity } from "entities";
 import { BaseEntity } from "entities/base.entity";
+import { AttendanceResource, EventResource, MemberResource } from "resources";
 import { BaseResource } from "resources/base.resource";
-import { MemberEntity, EventEntity, AttendanceEntity } from "entities";
-import { MemberResource, EventResource, AttendanceResource } from "resources";
 
 @Component()
 export class EntityResourceMapperService {
-    getResourceType(entity: BaseEntity): new (...args: any[]) => BaseResource {
-        let type = entity.getType();
+    public getResourceType(
+        entity: BaseEntity,
+    ): new (...args: any[]) => BaseResource {
+        const type = entity.getType();
 
         switch (type) {
             case MemberEntity:

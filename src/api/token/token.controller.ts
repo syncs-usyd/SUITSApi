@@ -1,16 +1,11 @@
 import {
-    ApiUseTags,
-    ApiOperation,
-    ApiResponse,
-    ApiModelProperty,
-} from "@nestjs/swagger";
-import {
-    Controller,
-    ValidationPipe,
-    Post,
     Body,
+    Controller,
+    Post,
     UnauthorizedException,
+    ValidationPipe,
 } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
 import { AuthService } from "core";
 
@@ -32,9 +27,10 @@ export class TokenController {
         status: 200,
         type: TokenResource,
     })
-    auth(@Body(new ValidationPipe()) creds: CredsDto): TokenResource {
-        if (!this.authService.verifyCreds(creds.user, creds.pass))
+    public auth(@Body(new ValidationPipe()) creds: CredsDto): TokenResource {
+        if (!this.authService.verifyCreds(creds.user, creds.pass)) {
             throw new UnauthorizedException("Incorrect login details");
+        }
 
         return { token: this.authService.getToken() };
     }

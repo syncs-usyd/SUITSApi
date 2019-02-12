@@ -1,23 +1,19 @@
-import {
-    verify,
-    sign,
-    JsonWebTokenError,
-    TokenExpiredError,
-} from "jsonwebtoken";
 import { Component } from "@nestjs/common";
+import { sign, verify } from "jsonwebtoken";
 
-let config = require("entities/../../config.json");
+const config = require("entities/../../config.json");
 
 @Component()
 export class AuthService {
-    verifyCreds(username: string, password: string): boolean {
-        if (username != config.api.user || password != config.api.pass)
+    public verifyCreds(username: string, password: string): boolean {
+        if (username != config.api.user || password != config.api.pass) {
             return false;
+        }
 
         return true;
     }
 
-    verifyToken(token: string): boolean {
+    public verifyToken(token: string): boolean {
         try {
             verify(token, config.jwt.secret);
             return true;
@@ -26,7 +22,7 @@ export class AuthService {
         }
     }
 
-    getToken(): string {
+    public getToken(): string {
         return sign({ user: config.api.user }, config.jwt.secret, {
             expiresIn: config.jwt.duration,
         });

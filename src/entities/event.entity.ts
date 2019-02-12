@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Event } from "interfaces";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
@@ -7,21 +7,21 @@ import { BaseEntity } from "./base.entity";
 @Entity({ name: "Event" })
 export class EventEntity extends BaseEntity implements Event {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column()
-    title: string;
+    public title: string;
 
     @Column({ nullable: true })
-    description?: string;
+    public description?: string;
 
     @Column({ nullable: false, type: "timestamp" })
-    time: Date;
+    public time: Date;
 
     @OneToMany(type => AttendanceEntity, att => att.event)
-    membersAttended?: AttendanceEntity[];
+    public membersAttended?: AttendanceEntity[];
 
-    getType(): new (...args: any[]) => EventEntity {
+    public getType(): new (...args: any[]) => EventEntity {
         return EventEntity;
     }
 }

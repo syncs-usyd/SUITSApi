@@ -1,25 +1,25 @@
 import {
-    Controller,
-    Get,
-    Put,
-    Delete,
-    Param,
     Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    NotFoundException,
+    Param,
+    Put,
+    UseGuards,
     UseInterceptors,
     ValidationPipe,
-    NotFoundException,
-    HttpCode,
-    UseGuards,
 } from "@nestjs/common";
-import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { MemberEntity } from "entities";
 import { SerializerInterceptor } from "core";
-import { MemberResource } from "resources";
 import { AuthGuard } from "core";
+import { MemberEntity } from "entities";
+import { MemberResource } from "resources";
 
-import { MembersService } from "./members.service";
 import { MemberDto } from "./members.dto";
+import { MembersService } from "./members.service";
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix + "/:id")
@@ -37,9 +37,11 @@ export class MembersIdController {
         status: 200,
         type: MemberResource,
     })
-    async getMember(@Param("id") id: number): Promise<MemberEntity> {
-        let member = await this.membersService.getMember(id);
-        if (!member) throw new NotFoundException();
+    public async getMember(@Param("id") id: number): Promise<MemberEntity> {
+        const member = await this.membersService.getMember(id);
+        if (!member) {
+            throw new NotFoundException();
+        }
 
         return member;
     }
@@ -53,12 +55,14 @@ export class MembersIdController {
         status: 200,
         type: MemberResource,
     })
-    async editMember(
+    public async editMember(
         @Param("id") id: number,
         @Body(new ValidationPipe({ transform: true })) member: MemberDto,
     ): Promise<MemberEntity> {
-        let m = await this.membersService.updateMember(id, member);
-        if (!m) throw new NotFoundException();
+        const m = await this.membersService.updateMember(id, member);
+        if (!m) {
+            throw new NotFoundException();
+        }
 
         return m;
     }
@@ -70,8 +74,10 @@ export class MembersIdController {
         description:
             "Delete a member and any attendances belonging to that member.",
     })
-    async deleteMember(@Param("id") id: number): Promise<void> {
-        let result = await this.membersService.deleteMember(id);
-        if (!result) throw new NotFoundException();
+    public async deleteMember(@Param("id") id: number): Promise<void> {
+        const result = await this.membersService.deleteMember(id);
+        if (!result) {
+            throw new NotFoundException();
+        }
     }
 }

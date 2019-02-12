@@ -1,17 +1,15 @@
-import { Expose } from "class-transformer";
-import { Allow } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
-import { ClassType } from "class-transformer/ClassTransformer";
+import { Expose } from "class-transformer";
 
 export abstract class BaseResource {
     @ApiModelProperty()
-    abstract id: number;
+    public abstract id: number;
 
-    abstract getResourceName(): string;
+    public abstract getResourceName(): string;
 
     abstract get prefix(): string;
 
-    abstract getType(): new (...args: any[]) => BaseResource;
+    public abstract getType(): new (...args: any[]) => BaseResource;
 
     @ApiModelProperty()
     @Expose()

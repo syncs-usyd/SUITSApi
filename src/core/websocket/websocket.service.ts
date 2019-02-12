@@ -3,11 +3,10 @@ import * as SocketIO from "socket.io";
 
 import { BaseResource } from "resources/base.resource";
 
-import { WebSocketGateway } from "./websocket.gateway";
-import { Action } from "./action.enum";
 import { SerializerService } from "core";
-import { ClassType } from "class-transformer/ClassTransformer";
 import { BaseEntity } from "entities/base.entity";
+import { Action } from "./action.enum";
+import { WebSocketGateway } from "./websocket.gateway";
 
 @Component()
 export class WebSocketService {
@@ -16,28 +15,28 @@ export class WebSocketService {
         private readonly gateway: WebSocketGateway,
     ) {}
 
+    public sendInsert(entity: BaseEntity) {
+        this.send(entity, Action.Insert);
+    }
+
+    public sendUpdate(entity: BaseEntity) {
+        this.send(entity, Action.Update);
+    }
+
+    public sendDelete(entity: BaseEntity) {
+        this.send(entity, Action.Delete);
+    }
+
     private getSocket(): SocketIO.Server {
         return this.gateway.server;
     }
 
     private send(entity: BaseEntity, action: Action) {
-        let resource = this.serializer.getResource(entity) as BaseResource; // websockets will only receive single resources
+        const resource = this.serializer.getResource(entity) as BaseResource; // websockets will only receive single resources
         this.getSocket().send({
             resource: resource.getResourceName(),
             action,
             data: this.serializer.serialize(resource),
         });
-    }
-
-    sendInsert(entity: BaseEntity) {
-        this.send(entity, Action.Insert);
-    }
-
-    sendUpdate(entity: BaseEntity) {
-        this.send(entity, Action.Update);
-    }
-
-    sendDelete(entity: BaseEntity) {
-        this.send(entity, Action.Delete);
     }
 }

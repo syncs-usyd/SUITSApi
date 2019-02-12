@@ -1,8 +1,8 @@
 import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { AttendanceEntity, MemberEntity, EventEntity } from "entities";
 import { WebSocketService } from "core";
+import { AttendanceEntity, EventEntity, MemberEntity } from "entities";
+import { Repository } from "typeorm";
 import { AttendanceDto } from "./attendance.dto";
 
 @Component()
@@ -13,7 +13,7 @@ export class AttendanceService {
         private readonly websocket: WebSocketService,
     ) {}
 
-    async addAttendance(
+    public async addAttendance(
         data: AttendanceDto,
         member: MemberEntity,
         event: EventEntity,
@@ -30,23 +30,25 @@ export class AttendanceService {
         return attendance;
     }
 
-    findAttendance(options?: {
+    public findAttendance(options?: {
         memberId?: number;
         eventId?: number;
     }): Promise<AttendanceEntity[]> {
         return this.repo.find({ where: options });
     }
 
-    getAttendance(id: number): Promise<AttendanceEntity | undefined> {
+    public getAttendance(id: number): Promise<AttendanceEntity | undefined> {
         return this.repo.findOneById(id);
     }
 
-    async updateAttendance(
+    public async updateAttendance(
         id: number,
         data: AttendanceDto,
     ): Promise<AttendanceEntity | undefined> {
         let attendance = await this.repo.findOneById(id);
-        if (!attendance) return undefined;
+        if (!attendance) {
+            return undefined;
+        }
 
         attendance = this.repo.merge(attendance, data);
         attendance = await this.repo.save(attendance);
@@ -55,9 +57,13 @@ export class AttendanceService {
         return attendance;
     }
 
-    async deleteAttendance(id: number): Promise<AttendanceEntity | undefined> {
-        let attendance = await this.repo.findOneById(id);
-        if (!attendance) return undefined;
+    public async deleteAttendance(
+        id: number,
+    ): Promise<AttendanceEntity | undefined> {
+        const attendance = await this.repo.findOneById(id);
+        if (!attendance) {
+            return undefined;
+        }
 
         await this.repo.deleteById(id);
 

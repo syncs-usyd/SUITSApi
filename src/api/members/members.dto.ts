@@ -1,73 +1,73 @@
-import { Member, Gender } from "interfaces";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import {
+    IsBoolean,
     IsEmail,
-    IsString,
     IsEnum,
     IsNumber,
-    IsBoolean,
     IsOptional,
+    IsString,
 } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { Gender, Member } from "interfaces";
 
 export class MemberDto implements Member {
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsEmail()
-    email?: string;
+    public email?: string;
 
     @ApiModelProperty()
     @IsString()
-    firstName: string;
+    public firstName: string;
 
     @ApiModelProperty()
     @IsString()
-    lastName: string;
+    public lastName: string;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsEnum(Gender)
-    gender?: Gender;
+    public gender?: Gender;
 
     @ApiModelPropertyOptional()
     @IsOptional()
-    joinedOn?: Date;
-
-    @ApiModelPropertyOptional()
-    @IsOptional()
-    @IsNumber()
-    access?: number;
+    public joinedOn?: Date;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsNumber()
-    sid?: number;
-
-    @ApiModelPropertyOptional({ default: false })
-    @IsOptional()
-    @IsBoolean()
-    newsletter?: boolean;
-
-    @ApiModelPropertyOptional({ default: false })
-    @IsOptional()
-    @IsBoolean()
-    doingIT?: boolean;
-
-    @ApiModelPropertyOptional({ default: false })
-    @IsOptional()
-    @IsBoolean()
-    registered?: boolean;
+    public access?: number;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsNumber()
-    expectedGradYear?: number;
+    public sid?: number;
+
+    @ApiModelPropertyOptional({ default: false })
+    @IsOptional()
+    @IsBoolean()
+    public newsletter?: boolean;
+
+    @ApiModelPropertyOptional({ default: false })
+    @IsOptional()
+    @IsBoolean()
+    public doingIT?: boolean;
+
+    @ApiModelPropertyOptional({ default: false })
+    @IsOptional()
+    @IsBoolean()
+    public registered?: boolean;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    @IsNumber()
+    public expectedGradYear?: number;
 
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsBoolean()
-    international?: boolean;
+    public international?: boolean;
 
     @ApiModelPropertyOptional()
     @IsOptional()
-    lastJoinedOn?: Date;
+    public lastJoinedOn?: Date;
 }

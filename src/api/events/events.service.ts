@@ -2,8 +2,8 @@ import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import { EventEntity } from "entities";
 import { WebSocketService } from "core";
+import { EventEntity } from "entities";
 import { EventDto } from "./events.dto";
 
 @Component()
@@ -14,7 +14,7 @@ export class EventsService {
         private readonly websocket: WebSocketService,
     ) {}
 
-    async addEvent(data: EventDto): Promise<EventEntity> {
+    public async addEvent(data: EventDto): Promise<EventEntity> {
         let event = this.repo.create(data);
         event = await this.repo.save(event);
         this.websocket.sendInsert(event);
@@ -22,20 +22,22 @@ export class EventsService {
         return event;
     }
 
-    async getAllEvents(): Promise<EventEntity[]> {
+    public async getAllEvents(): Promise<EventEntity[]> {
         return await this.repo.find();
     }
 
-    getEvent(id: number): Promise<EventEntity | undefined> {
+    public getEvent(id: number): Promise<EventEntity | undefined> {
         return this.repo.findOneById(id, { relations: ["membersAttended"] });
     }
 
-    async updateEvent(
+    public async updateEvent(
         id: number,
         data: EventDto,
     ): Promise<EventEntity | undefined> {
         let event = await this.repo.findOneById(id);
-        if (!event) return undefined;
+        if (!event) {
+            return undefined;
+        }
 
         event = this.repo.merge(event, data);
         event = await this.repo.save(event);
@@ -44,9 +46,11 @@ export class EventsService {
         return event;
     }
 
-    async deleteEvent(id: number): Promise<EventEntity | undefined> {
-        let event = await this.repo.findOneById(id);
-        if (!event) return undefined;
+    public async deleteEvent(id: number): Promise<EventEntity | undefined> {
+        const event = await this.repo.findOneById(id);
+        if (!event) {
+            return undefined;
+        }
 
         await this.repo.deleteById(id);
 

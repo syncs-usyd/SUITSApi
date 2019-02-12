@@ -1,83 +1,83 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
-import { Allow, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
+import { Allow, ValidateNested } from "class-validator";
 
-import { Member, Gender } from "interfaces";
+import { Gender, Member } from "interfaces";
 
-import { BaseResource } from "./base.resource";
 import { AttendanceResource } from "./attendance.resource";
+import { BaseResource } from "./base.resource";
 
 export class MemberResource extends BaseResource implements Member {
     @ApiModelProperty()
     @Allow()
-    id: number;
+    public id: number;
 
     @ApiModelPropertyOptional()
     @Allow()
-    email?: string;
+    public email?: string;
 
     @ApiModelProperty()
     @Allow()
-    firstName: string;
+    public firstName: string;
 
     @ApiModelProperty()
     @Allow()
-    lastName: string;
+    public lastName: string;
 
     @ApiModelPropertyOptional()
     @Allow()
-    gender?: Gender;
+    public gender?: Gender;
 
     @ApiModelProperty() // TODO: look into how to format a date type correctly with nest swagger
     @Allow()
-    joinedOn: Date;
+    public joinedOn: Date;
 
     @ApiModelPropertyOptional()
     @Allow()
-    access?: number;
+    public access?: number;
 
     @ApiModelPropertyOptional()
     @Allow()
-    sid?: number;
+    public sid?: number;
 
     @ApiModelProperty()
     @Allow()
-    newsletter: boolean;
+    public newsletter: boolean;
 
     @ApiModelProperty()
     @Allow()
-    doingIT: boolean;
+    public doingIT: boolean;
 
     @ApiModelProperty()
     @Allow()
-    registered: boolean;
+    public registered: boolean;
 
     @ApiModelPropertyOptional()
     @Allow()
-    expectedGradYear?: number;
+    public expectedGradYear?: number;
 
     @ApiModelPropertyOptional()
     @Allow()
-    international?: boolean;
+    public international?: boolean;
 
     @ApiModelPropertyOptional()
     @Allow()
-    lastJoinedOn?: Date;
+    public lastJoinedOn?: Date;
 
     @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()
-    eventsAttended?: AttendanceResource[];
+    public eventsAttended?: AttendanceResource[];
 
     get prefix() {
         return "/members";
     }
 
-    getResourceName(): string {
+    public getResourceName(): string {
         return "Member";
     }
 
-    getType(): new (...args: any[]) => BaseResource {
+    public getType(): new (...args: any[]) => BaseResource {
         return MemberResource;
     }
 }

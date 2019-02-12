@@ -1,6 +1,6 @@
-import { Module, Global } from "@nestjs/common";
-import { SerializerModule } from "./serializer/serializer.module";
+import { Global, Module } from "@nestjs/common";
 import { AuthModule } from "./auth/auth.module";
+import { SerializerModule } from "./serializer/serializer.module";
 import { WebSocketModule } from "./websocket/websocket.module";
 
 @Global()

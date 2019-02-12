@@ -1,25 +1,25 @@
 import {
-    UseInterceptors,
-    Controller,
-    Get,
-    ValidationPipe,
     Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    NotFoundException,
     Param,
     Put,
-    HttpCode,
-    Delete,
-    NotFoundException,
     UseGuards,
+    UseInterceptors,
+    ValidationPipe,
 } from "@nestjs/common";
-import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { AttendanceEntity } from "entities";
-import { AttendanceResource } from "resources";
 import { SerializerInterceptor } from "core";
 import { AuthGuard } from "core";
+import { AttendanceEntity } from "entities";
+import { AttendanceResource } from "resources";
 
-import { AttendanceService } from "./attendance.service";
 import { AttendanceDto } from "./attendance.dto";
+import { AttendanceService } from "./attendance.service";
 
 @ApiUseTags("attendance")
 @Controller(new AttendanceResource().prefix + "/:id")
@@ -38,9 +38,13 @@ export class AttendanceIdController {
         status: 200,
         type: AttendanceEntity,
     })
-    async getAttendance(@Param("id") id: number): Promise<AttendanceEntity> {
-        let a = await this.attendanceService.getAttendance(id);
-        if (!a) throw new NotFoundException();
+    public async getAttendance(
+        @Param("id") id: number,
+    ): Promise<AttendanceEntity> {
+        const a = await this.attendanceService.getAttendance(id);
+        if (!a) {
+            throw new NotFoundException();
+        }
 
         return a;
     }
@@ -55,12 +59,14 @@ export class AttendanceIdController {
         status: 200,
         type: AttendanceEntity,
     })
-    async updateAttendance(
+    public async updateAttendance(
         @Param("id") id: number,
         @Body(new ValidationPipe({ transform: true })) data: AttendanceDto,
     ): Promise<AttendanceEntity> {
-        let a = await this.attendanceService.updateAttendance(id, data);
-        if (!a) throw new NotFoundException();
+        const a = await this.attendanceService.updateAttendance(id, data);
+        if (!a) {
+            throw new NotFoundException();
+        }
 
         return a;
     }
@@ -72,8 +78,10 @@ export class AttendanceIdController {
         description:
             "Delete the attendance record associated with the given id.",
     })
-    async deleteAttendance(@Param("id") id: number): Promise<void> {
-        let a = await this.attendanceService.deleteAttendance(id);
-        if (!a) throw new NotFoundException();
+    public async deleteAttendance(@Param("id") id: number): Promise<void> {
+        const a = await this.attendanceService.deleteAttendance(id);
+        if (!a) {
+            throw new NotFoundException();
+        }
     }
 }

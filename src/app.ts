@@ -1,8 +1,8 @@
-import "reflect-metadata";
-import * as express from "express";
 import { NestFactory } from "@nestjs/core";
-import { ApplicationModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as express from "express";
+import "reflect-metadata";
+import { ApplicationModule } from "./app.module";
 
 async function bootstrap() {
     const expressApp = express();

@@ -1,5 +1,5 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
-import { Type, Transform } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { Allow } from "class-validator";
 
 import { Attendance } from "interfaces";
@@ -11,23 +11,23 @@ import { MemberResource } from "./member.resource";
 export class AttendanceResource extends BaseResource implements Attendance {
     @ApiModelProperty()
     @Allow()
-    id: number;
+    public id: number;
 
     @ApiModelProperty()
     @Allow()
-    primary: boolean;
+    public primary: boolean;
 
     @ApiModelProperty()
     @Allow()
-    secondary: number;
+    public secondary: number;
 
     @ApiModelPropertyOptional()
     @Allow()
-    additional?: string;
+    public additional?: string;
 
     @ApiModelProperty()
     @Allow()
-    paidByCard: boolean;
+    public paidByCard: boolean;
 
     @ApiModelPropertyOptional()
     @Allow()
@@ -35,7 +35,7 @@ export class AttendanceResource extends BaseResource implements Attendance {
     @Transform((m: MemberResource) => {
         return { id: m.id, ref: m.ref };
     })
-    member: {
+    public member: {
         id: number;
         ref: string;
     };
@@ -46,7 +46,7 @@ export class AttendanceResource extends BaseResource implements Attendance {
     @Transform((e: EventResource) => {
         return { id: e.id, ref: e.ref };
     })
-    event: {
+    public event: {
         id: number;
         ref: string;
     };
@@ -55,11 +55,11 @@ export class AttendanceResource extends BaseResource implements Attendance {
         return "/attendance";
     }
 
-    getResourceName(): string {
+    public getResourceName(): string {
         return "Attendance";
     }
 
-    getType(): new (...args: any[]) => BaseResource {
+    public getType(): new (...args: any[]) => BaseResource {
         return AttendanceResource;
     }
 }

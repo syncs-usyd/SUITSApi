@@ -1,17 +1,17 @@
 import {
-    Entity,
     Column,
-    PrimaryGeneratedColumn,
-    ManyToOne,
+    Entity,
     Index,
     JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Attendance } from "interfaces";
 
-import { MemberEntity } from "./member.entity";
-import { EventEntity } from "./event.entity";
 import { BaseEntity } from "./base.entity";
+import { EventEntity } from "./event.entity";
+import { MemberEntity } from "./member.entity";
 
 @Entity({ name: "Attendance" })
 @Index(
@@ -21,41 +21,41 @@ import { BaseEntity } from "./base.entity";
 )
 export class AttendanceEntity extends BaseEntity implements Attendance {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column({ name: "member_id" })
-    memberId: number;
+    public memberId: number;
 
     @Column({ name: "event_id" })
-    eventId: number;
+    public eventId: number;
 
     @ManyToOne(type => MemberEntity, member => member.eventsAttended, {
         eager: true,
         onDelete: "CASCADE",
     })
     @JoinColumn({ name: "member_id" })
-    member?: MemberEntity;
+    public member?: MemberEntity;
 
     @ManyToOne(type => EventEntity, event => event.membersAttended, {
         eager: true,
         onDelete: "CASCADE",
     })
     @JoinColumn({ name: "event_id" })
-    event?: EventEntity;
+    public event?: EventEntity;
 
     @Column()
-    primary: boolean;
+    public primary: boolean;
 
     @Column()
-    secondary: number;
+    public secondary: number;
 
     @Column({ nullable: true })
-    additional?: string;
+    public additional?: string;
 
     @Column({ name: "paid_by_card", default: false })
-    paidByCard: boolean;
+    public paidByCard: boolean;
 
-    getType(): new (...args: any[]) => AttendanceEntity {
+    public getType(): new (...args: any[]) => AttendanceEntity {
         return AttendanceEntity;
     }
 }

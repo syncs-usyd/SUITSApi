@@ -1,24 +1,24 @@
 import {
-    Controller,
-    Get,
-    Put,
-    Delete,
-    Param,
     Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    NotFoundException,
+    Param,
+    Put,
+    UseGuards,
     UseInterceptors,
     ValidationPipe,
-    NotFoundException,
-    HttpCode,
-    UseGuards,
 } from "@nestjs/common";
-import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { EventEntity } from "entities";
 import { AuthGuard, SerializerInterceptor } from "core";
+import { EventEntity } from "entities";
 import { EventResource } from "resources";
 
-import { EventsService } from "./events.service";
 import { EventDto } from "./events.dto";
+import { EventsService } from "./events.service";
 
 @ApiUseTags("events")
 @Controller(new EventResource().prefix + "/:id")
@@ -36,9 +36,11 @@ export class EventsIdController {
         status: 200,
         type: EventResource,
     })
-    async getEvent(@Param("id") id: number): Promise<EventEntity> {
-        let event = await this.EventsService.getEvent(id);
-        if (!event) throw new NotFoundException();
+    public async getEvent(@Param("id") id: number): Promise<EventEntity> {
+        const event = await this.EventsService.getEvent(id);
+        if (!event) {
+            throw new NotFoundException();
+        }
 
         return event;
     }
@@ -52,12 +54,14 @@ export class EventsIdController {
         status: 200,
         type: EventResource,
     })
-    async editEvent(
+    public async editEvent(
         @Param("id") id: number,
         @Body(new ValidationPipe({ transform: true })) event: EventDto,
     ): Promise<EventEntity> {
-        let e = await this.EventsService.updateEvent(id, event);
-        if (!e) throw new NotFoundException();
+        const e = await this.EventsService.updateEvent(id, event);
+        if (!e) {
+            throw new NotFoundException();
+        }
 
         return e;
     }
@@ -68,7 +72,7 @@ export class EventsIdController {
         title: "Delete an event",
         description: "Delete the event and all attendance associated with it.",
     })
-    async deleteEvent(@Param("id") id: number): Promise<void> {
-        let e = this.EventsService.deleteEvent(id);
+    public async deleteEvent(@Param("id") id: number): Promise<void> {
+        const e = this.EventsService.deleteEvent(id);
     }
 }

@@ -2,9 +2,9 @@ import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import { MemberEntity } from "entities";
-import { WebSocketService } from "core";
 import { MemberDto } from "api/members/members.dto";
+import { WebSocketService } from "core";
+import { MemberEntity } from "entities";
 
 @Component()
 export class MembersService {
@@ -14,35 +14,8 @@ export class MembersService {
         private readonly websocket: WebSocketService,
     ) {}
 
-    private async getMemberIfExists(
-        data: MemberDto,
-    ): Promise<MemberEntity | undefined> {
-        let validVals = [data.email, data.access, data.sid].filter(v => !!v); // looking for non-falsy value
-        if (validVals.length != 0) {
-            let fields = {
-                email: data.email,
-                access: data.access,
-                sid: data.sid,
-            };
-
-            let q = this.repo.createQueryBuilder("member");
-            q = q.select();
-
-            // since we know that one of the following is valid, we don't need to check
-            let where = ["email", "access", "sid"].map(
-                field =>
-                    `(member.${field} IS NOT NULL AND member.${field} = :${field})`,
-            );
-            q = q.where(where.join(" OR "), fields);
-
-            let result = await q.getOne();
-
-            if (result) return result;
-        }
-    }
-
-    async addMember(data: MemberDto): Promise<MemberEntity> {
-        let existingMember = await this.getMemberIfExists(data);
+    public async addMember(data: MemberDto): Promise<MemberEntity> {
+        const existingMember = await this.getMemberIfExists(data);
         let member: MemberEntity;
         if (data.registered) {
             data.lastJoinedOn = new Date();
@@ -64,20 +37,22 @@ export class MembersService {
         return member;
     }
 
-    getAllMembers(): Promise<MemberEntity[]> {
+    public getAllMembers(): Promise<MemberEntity[]> {
         return this.repo.find();
     }
 
-    getMember(id: number): Promise<MemberEntity | undefined> {
+    public getMember(id: number): Promise<MemberEntity | undefined> {
         return this.repo.findOneById(id, { relations: ["eventsAttended"] });
     }
 
-    async updateMember(
+    public async updateMember(
         id: number,
         data: MemberDto,
     ): Promise<MemberEntity | undefined> {
         let member = await this.repo.findOneById(id);
-        if (!member) return undefined;
+        if (!member) {
+            return undefined;
+        }
 
         member = this.repo.merge(member, data);
         member = await this.repo.save(member);
@@ -86,13 +61,44 @@ export class MembersService {
         return member;
     }
 
-    async deleteMember(id: number): Promise<MemberEntity | undefined> {
-        let member = await this.repo.findOneById(id);
-        if (!member) return undefined;
+    public async deleteMember(id: number): Promise<MemberEntity | undefined> {
+        const member = await this.repo.findOneById(id);
+        if (!member) {
+            return undefined;
+        }
 
         await this.repo.deleteById(id);
 
         this.websocket.sendDelete(member);
         return member;
+    }
+
+    private async getMemberIfExists(
+        data: MemberDto,
+    ): Promise<MemberEntity | undefined> {
+        const validVals = [data.email, data.access, data.sid].filter(v => !!v); // looking for non-falsy value
+        if (validVals.length != 0) {
+            const fields = {
+                email: data.email,
+                access: data.access,
+                sid: data.sid,
+            };
+
+            let q = this.repo.createQueryBuilder("member");
+            q = q.select();
+
+            // since we know that one of the following is valid, we don't need to check
+            const where = ["email", "access", "sid"].map(
+                field =>
+                    `(member.${field} IS NOT NULL AND member.${field} = :${field})`,
+            );
+            q = q.where(where.join(" OR "), fields);
+
+            const result = await q.getOne();
+
+            if (result) {
+                return result;
+            }
+        }
     }
 }

@@ -1,22 +1,22 @@
 import {
+    Body,
     Controller,
     Get,
+    HttpCode,
     Post,
-    Body,
+    UseGuards,
     UseInterceptors,
     ValidationPipe,
-    HttpCode,
-    UseGuards,
 } from "@nestjs/common";
-import { ApiUseTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { MemberEntity } from "entities";
 import { SerializerInterceptor } from "core";
-import { MemberResource } from "resources";
 import { AuthGuard } from "core";
+import { MemberEntity } from "entities";
+import { MemberResource } from "resources";
 
-import { MembersService } from "./members.service";
 import { MemberDto } from "./members.dto";
+import { MembersService } from "./members.service";
 
 @ApiUseTags("members")
 @Controller(new MemberResource().prefix)
@@ -35,7 +35,7 @@ export class MembersIndexController {
         status: 200,
         type: MemberResource,
     })
-    getAllMembers(): Promise<MemberEntity[]> {
+    public getAllMembers(): Promise<MemberEntity[]> {
         return this.membersService.getAllMembers();
     }
 
@@ -46,7 +46,7 @@ export class MembersIndexController {
         description:
             "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead.",
     })
-    addMember(
+    public addMember(
         @Body(new ValidationPipe({ transform: true })) member: MemberDto,
     ): Promise<MemberEntity> {
         return this.membersService.addMember(member);

@@ -1,18 +1,14 @@
-import { Interceptor, NestInterceptor, ExecutionContext } from "@nestjs/common";
+import { ExecutionContext, Interceptor, NestInterceptor } from "@nestjs/common";
+import { BaseEntity } from "entities/base.entity";
 import { Observable } from "rxjs/Observable";
 import { map } from "rxjs/operators";
-import { classToPlain, plainToClass } from "class-transformer";
-import { ClassType } from "class-transformer/ClassTransformer";
-import { BaseResource } from "resources/base.resource";
 import { SerializerService } from "./serializer.service";
-import { BaseEntity } from "entities/base.entity";
-import { EntityResourceMapperService } from "./entity-resource-mapper.service";
 
 @Interceptor()
 export class SerializerInterceptor implements NestInterceptor {
     constructor(private readonly serializer: SerializerService) {}
 
-    intercept(
+    public intercept(
         dataOrRequest: any,
         context: ExecutionContext,
         stream$: Observable<BaseEntity | BaseEntity[] | undefined>,
@@ -20,10 +16,12 @@ export class SerializerInterceptor implements NestInterceptor {
         return stream$.pipe(map(x => this.serialize(x)));
     }
 
-    serialize(data: BaseEntity | BaseEntity[] | undefined): Object {
-        if (data == undefined) return {};
+    public serialize(data: BaseEntity | BaseEntity[] | undefined): Object {
+        if (data == undefined) {
+            return {};
+        }
 
-        let resource = this.serializer.getResource(data);
+        const resource = this.serializer.getResource(data);
         return this.serializer.serialize(resource);
     }
 }

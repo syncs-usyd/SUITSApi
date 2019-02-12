@@ -1,39 +1,26 @@
 import {
-    UseInterceptors,
+    Body,
     Controller,
     Get,
-    Query,
-    Post,
-    ValidationPipe,
-    Body,
-    UseGuards,
     HttpException,
+    Post,
+    Query,
+    UseGuards,
+    UseInterceptors,
+    ValidationPipe,
 } from "@nestjs/common";
-import {
-    ApiUseTags,
-    ApiResponse,
-    ApiOperation,
-    ApiModelProperty,
-    ApiModelPropertyOptional,
-} from "@nestjs/swagger";
-import {
-    IsNumber,
-    IsNumberString,
-    IsOptional,
-    IsNotEmpty,
-} from "class-validator";
-import { Transform } from "class-transformer";
-import { pickBy, identity } from "lodash";
+import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { identity, pickBy } from "lodash";
 
-import { AttendanceEntity, MemberEntity } from "entities";
-import { AttendanceResource } from "resources";
-import { SerializerInterceptor, AuthGuard } from "core";
-import { MembersService } from "api/members";
 import { EventsService } from "api/events";
+import { MembersService } from "api/members";
+import { AuthGuard, SerializerInterceptor } from "core";
+import { AttendanceEntity } from "entities";
+import { AttendanceResource } from "resources";
 
-import { AttendanceService } from "./attendance.service";
 import { AttendanceDto } from "./attendance.dto";
-import { OptionalAttendanceQuery, AttendanceQuery } from "./attendance.query";
+import { AttendanceQuery, OptionalAttendanceQuery } from "./attendance.query";
+import { AttendanceService } from "./attendance.service";
 
 @ApiUseTags("attendance")
 @Controller(new AttendanceResource().prefix)
@@ -56,11 +43,11 @@ export class AttendanceIndexController {
         status: 200,
         type: AttendanceResource,
     })
-    getAttendance(
+    public getAttendance(
         @Query(new ValidationPipe({ transform: true }))
         attendanceFilter: OptionalAttendanceQuery,
     ): Promise<AttendanceEntity[]> {
-        let options = pickBy(
+        const options = pickBy(
             {
                 memberId: attendanceFilter.member,
                 eventId: attendanceFilter.event,
@@ -80,38 +67,41 @@ export class AttendanceIndexController {
         status: 200,
         type: AttendanceResource,
     })
-    async addAttendance(
+    public async addAttendance(
         @Query(new ValidationPipe({ transform: true }))
         attendanceQuery: AttendanceQuery,
         @Body(new ValidationPipe({ transform: true })) data: AttendanceDto,
     ): Promise<AttendanceEntity> {
-        let member = await this.membersService.getMember(
+        const member = await this.membersService.getMember(
             attendanceQuery.member,
         );
-        if (!member)
+        if (!member) {
             throw new HttpException(
                 `Member with id ${attendanceQuery.member} could not be found.`,
                 400,
             );
+        }
 
-        let event = await this.eventsService.getEvent(attendanceQuery.event);
-        if (!event)
+        const event = await this.eventsService.getEvent(attendanceQuery.event);
+        if (!event) {
             throw new HttpException(
                 `Event with id ${attendanceQuery.event} could not be found.`,
                 400,
             );
+        }
 
-        let att = await this.attendanceService.findAttendance({
+        const att = await this.attendanceService.findAttendance({
             memberId: attendanceQuery.member,
             eventId: attendanceQuery.event,
         });
-        if (att.length == 1)
+        if (att.length == 1) {
             throw new HttpException(
                 `Attendance record for member ${member.id} and event ${
                     event.id
                 } already exists.`,
                 400,
             );
+        }
 
         return this.attendanceService.addAttendance(data, member, event);
     }
