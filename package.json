@@ -51,6 +51,17 @@
   },
   "prettier": {
     "tabWidth": 4,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "overrides": [
+      {
+        "files": [
+          "package.json",
+          "package-lock.json"
+        ],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
   }
 }
