@@ -9,7 +9,8 @@ import { AuthService } from "core";
 
 @WSGateway()
 export class WebSocketGateway implements OnGatewayConnection {
-    @WebSocketServer() public server: SocketIO.Server;
+    @WebSocketServer()
+    public server: SocketIO.Server;
     constructor(private readonly authService: AuthService) {}
 
     public handleConnection(client: SocketIO.Socket) {

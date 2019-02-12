@@ -12,11 +12,7 @@
         "outDir": "./dist",
         "baseUrl": ".",
         "paths": {
-            "*": [
-                "src/*",
-                "node_modules/*",
-                "./*.json"
-            ]
+            "*": ["src/*", "node_modules/*", "./*.json"]
         }
     },
     "exclude": ["node_modules"]
