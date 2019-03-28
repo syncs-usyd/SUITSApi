@@ -3,9 +3,9 @@ import {
     IsBoolean,
     IsEmail,
     IsEnum,
-    IsNumber,
     IsOptional,
     IsString,
+    IsInt,
 } from "class-validator";
 import { Gender, Member } from "interfaces";
 
@@ -34,12 +34,12 @@ export class MemberDto implements Member {
 
     @ApiModelPropertyOptional()
     @IsOptional()
-    @IsNumber()
+    @IsInt()
     public access?: number;
 
     @ApiModelPropertyOptional()
     @IsOptional()
-    @IsNumber()
+    @IsInt()
     public sid?: number;
 
     @ApiModelPropertyOptional({ default: false })
@@ -59,7 +59,7 @@ export class MemberDto implements Member {
 
     @ApiModelPropertyOptional()
     @IsOptional()
-    @IsNumber()
+    @IsInt()
     public expectedGradYear?: number;
 
     @ApiModelPropertyOptional()

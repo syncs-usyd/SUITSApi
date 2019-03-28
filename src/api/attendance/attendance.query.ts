@@ -1,16 +1,16 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
+import { IsInt, IsOptional } from "class-validator";
 
 export class AttendanceQuery {
     @ApiModelProperty()
     @Transform((m: string) => Number(m))
-    @IsNumber()
+    @IsInt()
     public member: number;
 
     @ApiModelProperty()
     @Transform((e: string) => Number(e))
-    @IsNumber()
+    @IsInt()
     public event: number;
 }
 
@@ -18,12 +18,12 @@ export class OptionalAttendanceQuery {
     @ApiModelPropertyOptional()
     @Transform((m: string) => Number(m))
     @IsOptional()
-    @IsNumber()
+    @IsInt()
     public member?: number;
 
     @ApiModelPropertyOptional()
     @Transform((m: string) => Number(m))
     @IsOptional()
-    @IsNumber()
+    @IsInt()
     public event?: number;
 }
