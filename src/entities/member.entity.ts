@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+} from "typeorm";
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 
@@ -21,11 +27,7 @@ export class MemberEntity extends BaseEntity implements Member {
     @Column("enum", { enum: Gender, nullable: true })
     public gender?: Gender;
 
-    @Column({
-        name: "joined_on",
-        default: () => "CURRENT_TIMESTAMP",
-        type: "timestamp",
-    })
+    @CreateDateColumn({ name: "joined_on" })
     public joinedOn: Date;
 
     @Column({ unique: true, nullable: true })
