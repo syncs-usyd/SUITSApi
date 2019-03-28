@@ -6,5 +6,8 @@
     "jwt": {
         "secret": "supersecret",
         "duration": "6h"
+    },
+    "sentry": {
+        "dsn": "https://key@sentry.io/id"
     }
 }

@@ -1,11 +1,26 @@
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as Sentry from "@sentry/node";
 import * as express from "express";
 import "reflect-metadata";
 import { ApplicationModule } from "./app.module";
 
+const config = require("../config.json");
+
 async function bootstrap() {
     const expressApp = express();
+
+    if (config.sentry) {
+        Sentry.init(config.sentry);
+        // The Sentry middleware needs to be before any other middleware.
+        expressApp.use(
+            Sentry.Handlers.requestHandler() as express.RequestHandler,
+        );
+        expressApp.use(
+            Sentry.Handlers.errorHandler() as express.ErrorRequestHandler,
+        );
+    }
+
     const app = await NestFactory.create(ApplicationModule, expressApp, {});
     app.enableCors();
 
