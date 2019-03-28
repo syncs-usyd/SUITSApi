@@ -7,6 +7,7 @@ import { ApplicationModule } from "./app.module";
 async function bootstrap() {
     const expressApp = express();
     const app = await NestFactory.create(ApplicationModule, expressApp, {});
+    app.enableCors();
 
     const options = new DocumentBuilder()
         .setTitle("SUITS API")
