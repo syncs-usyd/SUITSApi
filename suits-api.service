@@ -1,0 +1,11 @@
+[Unit]
+Description=SUITS API server
+
+[Service]
+Type=simple
+User=api
+WorkingDirectory=%h/SUITSApi
+ExecStart=/usr/bin/node index.js
+
+[Install]
+WantedBy=multi-user.target
