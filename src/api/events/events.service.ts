@@ -27,14 +27,14 @@ export class EventsService {
     }
 
     public getEvent(id: number): Promise<EventEntity | undefined> {
-        return this.repo.findOneById(id, { relations: ["membersAttended"] });
+        return this.repo.findOne(id, { relations: ["membersAttended"] });
     }
 
     public async updateEvent(
         id: number,
         data: EventDto,
     ): Promise<EventEntity | undefined> {
-        let event = await this.repo.findOneById(id);
+        let event = await this.repo.findOne(id);
         if (!event) {
             return undefined;
         }
@@ -47,12 +47,12 @@ export class EventsService {
     }
 
     public async deleteEvent(id: number): Promise<EventEntity | undefined> {
-        const event = await this.repo.findOneById(id);
+        const event = await this.repo.findOne(id);
         if (!event) {
             return undefined;
         }
 
-        await this.repo.deleteById(id);
+        await this.repo.delete(id);
 
         this.websocket.sendDelete(event);
         return event;

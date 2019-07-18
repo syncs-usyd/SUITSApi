@@ -24,7 +24,7 @@ export class AttendanceService {
         attendance = await this.repo.save(attendance);
 
         // need to retrieve the entity with the event and member data joined (.save doesn't do it...)
-        attendance = (await this.repo.findOneById(attendance.id))!;
+        attendance = (await this.repo.findOne(attendance.id))!;
 
         this.websocket.sendInsert(attendance);
         return attendance;
@@ -38,14 +38,14 @@ export class AttendanceService {
     }
 
     public getAttendance(id: number): Promise<AttendanceEntity | undefined> {
-        return this.repo.findOneById(id);
+        return this.repo.findOne(id);
     }
 
     public async updateAttendance(
         id: number,
         data: AttendanceDto,
     ): Promise<AttendanceEntity | undefined> {
-        let attendance = await this.repo.findOneById(id);
+        let attendance = await this.repo.findOne(id);
         if (!attendance) {
             return undefined;
         }
@@ -60,12 +60,12 @@ export class AttendanceService {
     public async deleteAttendance(
         id: number,
     ): Promise<AttendanceEntity | undefined> {
-        const attendance = await this.repo.findOneById(id);
+        const attendance = await this.repo.findOne(id);
         if (!attendance) {
             return undefined;
         }
 
-        await this.repo.deleteById(id);
+        await this.repo.delete(id);
 
         this.websocket.sendDelete(attendance);
         return attendance;

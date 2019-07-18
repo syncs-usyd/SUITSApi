@@ -42,14 +42,14 @@ export class MembersService {
     }
 
     public getMember(id: number): Promise<MemberEntity | undefined> {
-        return this.repo.findOneById(id, { relations: ["eventsAttended"] });
+        return this.repo.findOne(id, { relations: ["eventsAttended"] });
     }
 
     public async updateMember(
         id: number,
         data: MemberDto,
     ): Promise<MemberEntity | undefined> {
-        let member = await this.repo.findOneById(id);
+        let member = await this.repo.findOne(id);
         if (!member) {
             return undefined;
         }
@@ -62,12 +62,12 @@ export class MembersService {
     }
 
     public async deleteMember(id: number): Promise<MemberEntity | undefined> {
-        const member = await this.repo.findOneById(id);
+        const member = await this.repo.findOne(id);
         if (!member) {
             return undefined;
         }
 
-        await this.repo.deleteById(id);
+        await this.repo.delete(id);
 
         this.websocket.sendDelete(member);
         return member;
