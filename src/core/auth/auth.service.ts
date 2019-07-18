@@ -1,7 +1,7 @@
 import { Component } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
 
-const config = require("entities/../../config.json");
+const config = require("../../../config.json");
 
 @Component()
 export class AuthService {

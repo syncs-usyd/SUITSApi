@@ -13,9 +13,9 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { AuthGuard, SerializerInterceptor } from "core";
-import { EventEntity } from "entities";
-import { EventResource } from "resources";
+import { AuthGuard, SerializerInterceptor } from "../../core";
+import { EventEntity } from "../../entities";
+import { EventResource } from "../../resources";
 
 import { EventDto } from "./events.dto";
 import { EventsService } from "./events.service";

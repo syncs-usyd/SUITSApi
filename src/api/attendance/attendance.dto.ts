@@ -1,6 +1,6 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { Attendance } from "interfaces";
+import { Attendance } from "../../interfaces";
 
 export class AttendanceDto implements Attendance {
     @ApiModelProperty()

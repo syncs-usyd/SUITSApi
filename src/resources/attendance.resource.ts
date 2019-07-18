@@ -2,7 +2,7 @@ import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import { Allow } from "class-validator";
 
-import { Attendance } from "interfaces";
+import { Attendance } from "../interfaces";
 
 import { BaseResource } from "./base.resource";
 import { EventResource } from "./event.resource";

@@ -10,10 +10,9 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { SerializerInterceptor } from "core";
-import { AuthGuard } from "core";
-import { MemberEntity } from "entities";
-import { MemberResource } from "resources";
+import { AuthGuard, SerializerInterceptor } from "../../core";
+import { MemberEntity } from "../../entities";
+import { MemberResource } from "../../resources";
 
 import { MemberDto } from "./members.dto";
 import { MembersService } from "./members.service";

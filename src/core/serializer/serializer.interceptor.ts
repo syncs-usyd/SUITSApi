@@ -1,7 +1,7 @@
 import { ExecutionContext, Interceptor, NestInterceptor } from "@nestjs/common";
-import { BaseEntity } from "entities/base.entity";
 import { Observable } from "rxjs/Observable";
 import { map } from "rxjs/operators";
+import { BaseEntity } from "../../entities/base.entity";
 import { SerializerService } from "./serializer.service";
 
 @Interceptor()

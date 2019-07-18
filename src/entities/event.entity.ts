@@ -1,6 +1,6 @@
-import { Event } from "interfaces";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+import { Event } from "../interfaces";
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 

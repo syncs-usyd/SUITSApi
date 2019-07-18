@@ -46,7 +46,6 @@
     "@types/node": "^9.6.4",
     "@types/socket.io": "^1.4.33",
     "nodemon": "^1.18.9",
-    "tsconfig-paths": "^3.2.0",
     "ts-node": "^4.1.0",
     "typescript": "^2.8.1"
   },

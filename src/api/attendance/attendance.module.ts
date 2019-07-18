@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { EventsModule } from "api/events/events.module";
-import { MembersModule } from "api/members/members.module";
-import { AttendanceEntity } from "entities";
+import { AttendanceEntity } from "../../entities";
+import { EventsModule } from "../events/events.module";
+import { MembersModule } from "../members/members.module";
 
-import { AttendanceService } from "api/attendance";
+import { AttendanceService } from ".";
 import { AttendanceIdController } from "./attendance.id.controller";
 import { AttendanceIndexController } from "./attendance.index.controller";
 

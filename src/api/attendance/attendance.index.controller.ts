@@ -12,11 +12,11 @@ import {
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 import { identity, pickBy } from "lodash";
 
-import { EventsService } from "api/events";
-import { MembersService } from "api/members";
-import { AuthGuard, SerializerInterceptor } from "core";
-import { AttendanceEntity } from "entities";
-import { AttendanceResource } from "resources";
+import { AuthGuard, SerializerInterceptor } from "../../core";
+import { AttendanceEntity } from "../../entities";
+import { AttendanceResource } from "../../resources";
+import { EventsService } from "../events";
+import { MembersService } from "../members";
 
 import { AttendanceDto } from "./attendance.dto";
 import { AttendanceQuery, OptionalAttendanceQuery } from "./attendance.query";

@@ -8,7 +8,7 @@ import {
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 
-import { Gender, Member } from "interfaces";
+import { Gender, Member } from "../interfaces";
 
 @Entity({ name: "Member" })
 export class MemberEntity extends BaseEntity implements Member {

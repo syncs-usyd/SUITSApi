@@ -11,9 +11,7 @@
         "module": "commonjs",
         "outDir": "./dist",
         "baseUrl": ".",
-        "paths": {
-            "*": ["src/*", "node_modules/*", "./*.json"]
-        }
+        "rootDir": "src"
     },
     "exclude": ["node_modules"]
 }

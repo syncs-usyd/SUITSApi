@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { AuthService } from "core";
+import { AuthService } from "../../core";
 
 import { CredsDto } from "./creds.dto";
 import { TokenResource } from "./token.resource";

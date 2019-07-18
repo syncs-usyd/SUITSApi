@@ -1,10 +1,10 @@
 import { Component } from "@nestjs/common";
 import * as SocketIO from "socket.io";
 
-import { BaseResource } from "resources/base.resource";
+import { BaseResource } from "../../resources/base.resource";
 
-import { SerializerService } from "core";
-import { BaseEntity } from "entities/base.entity";
+import { SerializerService } from "..";
+import { BaseEntity } from "../../entities/base.entity";
 import { Action } from "./action.enum";
 import { WebSocketGateway } from "./websocket.gateway";
 

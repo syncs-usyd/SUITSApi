@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { Attendance } from "interfaces";
+import { Attendance } from "../interfaces";
 
 import { BaseEntity } from "./base.entity";
 import { EventEntity } from "./event.entity";

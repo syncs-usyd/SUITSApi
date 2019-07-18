@@ -13,10 +13,9 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { SerializerInterceptor } from "core";
-import { AuthGuard } from "core";
-import { AttendanceEntity } from "entities";
-import { AttendanceResource } from "resources";
+import { AuthGuard, SerializerInterceptor } from "../../core";
+import { AttendanceEntity } from "../../entities";
+import { AttendanceResource } from "../../resources";
 
 import { AttendanceDto } from "./attendance.dto";
 import { AttendanceService } from "./attendance.service";

@@ -7,7 +7,7 @@ import {
     IsString,
     IsInt,
 } from "class-validator";
-import { Gender, Member } from "interfaces";
+import { Gender, Member } from "../../interfaces";
 
 export class MemberDto implements Member {
     @ApiModelPropertyOptional()

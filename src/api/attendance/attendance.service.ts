@@ -1,8 +1,8 @@
 import { Component } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { WebSocketService } from "core";
-import { AttendanceEntity, EventEntity, MemberEntity } from "entities";
 import { Repository } from "typeorm";
+import { WebSocketService } from "../../core";
+import { AttendanceEntity, EventEntity, MemberEntity } from "../../entities";
 import { AttendanceDto } from "./attendance.dto";
 
 @Component()
