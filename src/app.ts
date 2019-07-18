@@ -33,7 +33,7 @@ async function bootstrap() {
         .build();
 
     const document = SwaggerModule.createDocument(app, options);
-    expressApp.use("/docs.json", (req, res, next) => res.send(document));
+    expressApp.use("/docs.json", (req, res) => res.send(document));
 
     await app.listen(config.listen || 3000);
 }
