@@ -9,6 +9,7 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { RavenInterceptor } from "nest-raven";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { MemberEntity } from "../../entities";
@@ -40,6 +41,7 @@ export class MembersIndexController {
 
     @Post()
     @HttpCode(200)
+    @UseInterceptors(new RavenInterceptor())
     @ApiOperation({
         title: "Add a new member",
         description:

@@ -12,13 +12,6 @@ async function bootstrap() {
 
     if (config.sentry) {
         Sentry.init(config.sentry);
-        // The Sentry middleware needs to be before any other middleware.
-        expressApp.use(
-            Sentry.Handlers.requestHandler() as express.RequestHandler,
-        );
-        expressApp.use(
-            Sentry.Handlers.errorHandler() as express.ErrorRequestHandler,
-        );
     }
 
     const app = await NestFactory.create(ApplicationModule, expressApp, {});
