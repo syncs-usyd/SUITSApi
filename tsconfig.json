@@ -5,9 +5,10 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "skipLibCheck": true,
+        "sourceMap": true,
 
-        "lib": ["es5", "es6"],
-        "target": "ES6",
+        "lib": ["es2017"],
+        "target": "es2017",
         "module": "commonjs",
         "outDir": "./dist",
         "baseUrl": ".",
