@@ -1,4 +1,4 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
@@ -6,7 +6,7 @@ import { WebSocketService } from "../../core";
 import { MemberEntity } from "../../entities";
 import { MemberDto } from "./members.dto";
 
-@Component()
+@Injectable()
 export class MembersService {
     constructor(
         @InjectRepository(MemberEntity)

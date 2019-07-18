@@ -4,11 +4,11 @@ import { SerializerInterceptor } from "./serializer.interceptor";
 import { SerializerService } from "./serializer.service";
 
 @Module({
-    components: [
+    exports: [SerializerService, SerializerInterceptor],
+    providers: [
         EntityResourceMapperService,
         SerializerService,
         SerializerInterceptor,
     ],
-    exports: [SerializerService, SerializerInterceptor],
 })
 export class SerializerModule {}

@@ -16,7 +16,7 @@ import { AttendanceIndexController } from "./attendance.index.controller";
         EventsModule,
     ],
     controllers: [AttendanceIndexController, AttendanceIdController],
-    components: [AttendanceService],
+    providers: [AttendanceService],
     exports: [AttendanceService],
 })
 export class AttendanceModule {}

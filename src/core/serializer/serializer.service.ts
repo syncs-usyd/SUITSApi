@@ -1,11 +1,11 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { classToPlain } from "class-transformer";
 import { transformAndValidateSync } from "class-transformer-validator";
 import { BaseEntity } from "../../entities/base.entity";
 import { BaseResource } from "../../resources/base.resource";
 import { EntityResourceMapperService } from "./entity-resource-mapper.service";
 
-@Component()
+@Injectable()
 export class SerializerService {
     constructor(
         private readonly entityResourceMapper: EntityResourceMapperService,

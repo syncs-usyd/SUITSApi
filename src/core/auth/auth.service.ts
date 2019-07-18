@@ -1,9 +1,9 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
 
 const config = require("../../../config.json");
 
-@Component()
+@Injectable()
 export class AuthService {
     public verifyCreds(username: string, password: string): boolean {
         if (username != config.api.user || password != config.api.pass) {

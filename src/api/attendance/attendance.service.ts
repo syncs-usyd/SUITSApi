@@ -1,11 +1,11 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { WebSocketService } from "../../core";
 import { AttendanceEntity, EventEntity, MemberEntity } from "../../entities";
 import { AttendanceDto } from "./attendance.dto";
 
-@Component()
+@Injectable()
 export class AttendanceService {
     constructor(
         @InjectRepository(AttendanceEntity)

@@ -1,4 +1,4 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as SocketIO from "socket.io";
 
 import { BaseResource } from "../../resources/base.resource";
@@ -8,7 +8,7 @@ import { BaseEntity } from "../../entities/base.entity";
 import { Action } from "./action.enum";
 import { WebSocketGateway } from "./websocket.gateway";
 
-@Component()
+@Injectable()
 export class WebSocketService {
     constructor(
         private readonly serializer: SerializerService,
