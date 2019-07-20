@@ -76,14 +76,8 @@ export class MembersService {
     private async getMemberIfExists(
         data: MemberDto,
     ): Promise<MemberEntity | undefined> {
-        const validVals = [data.email, data.access, data.sid].filter(v => !!v); // looking for non-falsy value
+        const validVals = [data.email, data.access, data.sid].filter(v => v);
         if (validVals.length != 0) {
-            const fields = {
-                email: data.email,
-                access: data.access,
-                sid: data.sid,
-            };
-
             let q = this.repo.createQueryBuilder("member");
             q = q.select();
 
@@ -92,7 +86,7 @@ export class MembersService {
                 field =>
                     `(member.${field} IS NOT NULL AND member.${field} = :${field})`,
             );
-            q = q.where(where.join(" OR "), fields);
+            q = q.where(where.join(" OR "), data);
 
             const result = await q.getOne();
 
