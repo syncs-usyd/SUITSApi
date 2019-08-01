@@ -1,17 +1,17 @@
 import {
     Column,
+    CreateDateColumn,
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
-    CreateDateColumn,
 } from "typeorm";
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 
-import { Gender, Member } from "../interfaces";
+import { Gender, IMember } from "../interfaces";
 
 @Entity({ name: "Member" })
-export class MemberEntity extends BaseEntity implements Member {
+export class MemberEntity extends BaseEntity implements IMember {
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -53,8 +53,8 @@ export class MemberEntity extends BaseEntity implements Member {
 
     @Column({
         name: "last_joined_on",
-        type: "timestamp",
         nullable: true,
+        type: "timestamp",
     })
     public lastJoinedOn?: Date;
 

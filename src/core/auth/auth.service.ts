@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
 
+// tslint:disable-next-line: no-var-requires
 const config = require("../../../config.json");
 
 @Injectable()

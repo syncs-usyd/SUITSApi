@@ -6,9 +6,9 @@ import { EventsIndexController } from "./events.index.controller";
 import { EventsService } from "./events.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([EventEntity])],
     controllers: [EventsIndexController, EventsIdController],
-    providers: [EventsService],
     exports: [EventsService],
+    imports: [TypeOrmModule.forFeature([EventEntity])],
+    providers: [EventsService],
 })
 export class EventsModule {}

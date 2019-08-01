@@ -1,6 +1,6 @@
 import { Gender } from "./gender.enum";
 
-export interface Member {
+export interface IMember {
     email?: string;
 
     firstName: string;

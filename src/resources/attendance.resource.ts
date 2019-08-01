@@ -2,13 +2,13 @@ import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import { Allow } from "class-validator";
 
-import { Attendance } from "../interfaces";
+import { IAttendance } from "../interfaces";
 
 import { BaseResource } from "./base.resource";
 import { EventResource } from "./event.resource";
 import { MemberResource } from "./member.resource";
 
-export class AttendanceResource extends BaseResource implements Attendance {
+export class AttendanceResource extends BaseResource implements IAttendance {
     @ApiModelProperty()
     @Allow()
     public id: number;

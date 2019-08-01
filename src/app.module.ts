@@ -5,6 +5,7 @@ import { ApiModule } from "./api/api.module";
 import { CoreModule } from "./core/core.module";
 import { AttendanceEntity, EventEntity, MemberEntity } from "./entities";
 
+// tslint:disable-next-line: no-var-requires
 const ormconfig = require("../ormconfig.json");
 
 @Module({

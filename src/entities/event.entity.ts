@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { Event } from "../interfaces";
+import { IEvent } from "../interfaces";
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 
 @Entity({ name: "Event" })
-export class EventEntity extends BaseEntity implements Event {
+export class EventEntity extends BaseEntity implements IEvent {
     @PrimaryGeneratedColumn()
     public id: number;
 

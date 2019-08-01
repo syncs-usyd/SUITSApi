@@ -21,7 +21,7 @@ import { EventsService } from "./events.service";
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
 export class EventsIndexController {
-    constructor(private readonly EventsService: EventsService) {}
+    constructor(private readonly service: EventsService) {}
 
     @Get()
     @ApiOperation({
@@ -34,7 +34,7 @@ export class EventsIndexController {
         type: EventResource,
     })
     public getEvents(): Promise<EventEntity[]> {
-        return this.EventsService.getAllEvents();
+        return this.service.getAllEvents();
     }
 
     @Post()
@@ -49,6 +49,6 @@ export class EventsIndexController {
     public addEvent(
         @Body(new ValidationPipe()) data: EventDto,
     ): Promise<EventEntity> {
-        return this.EventsService.addEvent(data);
+        return this.service.addEvent(data);
     }
 }

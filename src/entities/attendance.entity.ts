@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { Attendance } from "../interfaces";
+import { IAttendance } from "../interfaces";
 
 import { BaseEntity } from "./base.entity";
 import { EventEntity } from "./event.entity";
@@ -19,7 +19,7 @@ import { MemberEntity } from "./member.entity";
     (a: AttendanceEntity) => [a.member, a.event],
     { unique: true },
 )
-export class AttendanceEntity extends BaseEntity implements Attendance {
+export class AttendanceEntity extends BaseEntity implements IAttendance {
     @PrimaryGeneratedColumn()
     public id: number;
 

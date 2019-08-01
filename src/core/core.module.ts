@@ -5,7 +5,7 @@ import { WebSocketModule } from "./websocket/websocket.module";
 
 @Global()
 @Module({
-    imports: [SerializerModule, AuthModule, WebSocketModule],
     exports: [SerializerModule, AuthModule, WebSocketModule],
+    imports: [SerializerModule, AuthModule, WebSocketModule],
 })
 export class CoreModule {}

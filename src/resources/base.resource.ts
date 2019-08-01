@@ -16,5 +16,6 @@ export abstract class BaseResource {
     get ref(): string {
         return `${this.prefix}/${this.id}`;
     }
+    // tslint:disable-next-line: no-empty
     set ref(a: string) {} // ignore any setters for ref. idk why it breaks if this is not there
 }

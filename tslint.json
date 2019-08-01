@@ -2,6 +2,8 @@
     "defaultSeverity": "error",
     "extends": ["tslint:recommended", "tslint-config-prettier"],
     "rules": {
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "object-literal-sort-keys": false,
+        "triple-equals": false
     }
 }

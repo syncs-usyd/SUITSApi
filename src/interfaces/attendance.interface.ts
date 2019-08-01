@@ -1,4 +1,4 @@
-export interface Attendance {
+export interface IAttendance {
     primary: boolean;
 
     secondary: number;

@@ -1,9 +1,9 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 import { IsDateString, IsOptional, IsString } from "class-validator";
 
-import { Event } from "../../interfaces";
+import { IEvent } from "../../interfaces";
 
-export class EventDto implements Event {
+export class EventDto implements IEvent {
     @ApiModelProperty()
     @IsString()
     public title: string;

@@ -3,13 +3,13 @@ import {
     IsBoolean,
     IsEmail,
     IsEnum,
+    IsInt,
     IsOptional,
     IsString,
-    IsInt,
 } from "class-validator";
-import { Gender, Member } from "../../interfaces";
+import { Gender, IMember } from "../../interfaces";
 
-export class MemberDto implements Member {
+export class MemberDto implements IMember {
     @ApiModelPropertyOptional()
     @IsOptional()
     @IsEmail()

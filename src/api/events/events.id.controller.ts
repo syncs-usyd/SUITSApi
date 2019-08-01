@@ -25,7 +25,7 @@ import { EventsService } from "./events.service";
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
 export class EventsIdController {
-    constructor(private readonly EventsService: EventsService) {}
+    constructor(private readonly service: EventsService) {}
 
     @Get()
     @ApiOperation({
@@ -37,7 +37,7 @@ export class EventsIdController {
         type: EventResource,
     })
     public async getEvent(@Param("id") id: number): Promise<EventEntity> {
-        const event = await this.EventsService.getEvent(id);
+        const event = await this.service.getEvent(id);
         if (!event) {
             throw new NotFoundException();
         }
@@ -58,7 +58,7 @@ export class EventsIdController {
         @Param("id") id: number,
         @Body(new ValidationPipe({ transform: true })) event: EventDto,
     ): Promise<EventEntity> {
-        const e = await this.EventsService.updateEvent(id, event);
+        const e = await this.service.updateEvent(id, event);
         if (!e) {
             throw new NotFoundException();
         }
@@ -73,6 +73,6 @@ export class EventsIdController {
         description: "Delete the event and all attendance associated with it.",
     })
     public async deleteEvent(@Param("id") id: number): Promise<void> {
-        const e = this.EventsService.deleteEvent(id);
+        const e = this.service.deleteEvent(id);
     }
 }

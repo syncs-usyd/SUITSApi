@@ -1,4 +1,4 @@
-export { Member } from "./member.interface";
+export { IMember } from "./member.interface";
 export { Gender } from "./gender.enum";
-export { Event } from "./event.interface";
-export { Attendance } from "./attendance.interface";
+export { IEvent } from "./event.interface";
+export { IAttendance } from "./attendance.interface";

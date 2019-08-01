@@ -49,8 +49,8 @@ export class AttendanceIndexController {
     ): Promise<AttendanceEntity[]> {
         const options = pickBy(
             {
-                memberId: attendanceFilter.member,
                 eventId: attendanceFilter.event,
+                memberId: attendanceFilter.member,
             },
             identity,
         );

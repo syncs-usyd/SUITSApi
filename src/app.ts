@@ -5,6 +5,7 @@ import * as express from "express";
 import "reflect-metadata";
 import { ApplicationModule } from "./app.module";
 
+// tslint:disable-next-line: no-var-requires
 const config = require("../config.json");
 
 async function bootstrap() {

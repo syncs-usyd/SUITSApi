@@ -34,9 +34,9 @@ export class WebSocketService {
     private send(entity: BaseEntity, action: Action) {
         const resource = this.serializer.getResource(entity) as BaseResource; // websockets will only receive single resources
         this.getSocket().send({
-            resource: resource.getResourceName(),
             action,
             data: this.serializer.serialize(resource),
+            resource: resource.getResourceName(),
         });
     }
 }
