@@ -8,6 +8,10 @@ import { MemberDto } from "./members.dto";
 
 @Injectable()
 export class MembersService {
+    private FIND_MEMBER = ["email", "sid", "access"]
+        .map(f => `(member.${f} IS NOT NULL AND member.${f} = :${f})`)
+        .join(" OR ");
+
     constructor(
         @InjectRepository(MemberEntity)
         private readonly repo: Repository<MemberEntity>,
@@ -81,18 +85,14 @@ export class MembersService {
             let q = this.repo.createQueryBuilder("member");
             q = q.select();
 
-            // since we know that one of the following is valid, we don't need to check
-            const where = ["email", "access", "sid"].map(
-                field =>
-                    `(member.${field} IS NOT NULL AND member.${field} = :${field})`,
-            );
-            q = q.where(where.join(" OR "), data);
+            // At least one will be not null. Pass through null otherwise.
+            q = q.where(this.FIND_MEMBER, {
+                access: data.access,
+                email: data.email,
+                sid: data.sid,
+            });
 
-            const result = await q.getOne();
-
-            if (result) {
-                return result;
-            }
+            return await q.getOne();
         }
     }
 }
