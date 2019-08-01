@@ -4,9 +4,10 @@
   "description": "Membership and Attendance API for SUITS",
   "main": "index.js",
   "scripts": {
+    "build": "tsc -p tsconfig.prod.json",
     "start": "node index.js",
     "start:watch": "nodemon",
-    "prestart:prod": "tsc -p tsconfig.prod.json",
+    "prestart:prod": "npm run build",
     "start:prod": "node dist/app.js"
   },
   "repository": {
