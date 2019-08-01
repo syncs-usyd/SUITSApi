@@ -76,8 +76,4 @@ export class MemberResource extends BaseResource implements IMember {
     public getResourceName(): string {
         return "Member";
     }
-
-    public getType(): new (...args: any[]) => BaseResource {
-        return MemberResource;
-    }
 }

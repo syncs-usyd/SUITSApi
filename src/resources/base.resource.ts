@@ -9,8 +9,6 @@ export abstract class BaseResource {
 
     abstract get prefix(): string;
 
-    public abstract getType(): new (...args: any[]) => BaseResource;
-
     @ApiModelProperty()
     @Expose()
     get ref(): string {

@@ -58,8 +58,4 @@ export class AttendanceResource extends BaseResource implements IAttendance {
     public getResourceName(): string {
         return "Attendance";
     }
-
-    public getType(): new (...args: any[]) => BaseResource {
-        return AttendanceResource;
-    }
 }

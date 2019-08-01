@@ -9,7 +9,7 @@ export class EntityResourceMapperService {
     public getResourceType(
         entity: BaseEntity,
     ): new (...args: any[]) => BaseResource {
-        const type = entity.getType();
+        const type = entity.constructor;
 
         switch (type) {
             case MemberEntity:
@@ -20,6 +20,6 @@ export class EntityResourceMapperService {
                 return AttendanceResource;
         }
 
-        throw new Error(`Entity ${type.name} has no valid resource!`);
+        throw new TypeError(`Entity ${type.name} has no valid resource!`);
     }
 }

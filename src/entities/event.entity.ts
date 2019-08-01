@@ -20,8 +20,4 @@ export class EventEntity extends BaseEntity implements IEvent {
 
     @OneToMany(type => AttendanceEntity, att => att.event)
     public membersAttended?: AttendanceEntity[];
-
-    public getType(): new (...args: any[]) => EventEntity {
-        return EventEntity;
-    }
 }

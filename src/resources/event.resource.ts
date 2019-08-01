@@ -36,8 +36,4 @@ export class EventResource extends BaseResource implements IEvent {
     public getResourceName(): string {
         return "Event";
     }
-
-    public getType(): new (...args: any[]) => BaseResource {
-        return EventResource;
-    }
 }

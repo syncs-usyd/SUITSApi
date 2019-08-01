@@ -60,8 +60,4 @@ export class MemberEntity extends BaseEntity implements IMember {
 
     @OneToMany(type => AttendanceEntity, att => att.member)
     public eventsAttended?: AttendanceEntity[];
-
-    public getType(): new (...args: any[]) => MemberEntity {
-        return MemberEntity;
-    }
 }
