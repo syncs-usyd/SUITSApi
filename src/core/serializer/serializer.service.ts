@@ -23,11 +23,8 @@ export class SerializerService {
         if (Array.isArray(entity)) {
             if (entity.length == 0) {
                 return [];
-            } else {
-                resourceType = this.entityResourceMapper.getResourceType(
-                    entity[0],
-                );
             }
+            resourceType = this.entityResourceMapper.getResourceType(entity[0]);
         } else {
             resourceType = this.entityResourceMapper.getResourceType(entity);
         }

@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { BaseEntity } from "../../entities/base.entity";
@@ -10,9 +10,9 @@ export class SerializerInterceptor implements NestInterceptor {
 
     public intercept(
         context: ExecutionContext,
-        call$: Observable<BaseEntity | BaseEntity[] | undefined>,
+        next: CallHandler,
     ): Observable<Object> {
-        return call$.pipe(map(x => this.serialize(x)));
+        return next.handle().pipe(map(x => this.serialize(x)));
     }
 
     public serialize(data: BaseEntity | BaseEntity[] | undefined): Object {

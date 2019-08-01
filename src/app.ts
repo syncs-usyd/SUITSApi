@@ -1,8 +1,8 @@
 import { NestFactory } from "@nestjs/core";
+import { ExpressAdapter } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as Sentry from "@sentry/node";
 import * as express from "express";
-import "reflect-metadata";
 import { ApplicationModule } from "./app.module";
 
 // tslint:disable-next-line: no-var-requires
@@ -15,7 +15,7 @@ async function bootstrap() {
         Sentry.init(config.sentry);
     }
 
-    const app = await NestFactory.create(ApplicationModule, expressApp, {});
+    const app = await NestFactory.create(ApplicationModule, new ExpressAdapter(expressApp));
     app.enableCors();
 
     const options = new DocumentBuilder()
