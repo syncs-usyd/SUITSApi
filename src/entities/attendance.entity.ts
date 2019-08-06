@@ -30,14 +30,12 @@ export class AttendanceEntity extends BaseEntity implements IAttendance {
     public eventId: number;
 
     @ManyToOne(type => MemberEntity, member => member.eventsAttended, {
-        eager: true,
         onDelete: "CASCADE",
     })
     @JoinColumn({ name: "member_id" })
     public member?: MemberEntity;
 
     @ManyToOne(type => EventEntity, event => event.membersAttended, {
-        eager: true,
         onDelete: "CASCADE",
     })
     @JoinColumn({ name: "event_id" })
