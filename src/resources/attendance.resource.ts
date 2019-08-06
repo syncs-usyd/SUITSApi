@@ -31,25 +31,11 @@ export class AttendanceResource extends BaseResource implements IAttendance {
 
     @ApiModelPropertyOptional()
     @Allow()
-    @Type(() => MemberResource)
-    @Transform((m: MemberResource) => {
-        return { id: m.id, ref: m.ref };
-    })
-    public member: {
-        id: number;
-        ref: string;
-    };
+    public memberId: number;
 
     @ApiModelPropertyOptional()
     @Allow()
-    @Type(() => EventResource)
-    @Transform((e: EventResource) => {
-        return { id: e.id, ref: e.ref };
-    })
-    public event: {
-        id: number;
-        ref: string;
-    };
+    public eventId: number;
 
     get prefix(): string {
         return "/attendance";
