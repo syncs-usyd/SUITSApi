@@ -30,6 +30,9 @@ async function bootstrap() {
     expressApp.use("/docs.json", (req, res) => res.send(document));
 
     await app.listen(config.listen || 3000);
+
+    process.on("SIGINT", () => app.close());
+    process.on("SIGTERM", () => app.close());
 }
 
 bootstrap();
