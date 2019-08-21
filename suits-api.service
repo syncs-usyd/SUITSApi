@@ -6,6 +6,7 @@ Type=notify
 NotifyAccess=main
 User=api
 WorkingDirectory=%h/SUITSApi
+UMask=0000
 ExecStart=/usr/bin/node dist/app.js
 
 [Install]
