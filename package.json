@@ -67,5 +67,8 @@
         }
       }
     ]
+  },
+  "optionalDependencies": {
+    "sd_notify_promise": "0.0.3"
   }
 }
