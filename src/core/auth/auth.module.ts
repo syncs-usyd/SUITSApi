@@ -14,8 +14,11 @@ const config = require("../../../config.json");
         PassportModule,
         JwtModule.register({
             secret: config.jwt.secret,
-            signOptions: { expiresIn: config.jwt.duration },
-        })
+            signOptions: {
+                audience: config.jwt.audience,
+                expiresIn: config.jwt.duration,
+            },
+        }),
     ],
     exports: [AuthService],
     providers: [AuthService, LocalStrategy, JwtStrategy],
