@@ -1,2 +1,4 @@
+import { AuthGuard as PassportAuthGuard } from "@nestjs/passport";
 export { AuthService } from "./auth.service";
-export { AuthGuard } from "./auth.guard";
+
+export const AuthGuard = PassportAuthGuard("jwt");

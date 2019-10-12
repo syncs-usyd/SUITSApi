@@ -1,13 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { sign, verify } from "jsonwebtoken";
-
-// tslint:disable-next-line: no-var-requires
-const config = require("../../../config.json");
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
+    private readonly user: string;
+    private readonly pass: string;
+
+    constructor(private readonly jwtService: JwtService) {
+        const config = require("../../../config.json");
+        this.user = config.api.user;
+        this.pass = config.api.pass;
+    }
+
     public verifyCreds(username: string, password: string): boolean {
-        if (username != config.api.user || password != config.api.pass) {
+        if (username != this.user || password != this.pass) {
             return false;
         }
 
@@ -16,7 +22,7 @@ export class AuthService {
 
     public verifyToken(token: string): boolean {
         try {
-            verify(token, config.jwt.secret);
+            this.jwtService.verify(token);
             return true;
         } catch (err) {
             return false;
@@ -24,8 +30,6 @@ export class AuthService {
     }
 
     public getToken(): string {
-        return sign({ user: config.api.user }, config.jwt.secret, {
-            expiresIn: config.jwt.duration,
-        });
+        return this.jwtService.sign({ user: this.user });
     }
 }

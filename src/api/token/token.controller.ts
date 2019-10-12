@@ -1,11 +1,11 @@
+import { Controller, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import {
-    Body,
-    Controller,
-    Post,
-    UnauthorizedException,
-    ValidationPipe,
-} from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+    ApiImplicitBody,
+    ApiOperation,
+    ApiResponse,
+    ApiUseTags,
+} from "@nestjs/swagger";
 
 import { AuthService } from "../../core";
 
@@ -17,6 +17,7 @@ import { TokenResource } from "./token.resource";
 export class TokenController {
     constructor(private readonly authService: AuthService) {}
 
+    @UseGuards(AuthGuard("local"))
     @Post()
     @ApiOperation({
         title: "Retrieve a token",
@@ -27,11 +28,8 @@ export class TokenController {
         status: 200,
         type: TokenResource,
     })
-    public auth(@Body(new ValidationPipe()) creds: CredsDto): TokenResource {
-        if (!this.authService.verifyCreds(creds.user, creds.pass)) {
-            throw new UnauthorizedException("Incorrect login details");
-        }
-
+    @ApiImplicitBody({ name: "CredsDto", type: CredsDto })
+    public auth(): TokenResource {
         return { token: this.authService.getToken() };
     }
 }
