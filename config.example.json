@@ -4,6 +4,7 @@
         "pass": "password"
     },
     "jwt": {
+        "audience": "https://api.syncs.org.au",
         "secret": "supersecret",
         "duration": "6h"
     },
