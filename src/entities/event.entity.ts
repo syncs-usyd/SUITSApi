@@ -4,7 +4,7 @@ import { IEvent } from "../interfaces";
 import { AttendanceEntity } from "./attendance.entity";
 import { BaseEntity } from "./base.entity";
 
-@Entity({ name: "Event" })
+@Entity({ name: "event" })
 export class EventEntity extends BaseEntity implements IEvent {
     @PrimaryGeneratedColumn()
     public id: number;

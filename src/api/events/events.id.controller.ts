@@ -11,7 +11,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { EventEntity } from "../../entities";
@@ -20,7 +20,7 @@ import { EventResource } from "../../resources";
 import { EventDto } from "./events.dto";
 import { EventsService } from "./events.service";
 
-@ApiUseTags("events")
+@ApiTags("events")
 @Controller(new EventResource().prefix + "/:id")
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -29,7 +29,7 @@ export class EventsIdController {
 
     @Get()
     @ApiOperation({
-        title: "Retrieve an event",
+        summary: "Retrieve an event",
         description: "Retrieve an event with a given id.",
     })
     @ApiResponse({
@@ -47,7 +47,7 @@ export class EventsIdController {
 
     @Put()
     @ApiOperation({
-        title: "Update an event",
+        summary: "Update an event",
         description: "Update data about the event with a given id.",
     })
     @ApiResponse({
@@ -69,7 +69,7 @@ export class EventsIdController {
     @Delete()
     @HttpCode(204)
     @ApiOperation({
-        title: "Delete an event",
+        summary: "Delete an event",
         description: "Delete the event and all attendance associated with it.",
     })
     public async deleteEvent(@Param("id") id: number): Promise<void> {

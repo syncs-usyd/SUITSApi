@@ -1,4 +1,4 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
     IsBoolean,
     IsEmail,
@@ -10,64 +10,64 @@ import {
 import { Gender, IMember } from "../../interfaces";
 
 export class MemberDto implements IMember {
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsEmail()
     public email?: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     public firstName: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     public lastName: string;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsEnum(Gender)
     public gender?: Gender;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     public joinedOn?: Date;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsInt()
     public access?: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsInt()
     public sid?: number;
 
-    @ApiModelPropertyOptional({ default: false })
+    @ApiPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
     public newsletter?: boolean;
 
-    @ApiModelPropertyOptional({ default: false })
+    @ApiPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
     public doingIT?: boolean;
 
-    @ApiModelPropertyOptional({ default: false })
+    @ApiPropertyOptional({ default: false })
     @IsOptional()
     @IsBoolean()
     public registered?: boolean;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsInt()
     public expectedGradYear?: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsBoolean()
     public international?: boolean;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     public lastJoinedOn?: Date;
 }

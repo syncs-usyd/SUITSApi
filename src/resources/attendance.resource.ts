@@ -1,4 +1,4 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import { Allow } from "class-validator";
 
@@ -9,31 +9,31 @@ import { EventResource } from "./event.resource";
 import { MemberResource } from "./member.resource";
 
 export class AttendanceResource extends BaseResource implements IAttendance {
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public id: number;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public primary: boolean;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public secondary: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public additional?: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public paidByCard: boolean;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public memberId: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public eventId: number;
 

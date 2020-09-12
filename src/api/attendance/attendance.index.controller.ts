@@ -9,8 +9,9 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { identity, pickBy } from "lodash";
+import { RavenInterceptor } from "nest-raven";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { AttendanceEntity } from "../../entities";
@@ -22,7 +23,7 @@ import { AttendanceDto } from "./attendance.dto";
 import { AttendanceQuery, OptionalAttendanceQuery } from "./attendance.query";
 import { AttendanceService } from "./attendance.service";
 
-@ApiUseTags("attendance")
+@ApiTags("attendance")
 @Controller(new AttendanceResource().prefix)
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -35,7 +36,7 @@ export class AttendanceIndexController {
 
     @Get()
     @ApiOperation({
-        title: "Get all attendance",
+        summary: "Get all attendance",
         description:
             "Retrieve attendance, filtering by the event and member IDs if needed.",
     })
@@ -58,8 +59,9 @@ export class AttendanceIndexController {
     }
 
     @Post()
+    @UseInterceptors(new RavenInterceptor())
     @ApiOperation({
-        title: "Add a new attendance record",
+        summary: "Add a new attendance record",
         description:
             "Add a new attendance record. Event and Member IDs must be provided.",
     })
@@ -96,9 +98,7 @@ export class AttendanceIndexController {
         });
         if (att.length == 1) {
             throw new HttpException(
-                `Attendance record for member ${member.id} and event ${
-                    event.id
-                } already exists.`,
+                `Attendance record for member ${member.id} and event ${event.id} already exists.`,
                 400,
             );
         }

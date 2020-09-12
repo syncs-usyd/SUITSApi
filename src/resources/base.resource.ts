@@ -1,15 +1,15 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 
 export abstract class BaseResource {
-    @ApiModelProperty()
+    @ApiProperty()
     public abstract id: number;
 
     public abstract getResourceName(): string;
 
     abstract get prefix(): string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Expose()
     get ref(): string {
         return `${this.prefix}/${this.id}`;

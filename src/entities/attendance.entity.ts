@@ -13,7 +13,7 @@ import { BaseEntity } from "./base.entity";
 import { EventEntity } from "./event.entity";
 import { MemberEntity } from "./member.entity";
 
-@Entity({ name: "Attendance" })
+@Entity({ name: "attendance" })
 @Index(
     "member_event_unique_attendance",
     (a: AttendanceEntity) => [a.member, a.event],

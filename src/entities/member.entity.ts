@@ -10,7 +10,7 @@ import { BaseEntity } from "./base.entity";
 
 import { Gender, IMember } from "../interfaces";
 
-@Entity({ name: "Member" })
+@Entity({ name: "member" })
 export class MemberEntity extends BaseEntity implements IMember {
     @PrimaryGeneratedColumn()
     public id: number;
