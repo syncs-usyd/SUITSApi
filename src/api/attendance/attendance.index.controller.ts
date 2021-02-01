@@ -9,7 +9,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { identity, pickBy } from "lodash";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
@@ -22,7 +22,7 @@ import { AttendanceDto } from "./attendance.dto";
 import { AttendanceQuery, OptionalAttendanceQuery } from "./attendance.query";
 import { AttendanceService } from "./attendance.service";
 
-@ApiUseTags("attendance")
+@ApiTags("attendance")
 @Controller(new AttendanceResource().prefix)
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -35,7 +35,7 @@ export class AttendanceIndexController {
 
     @Get()
     @ApiOperation({
-        title: "Get all attendance",
+        summary: "Get all attendance",
         description:
             "Retrieve attendance, filtering by the event and member IDs if needed.",
     })
@@ -59,7 +59,7 @@ export class AttendanceIndexController {
 
     @Post()
     @ApiOperation({
-        title: "Add a new attendance record",
+        summary: "Add a new attendance record",
         description:
             "Add a new attendance record. Event and Member IDs must be provided.",
     })

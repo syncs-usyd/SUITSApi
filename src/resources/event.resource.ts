@@ -1,4 +1,4 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { Allow, ValidateNested } from "class-validator";
 
@@ -8,23 +8,23 @@ import { AttendanceResource } from "./attendance.resource";
 import { BaseResource } from "./base.resource";
 
 export class EventResource extends BaseResource implements IEvent {
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public id: number;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public title: string;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public description?: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public time: Date;
 
-    @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
+    @ApiPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()
     public membersAttended?: AttendanceResource[];

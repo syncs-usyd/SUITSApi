@@ -1,4 +1,4 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { Allow, ValidateNested } from "class-validator";
 
@@ -8,63 +8,63 @@ import { AttendanceResource } from "./attendance.resource";
 import { BaseResource } from "./base.resource";
 
 export class MemberResource extends BaseResource implements IMember {
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public id: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public email?: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public firstName: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public lastName: string;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public gender?: Gender;
 
-    @ApiModelProperty() // TODO: look into how to format a date type correctly with nest swagger
+    @ApiProperty() // TODO: look into how to format a date type correctly with nest swagger
     @Allow()
     public joinedOn: Date;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public access?: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public sid?: number;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public newsletter: boolean;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public doingIT: boolean;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @Allow()
     public registered: boolean;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public expectedGradYear?: number;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public international?: boolean;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @Allow()
     public lastJoinedOn?: Date;
 
-    @ApiModelPropertyOptional({ isArray: true, type: AttendanceResource })
+    @ApiPropertyOptional({ isArray: true, type: AttendanceResource })
     @Type(() => AttendanceResource)
     @ValidateNested()
     public eventsAttended?: AttendanceResource[];

@@ -1,19 +1,19 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsDateString, IsOptional, IsString } from "class-validator";
 
 import { IEvent } from "../../interfaces";
 
 export class EventDto implements IEvent {
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     public title: string;
 
-    @ApiModelPropertyOptional()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsString()
     public description?: string;
 
-    @ApiModelProperty({ default: "Date.now()" })
+    @ApiProperty({ default: "Date.now()" })
     @IsDateString()
     public time: Date;
 }
