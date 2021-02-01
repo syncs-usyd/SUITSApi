@@ -6,13 +6,15 @@ The full documentation for the API can be found [here](https://apidocs.suits.org
 
 ## Installation
 
-To get this running locally you'll need to have MySQL installed and a database called `api` set up specifically for this api.
+To get this running locally...
 
-(Don't try to use sqlite because it doesn't have good support for foreign key constraints.)
+- Have MySQL installed (don't use sqlite because it doesn't have good support for foreign key constraints).
+- Create a database called `api` specifically for this api.
+- Create a database user with permissions on that database.
+- Copy `config.example.json` to `config.json`, and `ormconfig.example.json` to `ormconfig.json` and update them as appropriate.
+- Run `npm install`
 
-NOTE: currently migrating to TypeScript, so this will be updated
-
-3. Check your database connection:
+To check your database connection:
     - `mysql -u dbuser -p`
     - Enter your `dbpass` at the prompt
     - `SHOW DATABASES;`
