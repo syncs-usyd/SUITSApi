@@ -1,12 +1,12 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
 export class CredsDto {
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     public user: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     public pass: string;
 }

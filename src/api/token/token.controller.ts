@@ -5,21 +5,21 @@ import {
     UnauthorizedException,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthService } from "../../core";
 
 import { CredsDto } from "./creds.dto";
 import { TokenResource } from "./token.resource";
 
-@ApiUseTags("authentication")
+@ApiTags("authentication")
 @Controller("/token")
 export class TokenController {
     constructor(private readonly authService: AuthService) {}
 
     @Post()
     @ApiOperation({
-        title: "Retrieve a token",
+        summary: "Retrieve a token",
         description:
             "Retrieves the authentication token to be used as bearer authorization on authorized endpoints.",
     })

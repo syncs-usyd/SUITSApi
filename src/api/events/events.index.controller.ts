@@ -7,7 +7,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { EventEntity } from "../../entities";
@@ -16,7 +16,7 @@ import { EventResource } from "../../resources";
 import { EventDto } from "./events.dto";
 import { EventsService } from "./events.service";
 
-@ApiUseTags("events")
+@ApiTags("events")
 @Controller(new EventResource().prefix)
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -25,7 +25,7 @@ export class EventsIndexController {
 
     @Get()
     @ApiOperation({
-        title: "Retrieve all events",
+        summary: "Retrieve all events",
         description:
             "Retrieve all events that are in the system. Does not return attendances for the events.",
     })
@@ -39,7 +39,7 @@ export class EventsIndexController {
 
     @Post()
     @ApiOperation({
-        title: "Add a new event",
+        summary: "Add a new event",
         description: "Add a new event to the system.",
     })
     @ApiResponse({

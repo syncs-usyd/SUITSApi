@@ -11,7 +11,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { MemberEntity } from "../../entities";
@@ -20,7 +20,7 @@ import { MemberResource } from "../../resources";
 import { MemberDto } from "./members.dto";
 import { MembersService } from "./members.service";
 
-@ApiUseTags("members")
+@ApiTags("members")
 @Controller(new MemberResource().prefix + "/:id")
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -29,7 +29,7 @@ export class MembersIdController {
 
     @Get()
     @ApiOperation({
-        title: "Retrieve a member",
+        summary: "Retrieve a member",
         description: "Retrieve a member with a given id.",
     })
     @ApiResponse({
@@ -47,7 +47,7 @@ export class MembersIdController {
 
     @Put()
     @ApiOperation({
-        title: "Update member",
+        summary: "Update member",
         description: "Update info stored on the member with a given id.",
     })
     @ApiResponse({
@@ -69,7 +69,7 @@ export class MembersIdController {
     @Delete()
     @HttpCode(204)
     @ApiOperation({
-        title: "Delete a member",
+        summary: "Delete a member",
         description:
             "Delete a member and any attendances belonging to that member.",
     })

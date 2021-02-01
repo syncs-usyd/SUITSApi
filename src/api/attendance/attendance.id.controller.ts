@@ -11,7 +11,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
 import { AttendanceEntity } from "../../entities";
@@ -20,7 +20,7 @@ import { AttendanceResource } from "../../resources";
 import { AttendanceDto } from "./attendance.dto";
 import { AttendanceService } from "./attendance.service";
 
-@ApiUseTags("attendance")
+@ApiTags("attendance")
 @Controller(new AttendanceResource().prefix + "/:id")
 @UseGuards(AuthGuard)
 @UseInterceptors(SerializerInterceptor)
@@ -29,7 +29,7 @@ export class AttendanceIdController {
 
     @Get()
     @ApiOperation({
-        title: "Retrieve an attendance record",
+        summary: "Retrieve an attendance record",
         description:
             "Retrieve a record of attendance associated with a given id.",
     })
@@ -50,7 +50,7 @@ export class AttendanceIdController {
 
     @Put()
     @ApiOperation({
-        title: "Update an attendance record",
+        summary: "Update an attendance record",
         description:
             "Update the attendance record associated with the given id.",
     })
@@ -73,7 +73,7 @@ export class AttendanceIdController {
     @Delete()
     @HttpCode(204)
     @ApiOperation({
-        title: "Delete an attendance record",
+        summary: "Delete an attendance record",
         description:
             "Delete the attendance record associated with the given id.",
     })

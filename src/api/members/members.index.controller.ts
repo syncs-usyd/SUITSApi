@@ -8,7 +8,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { RavenInterceptor } from "nest-raven";
 
 import { AuthGuard, SerializerInterceptor } from "../../core";
@@ -18,7 +18,7 @@ import { MemberResource } from "../../resources";
 import { MemberDto } from "./members.dto";
 import { MembersService } from "./members.service";
 
-@ApiUseTags("members")
+@ApiTags("members")
 @Controller(new MemberResource().prefix)
 @UseInterceptors(SerializerInterceptor)
 export class MembersIndexController {
@@ -27,7 +27,7 @@ export class MembersIndexController {
     @Get()
     @UseGuards(AuthGuard)
     @ApiOperation({
-        title: "Retrieve all members",
+        summary: "Retrieve all members",
         description:
             "Retrieves all members (registered or not) from the system. Does not retrieve the events they attended.",
     })
@@ -43,7 +43,7 @@ export class MembersIndexController {
     @HttpCode(200)
     @UseInterceptors(new RavenInterceptor())
     @ApiOperation({
-        title: "Add a new member",
+        summary: "Add a new member",
         description:
             "This endpoint tries to match the new data to an existing member. If a match is found, the existing member data is updated instead.",
     })
