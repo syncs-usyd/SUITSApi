@@ -32,13 +32,7 @@ export class MemberDto implements IMember {
     @IsOptional()
     public joinedOn?: Date;
 
-    @ApiPropertyOptional()
-    @IsOptional()
-    @IsInt()
-    public access?: number;
-
-    @ApiPropertyOptional()
-    @IsOptional()
+    @ApiProperty()
     @IsInt()
     public sid?: number;
 

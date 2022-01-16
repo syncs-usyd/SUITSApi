@@ -8,7 +8,7 @@ import { MemberDto } from "./members.dto";
 
 @Injectable()
 export class MembersService {
-    private FIND_MEMBER = ["email", "sid", "access"]
+    private FIND_MEMBER = ["email", "sid"]
         .map(f => `(member.${f} IS NOT NULL AND member.${f} = :${f})`)
         .join(" OR ");
 
@@ -80,14 +80,13 @@ export class MembersService {
     private async getMemberIfExists(
         data: MemberDto,
     ): Promise<MemberEntity | undefined> {
-        const validVals = [data.email, data.access, data.sid].filter(v => v);
+        const validVals = [data.email, data.sid].filter(v => v);
         if (validVals.length != 0) {
             let q = this.repo.createQueryBuilder("member");
             q = q.select();
 
             // At least one will be not null. Pass through null otherwise.
             q = q.where(this.FIND_MEMBER, {
-                access: data.access,
                 email: data.email,
                 sid: data.sid,
             });
