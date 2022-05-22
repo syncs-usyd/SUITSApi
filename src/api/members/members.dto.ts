@@ -34,7 +34,7 @@ export class MemberDto implements IMember {
 
     @ApiProperty()
     @IsInt()
-    public sid?: number;
+    public sid: number;
 
     @ApiPropertyOptional({ default: false })
     @IsOptional()

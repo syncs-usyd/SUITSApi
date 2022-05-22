@@ -15,7 +15,11 @@ export class WebSocketGateway implements OnGatewayConnection {
     public handleConnection(client: SocketIO.Socket) {
         const token = client.handshake.query.token;
 
-        if (!token || !this.authService.verifyToken(token)) {
+        if (
+            !token ||
+            Array.isArray(token) ||
+            !this.authService.verifyToken(token)
+        ) {
             client.disconnect();
         }
     }
